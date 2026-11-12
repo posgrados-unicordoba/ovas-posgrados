@@ -1,0 +1,65 @@
+name: Actualizar enlaces de los OVA
+
+# Cada vez que entra un OVA nuevo a main, regenera ENLACES-OVAS.md y lo
+# commitea si cambió. En los Pull Request no commitea nada: solo avisa si el
+# listado quedaría desactualizado.
+#
+# Requisito: Settings → Actions → General → Workflow permissions:
+# "Read and write permissions".
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'esp/**/index.html'
+      - 'mae/**/index.html'
+      - 'doc/**/index.html'
+      - 'catalogo.csv'
+      - 'scripts/generar-enlaces.mjs'
+      - 'scripts/comun.mjs'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'esp/**/index.html'
+      - 'mae/**/index.html'
+      - 'doc/**/index.html'
+      - 'catalogo.csv'
+  workflow_dispatch:
+
+jobs:
+  enlaces:
+    name: Regenerar ENLACES-OVAS.md
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Avisar si el listado quedaría desactualizado (solo PR)
+        if: github.event_name == 'pull_request'
+        run: node scripts/generar-enlaces.mjs --check
+        continue-on-error: true
+
+      - name: Regenerar el listado
+        if: github.event_name != 'pull_request'
+        run: node scripts/generar-enlaces.mjs
+
+      - name: Commitear si cambió
+        if: github.event_name != 'pull_request'
+        run: |
+          if git diff --quiet -- ENLACES-OVAS.md && git ls-files --error-unmatch ENLACES-OVAS.md >/dev/null 2>&1; then
+            echo "Sin cambios: el listado ya estaba al día."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ENLACES-OVAS.md
+          git commit -m "Actualiza ENLACES-OVAS.md"
+          git push
