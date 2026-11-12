@@ -1,0 +1,10 @@
+# Quién aprueba los cambios de este repositorio.
+#
+# Con la protección de la rama main activada ("Require review from Code Owners"),
+# ningún Pull Request se fusiona sin la aprobación de la persona indicada aquí.
+#
+# El correo debe estar agregado y verificado en la cuenta de GitHub de esa persona
+# (Settings → Emails) y la persona debe tener al menos permiso de escritura en el
+# repositorio. Si no, GitHub ignora la línea sin avisar.
+
+* mtrochez@correo.unicordoba.edu.co
