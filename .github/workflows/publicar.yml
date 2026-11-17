@@ -1,0 +1,55 @@
+name: Publicar OVA
+
+# Cada vez que entra un cambio a main, arma el sitio (los OVA y la página
+# principal con el enlace de cada uno) y lo publica en GitHub Pages:
+#   https://posgrados-unicordoba.github.io/ovas-posgrados/
+#
+# No guarda nada en el repositorio, así que funciona con la rama main protegida.
+#
+# Requisito: Settings → Pages → Build and deployment → Source: "GitHub Actions".
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Si llegan dos cambios seguidos, se publica solo el más reciente.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    name: Armar y publicar el sitio
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Armar el sitio con la página de enlaces
+        run: node scripts/generar-enlaces.mjs
+
+      - name: Preparar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Empaquetar el sitio
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: sitio
+
+      - name: Publicar
+        id: despliegue
+        uses: actions/deploy-pages@v4
