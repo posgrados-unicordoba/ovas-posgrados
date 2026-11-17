@@ -1,274 +1,165 @@
 #!/usr/bin/env node
 /**
- * Genera ENLACES-OVAS.md: el enlace público de cada OVA, organizado por
- * programa, semestre, curso y unidad.
+ * Arma el sitio que publica GitHub Pages: los OVA y una página principal con
+ * el enlace de cada uno, organizados por nivel, programa, curso y unidad.
  *
- * Recorre el repo igual que el validador (una carpeta es un OVA si tiene
- * index.html) y toma el nombre de cada enlace del <title> del propio OVA.
+ * - Encuentra los OVA igual que el validador (carpeta con index.html).
+ * - Toma los nombres de programas y cursos de catalogo.csv.
+ * - Toma el nombre de cada OVA de su <title>.
+ * - Ordena por carpeta (u01, u02… / t01, t02…), que ya es el orden del curso.
  *
  * Uso local:   node scripts/generar-enlaces.mjs
- *              node scripts/generar-enlaces.mjs --check   → no escribe; sale
- *                                                           con código 1 si el
- *                                                           archivo está viejo
- * En CI:       lo ejecuta .github/workflows/enlaces.yml en cada push a main y
- *              commitea el resultado si cambió.
+ *              → crea la carpeta sitio/ (no se sube: está en .gitignore).
+ *                Abre sitio/index.html en el navegador para verla.
+ * En CI:       lo ejecuta .github/workflows/publicar.yml en cada push a main
+ *              y GitHub Pages publica la carpeta sitio/.
  *
- * La salida es determinista: sin fechas ni nada que varíe entre ejecuciones,
- * para que CI solo commitee cuando de verdad cambió algo.
+ * El listado no se guarda en el repositorio: se arma al publicar. Así funciona
+ * aunque la rama main esté protegida.
  */
 
-import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from 'node:fs';
-import { join, relative, sep } from 'node:path';
+import { writeFileSync, existsSync, rmSync, mkdirSync, cpSync } from 'node:fs';
+import { join } from 'node:path';
+import {
+  NIVELES, leer, rel, encontrarOvas, partesRuta, codigoDe, leerCatalogo, buscarEnCatalogo, tituloDe,
+} from './comun.mjs';
 
 const ROOT = process.cwd();
-const SALIDA = join(ROOT, 'ENLACES-OVAS.md');
-const BASE = 'https://uentucolegio.github.io/web-ovas';
+const SALIDA = join(ROOT, 'sitio');
+const BASE = 'https://posgrados-unicordoba.github.io/ovas-posgrados';
 
-const PROGRAMAS = [['tecnico', 'Técnico'], ['tecnologo', 'Tecnólogo']];
-const IGNORAR = new Set(['_template', 'node_modules', 'scripts', '.git', '.github']);
+const { filas, error } = leerCatalogo(ROOT);
+if (error) console.warn(`⚠️  ${error} Se mostrarán las siglas en lugar de los nombres.`);
 
-// --- Unidades que NO se publican en el listado ------------------------------
-// Vacía: hoy se listan todos los OVAs del repo.
-// Para ocultar una unidad, agrega su ruta con el formato
-// 'programa/semestre-N/unidad-N' (ej: 'tecnico/semestre-3/unidad-3').
-const EXCLUIR = new Set([]);
-
-// --- Nombre visible de cada carpeta de materia ------------------------------
-// Si una materia no está aquí, se muestra su slug con guiones cambiados por
-// espacios. Agrega las materias nuevas para que salgan con su nombre real.
-const NOMBRES = {
-  'tecnico/semestre-1': {
-    'ingles-i': 'Inglés Técnico I',
-    'aprendizaje-autonomo': 'Aprendizaje autónomo',
-    'fundamentos-de-programacion': 'Fundamentos de programación',
-    'habilidades-comunicativas-1': 'Habilidades comunicativas I',
-    'matematica-basica': 'Matemática Básica',
-    'introduccion-programacion-web': 'Introducción a la programación web',
-  },
-  'tecnico/semestre-2': {
-    'ingles-ii': 'Inglés Técnico II',
-    'estadistica-y-probabilidad': 'Estadística y probabilidad',
-    'habilidades-comunicativas-2': 'Habilidades comunicativas II',
-    'backend': 'Programación Web I – Backend',
-    'base-de-datos': 'Base de datos',
-    'diseno-interfaces-usuario-frontend': 'Diseño de interfaces de usuario – Frontend',
-  },
-  'tecnico/semestre-3': {
-    'servicios-computacion-nube': 'Servicios de computación en la nube',
-    'proyecto-web': 'Proyecto Web',
-    'innovacion-emprendimiento-digital': 'Innovación y emprendimiento digital',
-    'seguridad-aplicaciones-web': 'Seguridad en Aplicaciones Web',
-    'backend-2': 'Programación Web II – Backend',
-  },
-  'tecnologo/semestre-1': {
-    'algebra-lineal': 'Álgebra Lineal',
-    'aprendizaje-autonomo': 'Aprendizaje autónomo',
-    'arquitectura-sistemas': 'Arquitectura de sistemas de información',
-    'competencias-comunicativas': 'Competencias comunicativas',
-    'fundamentos-matematicos': 'Fundamentos matemáticos',
-    'introduccion-logica-programacion': 'Introducción a la lógica de programación',
-  },
-  'tecnologo/semestre-2': {
-    'base-de-datos-1': 'Base de datos 1',
-    'electiva-libre-1-shell': 'Electiva libre 1',
-    'estadistica': 'Estadística',
-    'ingles-i': 'Inglés 1',
-    'programacion-orientada-a-objetos': 'Programación orientada a objetos',
-    'requerimientos-sistemas-informacion': 'Requerimientos de sistemas de información',
-  },
-};
-
-// --- Recorrido --------------------------------------------------------------
-
-/** Carpetas que son un OVA (tienen index.html), igual que en el validador. */
-function encontrarOvas(dir, acc = []) {
-  for (const name of readdirSync(dir).sort()) {
-    if (name.startsWith('.') || IGNORAR.has(name)) continue;
-    const full = join(dir, name);
-    if (!statSync(full).isDirectory()) continue;
-    if (existsSync(join(full, 'index.html'))) acc.push(full);
-    else encontrarOvas(full, acc);
-  }
-  return acc;
-}
-
-/** Título del OVA, sin el prefijo "OVA:" y con los espacios colapsados. */
-function tituloDe(dir) {
-  try {
-    const html = readFileSync(join(dir, 'index.html'), 'utf8');
-    const m = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(html);
-    if (!m) return '';
-    return m[1].replace(/\s+/g, ' ').trim().replace(/^\s*OVA\s*[:\-–]\s*/i, '').trim();
-  } catch {
-    return '';
-  }
-}
-
-// --- Orden dentro de cada unidad -------------------------------------------
-// Alfabético no es el orden pedagógico: "Adverbs of Frequency" quedaba antes
-// que "Daily Routine Vocabulary" aunque se vea después. scripts/orden-ovas.json
-// fija el orden real de las unidades que lo necesitan.
-const ORDEN = (() => {
-  const f = join(ROOT, 'scripts', 'orden-ovas.json');
-  if (!existsSync(f)) return {};
-  try {
-    // Se quita el BOM: si alguien edita el archivo en Windows con Bloc de notas,
-    // queda guardado con BOM y JSON.parse lo rechaza. Sin esto, el orden volvería
-    // al alfabético sin que nadie lo note.
-    const d = JSON.parse(readFileSync(f, 'utf8').replace(/^﻿/, ''));
-    delete d._lee_esto;
-    return d;
-  } catch (e) {
-    console.error(`⚠️  No se pudo leer orden-ovas.json (${e.message}). Se usa orden alfabético.`);
-    return {};
-  }
-})();
-
-const avisos = [];
-
-/** Ordena los OVAs de una unidad: primero los que fija orden-ovas.json, luego
- *  el resto en orden alfabético. */
-function ordenarUnidad(items, rutaUnidad) {
-  const alfabetico = (a, b) => a.etiqueta.localeCompare(b.etiqueta, 'es');
-  const deseado = ORDEN[rutaUnidad];
-  if (!deseado) return [...items].sort(alfabetico);
-
-  const porSlug = new Map(items.map((o) => [o.ova, o]));
-  const ordenados = [];
-
-  for (const slug of deseado) {
-    if (porSlug.has(slug)) {
-      ordenados.push(porSlug.get(slug));
-      porSlug.delete(slug);
-    } else {
-      avisos.push(`${rutaUnidad}: "${slug}" está en orden-ovas.json pero esa carpeta no existe`);
-    }
-  }
-  for (const sobrante of [...porSlug.values()].sort(alfabetico)) {
-    avisos.push(`${rutaUnidad}: "${sobrante.ova}" no está en orden-ovas.json, va al final`);
-    ordenados.push(sobrante);
-  }
-  return ordenados;
-}
-
+// --- Datos ------------------------------------------------------------------
 const ovas = [];
-for (const [prog] of PROGRAMAS) {
-  const base = join(ROOT, prog);
-  if (!existsSync(base)) continue;
-  for (const dir of encontrarOvas(base)) {
-    const partes = relative(ROOT, dir).split(sep);
-    if (partes.length !== 5) continue;            // fuera de la jerarquía estándar
-    const [programa, semestre, materia, unidad, ova] = partes;
-    if (EXCLUIR.has(`${programa}/${semestre}/${unidad}`)) continue;
-    ovas.push({
-      programa, semestre, materia, unidad, ova,
-      titulo: tituloDe(dir),
-      url: `${BASE}/${programa}/${semestre}/${materia}/${unidad}/${ova}/`,
-    });
-  }
+for (const dir of encontrarOvas(ROOT)) {
+  const r = rel(ROOT, dir);
+  const p = partesRuta(r);
+  if (!p || !NIVELES[p.nivel]) continue; // fuera de la estructura: lo reporta el validador
+  const nombres = buscarEnCatalogo(filas || [], p);
+  ovas.push({
+    ...p,
+    ruta: r,
+    codigo: codigoDe(p),
+    titulo: tituloDe(leer(join(dir, 'index.html'))) || codigoDe(p),
+    nombrePrograma: nombres.programa || p.programa,
+    nombreCurso: nombres.curso || p.curso,
+  });
 }
+ovas.sort((a, b) => a.ruta.localeCompare(b.ruta));
 
-// --- Nombres repetidos ------------------------------------------------------
-// Varios OVAs quedaron con el <title> de otro al copiar la plantilla. Mientras
-// eso no se corrija en el OVA, agregamos su carpeta entre paréntesis para que
-// el enlace siga siendo distinguible.
-const cuantos = new Map();
-for (const o of ovas) if (o.titulo) cuantos.set(o.titulo, (cuantos.get(o.titulo) || 0) + 1);
-for (const o of ovas) {
-  if (!o.titulo) o.etiqueta = o.ova;
-  else o.etiqueta = cuantos.get(o.titulo) > 1 ? `${o.titulo} (${o.ova})` : o.titulo;
-}
+// --- Página -----------------------------------------------------------------
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const unicos = (arr) => [...new Set(arr)];
 
-// --- Armado del documento ---------------------------------------------------
-const L = [
-  '# Enlaces de los OVAs publicados',
-  '',
-  `Todos los OVAs están publicados en GitHub Pages sobre <${BASE}/>.`,
-  'Cada enlace abre el OVA directamente en el navegador; no requiere descargar nada.',
-  '',
-  '> ⚙️ **Este archivo se genera solo.** Lo actualiza `scripts/generar-enlaces.mjs`',
-  '> en cada push a `main`. No lo edites a mano: los cambios se perderían en la',
-  '> siguiente actualización.',
-  '',
-];
-
-if (EXCLUIR.size) {
-  L.push('> No se incluyen estas unidades: ' + [...EXCLUIR].sort().map((e) => `\`${e}\``).join(', ') + '.', '');
-}
-
-const hayRepetidos = [...cuantos.values()].some((n) => n > 1);
-if (hayRepetidos) {
-  L.push(
-    '> Cuando dos OVAs comparten el mismo título, se agrega entre paréntesis el',
-    '> nombre de su carpeta para poder distinguirlos. Eso ocurre porque varios OVAs',
-    '> quedaron con el `<title>` de otro al copiar la plantilla: la corrección de',
-    '> fondo va en el `<title>` del OVA, no en este listado.',
-    '',
-  );
-}
-
-let total = 0;
-for (const [prog, etiquetaPrograma] of PROGRAMAS) {
-  const delPrograma = ovas.filter((o) => o.programa === prog);
-  if (!delPrograma.length) continue;
-  L.push(`## ${etiquetaPrograma}`, '');
-
-  for (const sem of [...new Set(delPrograma.map((o) => o.semestre))].sort()) {
-    L.push(`### ${sem.replace('semestre-', 'Semestre ')}`, '');
-
-    const mapa = NOMBRES[`${prog}/${sem}`] || {};
-    const materias = [...new Set(delPrograma.filter((o) => o.semestre === sem).map((o) => o.materia))]
-      .map((slug) => ({ slug, nombre: mapa[slug] || slug.replace(/-/g, ' ') }))
-      .sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
-
-    for (const { slug, nombre } of materias) {
-      const delCurso = delPrograma.filter((o) => o.semestre === sem && o.materia === slug);
-      total += delCurso.length;
-      L.push(`#### ${nombre}  ·  ${delCurso.length} OVAs`, '');
-
-      for (const uni of [...new Set(delCurso.map((o) => o.unidad))].sort()) {
-        L.push(`**${uni.replace('unidad-', 'Unidad ')}**`, '');
-        const items = ordenarUnidad(
-          delCurso.filter((o) => o.unidad === uni),
-          `${prog}/${sem}/${slug}/${uni}`,
-        );
-        for (const o of items) L.push(`- [${o.etiqueta}](${o.url})`);
-        L.push('');
+const bloques = [];
+for (const nivel of Object.keys(NIVELES)) {
+  const delNivel = ovas.filter((o) => o.nivel === nivel);
+  if (!delNivel.length) continue;
+  bloques.push(`<section class="nivel"><h2>${NIVELES[nivel]}</h2>`);
+  for (const prog of unicos(delNivel.map((o) => o.programa))) {
+    const delProg = delNivel.filter((o) => o.programa === prog);
+    bloques.push(`<section class="programa"><h3>${esc(delProg[0].nombrePrograma)}</h3>`);
+    for (const cur of unicos(delProg.map((o) => o.curso))) {
+      const delCurso = delProg.filter((o) => o.curso === cur);
+      bloques.push(`<details class="curso" open><summary><span>${esc(delCurso[0].nombreCurso)}</span><span class="cuenta">${delCurso.length} OVA</span></summary>`);
+      for (const uni of unicos(delCurso.map((o) => o.unidad))) {
+        bloques.push(`<h4>Unidad ${Number(uni.slice(1))}</h4><ul>`);
+        for (const o of delCurso.filter((x) => x.unidad === uni)) {
+          const buscar = esc(`${o.titulo} ${o.codigo} ${o.nombreCurso} ${o.nombrePrograma}`.toLowerCase());
+          bloques.push(`<li data-buscar="${buscar}"><a href="${o.ruta}/">${esc(o.titulo)}</a><code>${o.codigo}</code></li>`);
+        }
+        bloques.push('</ul>');
       }
+      bloques.push('</details>');
     }
+    bloques.push('</section>');
   }
+  bloques.push('</section>');
 }
 
-L.push('---', '', `**${total} OVAs enlazados.**`, '');
-const contenido = L.join('\n');
+const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OVA de posgrado · Universidad de Córdoba</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --tinta: #1f2a37; --suave: #5b6675; --linea: #dde3e8; --fondo: #f6f8f7; --verde: #3d6a3a; --verde-claro: #e8f0e7; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Poppins', system-ui, sans-serif; color: var(--tinta); background: var(--fondo); line-height: 1.5; }
+  header { background: var(--verde); color: #fff; padding: 32px 20px 28px; }
+  header div, main { max-width: 860px; margin: 0 auto; }
+  header h1 { margin: 0 0 4px; font-size: 1.6rem; font-weight: 600; }
+  header p { margin: 0; opacity: .9; }
+  main { padding: 24px 20px 48px; }
+  label { display: block; font-weight: 500; margin-bottom: 6px; }
+  input { width: 100%; padding: 12px 14px; font: inherit; border: 2px solid var(--linea); border-radius: 10px; background: #fff; }
+  input:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; }
+  .total { color: var(--suave); font-size: .9rem; margin: 10px 0 0; }
+  h2 { font-size: 1.25rem; margin: 32px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--verde); }
+  h3 { font-size: 1.05rem; margin: 20px 0 10px; color: var(--verde); }
+  details { background: #fff; border: 1px solid var(--linea); border-radius: 12px; margin-bottom: 12px; padding: 4px 16px 10px; }
+  summary { cursor: pointer; font-weight: 500; padding: 10px 0; display: flex; justify-content: space-between; gap: 12px; }
+  .cuenta { color: var(--suave); font-weight: 400; font-size: .9rem; white-space: nowrap; }
+  h4 { font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; color: var(--suave); margin: 10px 0 4px; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-top: 1px solid var(--linea); }
+  li:first-child { border-top: 0; }
+  a { color: var(--tinta); text-decoration: none; font-weight: 500; }
+  a:hover { color: var(--verde); text-decoration: underline; }
+  code { font-size: .78rem; color: var(--suave); background: var(--verde-claro); padding: 2px 6px; border-radius: 6px; white-space: nowrap; }
+  .vacio { color: var(--suave); }
+  footer { text-align: center; color: var(--suave); font-size: .85rem; padding: 0 20px 32px; }
+  @media (max-width: 560px) { li { flex-direction: column; gap: 2px; } }
+</style>
+</head>
+<body>
+<header><div>
+  <h1>OVA de posgrado</h1>
+  <p>Objetos virtuales de aprendizaje de las especializaciones, maestrías y doctorados</p>
+</div></header>
+<main>
+  <label for="buscar">Buscar un OVA</label>
+  <input id="buscar" type="search" placeholder="Título, curso, programa o código" autocomplete="off">
+  <p class="total" id="total" aria-live="polite">${ovas.length} OVA publicados</p>
+  ${bloques.join('\n  ') || '<p class="vacio">Todavía no hay OVA publicados.</p>'}
+  <p class="vacio" id="nada" hidden>Ningún OVA coincide con la búsqueda.</p>
+</main>
+<footer>Centro de Innovación en TIC para el apoyo de la Docencia CINTIA – Universidad de Córdoba</footer>
+<script>
+  const campo = document.getElementById('buscar');
+  campo.addEventListener('input', () => {
+    const q = campo.value.trim().toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '');
+    let n = 0;
+    document.querySelectorAll('li[data-buscar]').forEach(li => {
+      const ok = !q || li.dataset.buscar.normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').includes(q);
+      li.hidden = !ok; if (ok) n++;
+    });
+    document.querySelectorAll('h4').forEach(h => { const ul = h.nextElementSibling; const ver = [...ul.children].some(li => !li.hidden); h.hidden = !ver; ul.hidden = !ver; });
+    document.querySelectorAll('details, .programa, .nivel').forEach(s => { s.hidden = !s.querySelector('li:not([hidden])'); if (q && s.tagName === 'DETAILS') s.open = true; });
+    document.getElementById('total').textContent = q ? n + ' de ${ovas.length} OVA' : '${ovas.length} OVA publicados';
+    document.getElementById('nada').hidden = n > 0;
+  });
+</script>
+</body>
+</html>
+`;
 
-// --- Salida -----------------------------------------------------------------
-const modoCheck = process.argv.includes('--check');
-const anterior = existsSync(SALIDA) ? readFileSync(SALIDA, 'utf8') : null;
-
-// Se comparan los saltos de línea normalizados. En Windows, con
-// core.autocrlf=true, el archivo se descarga con CRLF mientras que aquí se
-// escribe con LF: sin esto, el generador creería que está desactualizado
-// siempre y reescribiría el archivo aunque el contenido fuera idéntico.
-const sinCR = (t) => (t === null ? null : t.replace(/\r\n/g, '\n'));
-
-// Desajustes entre orden-ovas.json y las carpetas que existen de verdad.
-if (avisos.length) {
-  console.warn(`\n⚠️  ${avisos.length} aviso(s) sobre el orden de los OVAs:`);
-  for (const a of avisos) console.warn(`   · ${a}`);
-  console.warn('   Revisa scripts/orden-ovas.json.\n');
+// --- Sitio ------------------------------------------------------------------
+rmSync(SALIDA, { recursive: true, force: true });
+mkdirSync(SALIDA, { recursive: true });
+for (const nivel of Object.keys(NIVELES)) {
+  const origen = join(ROOT, nivel);
+  if (existsSync(origen)) cpSync(origen, join(SALIDA, nivel), { recursive: true, filter: (f) => !f.endsWith('README.md') });
 }
+writeFileSync(join(SALIDA, 'index.html'), html, 'utf8');
+// La dirección …/enlaces/ también lleva al listado.
+mkdirSync(join(SALIDA, 'enlaces'));
+writeFileSync(join(SALIDA, 'enlaces', 'index.html'),
+  '<!DOCTYPE html><meta charset="UTF-8"><meta http-equiv="refresh" content="0; url=../"><link rel="canonical" href="../"><title>OVA de posgrado</title><a href="../">Ir al listado de OVA</a>\n');
+writeFileSync(join(SALIDA, '.nojekyll'), '');
 
-if (sinCR(anterior) === contenido) {
-  console.log(`✅ ENLACES-OVAS.md ya está al día (${total} OVAs).`);
-  process.exit(0);
-}
-
-if (modoCheck) {
-  console.error('🚫 ENLACES-OVAS.md está desactualizado.');
-  console.error('   Ejecuta: node scripts/generar-enlaces.mjs');
-  process.exit(1);
-}
-
-writeFileSync(SALIDA, contenido, 'utf8');
-console.log(`✏️  ENLACES-OVAS.md actualizado: ${total} OVAs enlazados.`);
+console.log(`✅ Sitio armado en sitio/ con ${ovas.length} OVA enlazados. Página principal: ${BASE}/`);
