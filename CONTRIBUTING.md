@@ -130,8 +130,8 @@ enlaces externos (en GitHub siempre se hace).
 3. Abre un Pull Request hacia `main` y completa la lista de verificación que aparece.
 4. Espera a que el validador termine (el check **Reglas de los OVA**). Si falla, abre
    el detalle, corrige y vuelve a subir: el check se repite solo.
-5. La responsable del repositorio revisa y aprueba. Al fusionar, `ENLACES-OVAS.md` se
-   actualiza solo con el enlace del OVA.
+5. La responsable del repositorio revisa y aprueba. Al fusionar, el OVA se publica y su
+   enlace aparece solo en el listado: <https://posgrados-unicordoba.github.io/ovas-posgrados/>.
 
 ---
 
