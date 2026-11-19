@@ -39,17 +39,6 @@ esp,gthdo,Gerencia del Talento Humano y Desarrollo Organizacional,pobh,Psicolog�
 - Si un nombre tiene comas, va entre comillas: `"Gestión, cambio y cultura"`.
 - Una sigla asignada **no se cambia**.
 
-Para no calcularla a mano, el script `sugerir-sigla.mjs` la propone con estas reglas y revisa
-en el catálogo que no esté repetida:
-
-```
-node scripts/sugerir-sigla.mjs --nivel esp --programa gthdo --curso "Psicología Organizacional y Bienestar Humano"
-node scripts/sugerir-sigla.mjs --oficial EspGTHDO
-```
-
-La primera línea propone la sigla de un curso; la segunda convierte la sigla oficial de un
-programa (la de sus documentos) en la del repositorio.
-
 ---
 
 ## 3. Migrar un OVA que ya existe
@@ -66,19 +55,31 @@ Ejemplo:
 node scripts/migrar-ova.mjs "C:\Users\monic\Documents\Tema3" esp/gthdo/pobh/u02/t03
 ```
 
+La ruta destino dice qué es la página:
+
+| Ruta destino | Qué es | ¿Obligatorio? |
+|---|---|---|
+| `esp/gthdo/pobh/u02/t03` | OVA del tema 3 de la unidad 2 | — |
+| `esp/gthdo/pobh/u02/diagnostico` | Diagnóstico de la unidad 2 | No |
+| `esp/gthdo/pobh/u02/actividades` | Actividades evaluativas de la unidad 2 | No |
+| `esp/gthdo/pobh/bibliografia` | Bibliografía del curso | Sí |
+| `esp/gthdo/pobh/rubrica` | Rúbrica del curso (una o varias rúbricas en la misma página) | Sí |
+| `esp/gthdo/pobh/mapa` | Mapa conceptual del curso | No |
+
+El mapa conceptual enlaza a los demás OVA, así que se sube **al final**, cuando ya están
+publicados, con sus enlaces cambiados a las direcciones del listado.
+
 Si el curso todavía no está en el catálogo, agrega `--programa "…"` y `--curso "…"` y el
 script lo registra.
 
 El script no toca la carpeta original. En la copia nueva:
 
-1. Separa los estilos en `estilos.css` y el JavaScript en `script.js` (si el OVA ya los tenía
-   en carpetas como `css/` o `js/`, los reúne ahí). Deja fuera copias como `index_original.html`.
+1. Separa los estilos en `estilos.css` y el JavaScript en `script.js`.
 2. Quita el CDN de Tailwind y genera `tailwind.css` solo con las clases del OVA.
 3. Guarda en `iconos.css` los íconos de Font Awesome que usa el OVA.
 4. Convierte los códigos QR en imágenes locales (`img/qr-01.png`…).
 5. Deja el logo en `img/logo.webp` (en especializaciones, el de CINTIA).
-6. Agrega el plugin de accesibilidad `elens.js` y la navegación con teclado: foco visible,
-   `aria-expanded`, foco al contenido nuevo, y tarjetas y pestañas con Enter y flechas.
+6. Agrega el plugin de accesibilidad `elens.js`.
 7. Hace que los enlaces externos abran en pestaña nueva.
 8. Crea el `README.md` del OVA.
 9. Valida el resultado y muestra lo que falta corregir.
@@ -168,7 +169,7 @@ conserva todas las versiones anteriores.
 
 | Tema | Regla |
 |---|---|
-| Ruta | `nivel/programa/curso/uNN/tNN/` (o `uNN/` si el curso es por unidad); un curso no mezcla los dos tipos |
+| Ruta | `nivel/programa/curso/uNN/tNN/` (o `uNN/` si el curso es por unidad; un curso no mezcla los dos), `uNN/diagnostico/` y `uNN/actividades/` para los complementos de la unidad, y `bibliografia/`, `rubrica/` o `mapa/` para los recursos del curso |
 | Siglas | Nivel `esp`, `mae` o `doc`; programa de 2 a 5 letras; curso de 2 a 4; programa y curso registrados en `catalogo.csv` |
 | Nombres | Archivos y carpetas en minúsculas, sin tildes, sin ñ, sin espacios ni guion bajo |
 | Archivos | `README.md`, `index.html`, `estilos.css`, `script.js`, `tailwind.css`, `img/logo.webp`, e `iconos.css` si usa íconos |
@@ -177,11 +178,11 @@ conserva todas las versiones anteriores.
 | Código separado | Sin bloques `<style>` ni `<script>` con código dentro del HTML; `estilos.css` antes de `tailwind.css` |
 | Tailwind | Si el OVA usa `#ova-embed`, su `tailwind.css` se quemó con esa configuración |
 | Íconos | Todo ícono que usa el OVA está guardado en `iconos.css` |
-| Logo | CINTIA en especializaciones; el del programa en maestrías y doctorados |
+| Logo | CINTIA en especializaciones; el del programa en maestrías y doctorados. Los recursos del curso no llevan logo |
 | Accesibilidad | Plugin `elens.js` antes de `</body>` |
 | Créditos | Un solo pie de página con CINTIA y Universidad de Córdoba |
-| Secciones | Las 7, en orden: introducción, objetivos, contenido, actividad (o actividades), evaluación, recursos, bibliografía |
-| Autoevaluación | Entre 3 y 10 preguntas |
+| Secciones | Las 7, en orden: introducción, objetivos, contenido, actividad (o actividades), evaluación, recursos, bibliografía (solo OVA de tema o de unidad) |
+| Autoevaluación | Entre 3 y 10 preguntas (solo OVA de tema o de unidad) |
 | Enlaces | Abren en pestaña nueva y funcionan (no están rotos) |
 | QR | De al menos 2 × 2 cm |
 | Videos | Con subtítulos (`<track kind="captions">`) |
@@ -189,8 +190,11 @@ conserva todas las versiones anteriores.
 | Tamaño | Ningún archivo de más de 100 MB |
 | Contenido | Bibliografía con referencias; sin texto de relleno |
 
+Los complementos de la unidad y los recursos del curso cumplen todas las demás reglas de esta tabla.
+
 ### Advertencias (no bloquean)
 
+- Al curso le falta la bibliografía o la rúbrica (se pueden subir después, pero son obligatorias).
 - La autoevaluación no explica por qué cada opción es correcta o incorrecta.
 - Los objetivos no usan verbos de orden superior (taxonomía SOLO) o no tienen íconos.
 - Las cajas de actividad tienen bordes de menos de 2 px.

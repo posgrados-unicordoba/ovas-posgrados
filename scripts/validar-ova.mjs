@@ -8,6 +8,15 @@
  *   - la tabla de componentes del equipo pedagógico,
  *   - la lista de verificación técnica y pedagógica de CINTIA.
  *
+ * Tipos de OVA (según la carpeta):
+ *   uNN/tNN (o uNN)   OVA de tema (o de unidad): todas las reglas, con el menú
+ *                     de 7 secciones y la autoevaluación.
+ *   uNN/diagnostico,  OVA complementarios de la unidad (opcionales): reglas
+ *   uNN/actividades   técnicas y pedagógicas, sin las 7 secciones.
+ *   bibliografia,     Recursos del curso: solo reglas técnicas y sin logo. La bibliografía y
+ *   rubrica, mapa     la rúbrica son obligatorias en todo curso (si faltan, avisa);
+ *                     el mapa conceptual es opcional.
+ *
  *   ❌ ERRORES      → reglas obligatorias. Si alguno falla, el script termina con
  *                     código 1 y GitHub Actions bloquea el Pull Request.
  *   ⚠️  ADVERTENCIAS → se informan pero NO bloquean. Señalan lo que conviene
@@ -29,7 +38,7 @@ import { readdirSync, statSync, existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 import {
-  NIVELES, SIGLA_PROGRAMA, SIGLA_CURSO, UNIDAD, TEMA, QUEMAR,
+  NIVELES, SIGLA_PROGRAMA, SIGLA_CURSO, UNIDAD, TEMA, QUEMAR, RECURSOS, RECURSOS_OBLIGATORIOS, COMPLEMENTOS,
   leer, rel, encontrarOvas, partesRuta, codigoDe, leerCatalogo, buscarEnCatalogo, tituloDe, aTexto, iconosUsados,
 } from './comun.mjs';
 
@@ -181,8 +190,8 @@ for (const dir of ovas) {
 
   // 1) Ruta: nivel / programa / curso / uNN / tNN (o termina en la unidad)
   if (!p) {
-    err(r, `La carpeta del OVA está en el nivel equivocado: tiene ${r.split('/').length} niveles y deben ser 5 (por tema) o 4 (por unidad).`,
-      'Muévela a nivel/programa/curso/uNN/tNN/ (ej: esp/gthdo/pobh/u02/t03/), o a nivel/programa/curso/uNN/ si el curso tiene un OVA por unidad.');
+    err(r, `La carpeta del OVA está en el nivel equivocado: tiene ${r.split('/').length} niveles y deben ser 5 (tema o evaluación) o 4 (unidad o recurso del curso).`,
+      `Muévela a nivel/programa/curso/uNN/tNN/ (ej: esp/gthdo/pobh/u02/t03/), a uNN/${Object.keys(COMPLEMENTOS).join('/ o uNN/')}/ si es un complemento de la unidad, o a nivel/programa/curso/${Object.keys(RECURSOS).join('/, ')}/ si es un recurso del curso.`);
     continue;
   }
   if (!NIVELES[p.nivel])
@@ -192,14 +201,16 @@ for (const dir of ovas) {
       'Usa la sigla oficial del programa en minúsculas, sin la abreviatura del nivel, de 2 a 5 letras (ej: EspGTHDO → gthdo).');
   if (!SIGLA_CURSO.test(p.curso))
     err(r, `La sigla del curso "${p.curso}" no es válida.`, 'Usa de 2 a 4 letras minúsculas: las iniciales de las palabras importantes (ej: Psicología Organizacional y Bienestar Humano → pobh).');
-  if (!UNIDAD.test(p.unidad))
-    err(r, `La carpeta de unidad "${p.unidad}" no tiene el formato correcto.`, 'Renómbrala como u + dos dígitos: u01, u02…');
+  if (p.tipo !== 'recurso' && !UNIDAD.test(p.unidad))
+    err(r, `La carpeta "${p.unidad}" no es una unidad ni un recurso del curso.`,
+      `Si es una unidad, renómbrala como u + dos dígitos (u01, u02…). Si es un recurso del curso, usa uno de estos nombres: ${Object.keys(RECURSOS).join(', ')}.`);
   if (p.tema && !TEMA.test(p.tema))
-    err(r, `La carpeta de tema "${p.tema}" no tiene el formato correcto.`, 'Renómbrala como t + dos dígitos, sin nombre: t01, t02…');
+    err(r, `La carpeta "${p.tema}" no tiene el formato correcto.`, `Renómbrala como t + dos dígitos, sin nombre (t01, t02…), o con el nombre de un complemento de la unidad: ${Object.keys(COMPLEMENTOS).join(', ')}.`);
+  const esOva = p.tipo === 'tema' || p.tipo === 'unidad'; // con menú de 7 secciones y autoevaluación
 
   const claveCurso = `${p.nivel}/${p.programa}/${p.curso}`;
   if (!tiposPorCurso.has(claveCurso)) tiposPorCurso.set(claveCurso, new Map());
-  tiposPorCurso.get(claveCurso).set(r, p.tipo);
+  if (esOva) tiposPorCurso.get(claveCurso).set(r, p.tipo);
 
   // 2) Catálogo
   if (!catalogo.error) {
@@ -236,7 +247,9 @@ for (const dir of ovas) {
           : f === 'README.md' ? 'Crea el README.md con la plantilla de la guía de organización (título, código y datos).'
             : `Crea ${f} en la carpeta del OVA. Los estilos van en estilos.css y todo el JavaScript en script.js.`);
   }
-  if (!existsSync(join(dir, 'img', 'logo.webp')))
+  // Los recursos del curso (bibliografía, rúbrica, mapa) no llevan logo.
+  const llevaLogo = p.tipo !== 'recurso';
+  if (llevaLogo && !existsSync(join(dir, 'img', 'logo.webp')))
     err(r, 'Falta el logo en img/logo.webp.', 'Copia el logo a img/logo.webp: el de CINTIA (logos/cintia.webp) en especializaciones, el del programa en maestrías y doctorados.');
 
   const html = leer(join(dir, 'index.html'));
@@ -248,7 +261,7 @@ for (const dir of ovas) {
   const titulo = tituloDe(html);
 
   // 5) Logo correcto según el nivel
-  if (hashCintia && existsSync(join(dir, 'img', 'logo.webp'))) {
+  if (llevaLogo && hashCintia && existsSync(join(dir, 'img', 'logo.webp'))) {
     const esCintia = sha(join(dir, 'img', 'logo.webp')) === hashCintia;
     if (p.nivel === 'esp' && !esCintia)
       err(r, 'Las especializaciones llevan el logo de CINTIA, y img/logo.webp es otro.', 'Reemplaza img/logo.webp por una copia de logos/cintia.webp.');
@@ -256,7 +269,7 @@ for (const dir of ovas) {
       err(r, `Las ${p.nivel === 'mae' ? 'maestrías' : 'doctorados'} llevan el logo de su programa, y img/logo.webp es el de CINTIA.`,
         'Reemplaza img/logo.webp por el logo del programa.');
   }
-  if (!/src=["']img\/logo\.webp["']/.test(html))
+  if (llevaLogo && !/src=["']img\/logo\.webp["']/.test(html))
     err(r, 'El index.html no muestra el logo desde img/logo.webp.', 'Cambia la ruta de la imagen del logo a src="img/logo.webp".');
 
   // 6) README
@@ -265,7 +278,7 @@ for (const dir of ovas) {
     const primera = (readme.split(/\r?\n/).find((l) => l.trim()) || '').replace(/^#\s*/, '').trim();
     const cod = codigoDe(p);
     if (!primera || /^\[/.test(primera))
-      err(r, 'La primera línea del README.md no tiene el título del tema.', `Escribe en la primera línea: # ${titulo || '<título del tema>'}`);
+      err(r, 'La primera línea del README.md no tiene el título.', `Escribe en la primera línea: # ${titulo || '<el mismo título del <title>>'}`);
     else if (titulo && primera !== titulo)
       err(r, `El título del README.md ("${primera}") no coincide con el <title> del index.html ("${titulo}").`,
         'Deja el mismo título en la primera línea del README.md y en la etiqueta <title>.');
@@ -357,9 +370,9 @@ for (const dir of ovas) {
   else if (!/Universidad de C(?:ó|o|&oacute;)rdoba/i.test(html))
     err(r, 'Los créditos mencionan a CINTIA pero falta "Universidad de Córdoba".', 'Agrega "Universidad de Córdoba" al bloque de créditos.');
 
-  // 10) Las 7 secciones, en orden
+  // 10) Las 7 secciones, en orden (solo los OVA de tema o de unidad)
   const pos = [];
-  for (const s of SECCIONES) {
+  for (const s of esOva ? SECCIONES : []) {
     const m = new RegExp(`id=["'](${[].concat(s).join('|')})["']`).exec(html);
     if (!m) err(r, `Falta la sección obligatoria "${NOMBRE_SECCION(s)}".`,
       'Un OVA tiene 7 secciones: introduccion, objetivos, contenido, actividad (o actividades), evaluacion, recursos y bibliografia.');
@@ -422,22 +435,23 @@ for (const dir of ovas) {
   // 15) CINTIA 8 — el PDF descargable es para el eFlip, que no forma parte del
   //     OVA. Las tarjetas giratorias del OVA no exigen PDF: no se valida aquí.
 
-  // 16) Autoevaluación: de 3 a 10 preguntas, con retroalimentación
-  const q = contarPreguntas(codigo, sec.eval);
-  if (!q.hay)
+  // 16) Autoevaluación: de 3 a 10 preguntas, con retroalimentación (solo OVA de tema o de unidad)
+  const q = esOva ? contarPreguntas(codigo, sec.eval) : { hay: true, n: 0 };
+  if (!esOva) { /* los complementos y los recursos no llevan autoevaluación */ }
+  else if (!q.hay)
     err(r, 'No se encontró la autoevaluación (ni un arreglo de preguntas en script.js ni respuestas marcadas en la sección de evaluación).',
       'Implementa la autoevaluación con las preguntas de la guía: entre 3 y 10, una por página.');
   else if (q.n > 0 && q.n < 3)
     err(r, `La autoevaluación tiene ${q.n} pregunta(s). El mínimo es 3.`, 'Agrega preguntas hasta llegar a 3.');
   else if (q.n > 10)
     err(r, `La autoevaluación tiene ${q.n} preguntas. El máximo es 10.`, 'Deja como máximo 10 preguntas.');
-  if (q.hay && /\b(?:question|pregunta|prompt|enunciado)\s*:/.test(codigo)
+  if (esOva && q.hay && /\b(?:question|pregunta|prompt|enunciado)\s*:/.test(codigo)
       && !/\b(?:explicaci[oó]n|explanation|retroalimentaci[oó]n|feedback|justificaci[oó]n|argumento)\s*:/i.test(codigo))
     warn(r, 'Las preguntas de la autoevaluación no traen una explicación de por qué cada opción es correcta o incorrecta.',
       'Agrega a cada pregunta (o a cada opción) un texto de retroalimentación que explique la respuesta correcta y los distractores.');
 
   // 17) Objetivos: verbos de orden superior e íconos
-  if (sec.obj) {
+  if (esOva && sec.obj) {
     const verbos = [...aTexto(sec.obj).matchAll(/(?:^|[.:;•\-–>\s])([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(?:ar|er|ir))\b/g)].map((m) => m[1]);
     const bajos = [...new Set(verbos.filter((v) => VERBOS_BAJOS.test(v)))];
     if (!verbos.some((v) => VERBOS_SUPERIORES.test(v)))
@@ -450,11 +464,13 @@ for (const dir of ovas) {
       warn(r, 'Los objetivos no tienen íconos.', 'Agrega a cada cuadro de meta un ícono que represente la competencia.');
   }
 
-  // 18) Actividades: bordes visibles (1.5 a 2 pt ≈ 2 px o más)
-  if (sec.act) {
-    const clases = clasesDe(sec.act);
+  // 18) Actividades: bordes visibles (1.5 a 2 pt ≈ 2 px o más). En la evaluación
+  //     de la unidad (diagnóstico, actividades), toda la página cuenta.
+  const actividades = p.tipo === 'complemento' ? htmlLimpio.replace(/<footer[\s\S]*?<\/footer>/gi, '') : esOva ? sec.act : '';
+  if (actividades) {
+    const clases = clasesDe(actividades);
     const grueso = [...clases].some((c) => /^border(?:-[lrtbxy])?-(2|4|8)$/.test(c) || /^border(?:-[lrtbxy])?-\[(\d+(?:\.\d+)?)px\]$/.test(c) && parseFloat(c.match(/\[(\d+(?:\.\d+)?)px\]/)[1]) >= 2)
-      || /border(?:-(?:left|right|top|bottom))?(?:-width)?\s*:\s*(?:[2-9]|\d{2,})(?:\.\d+)?px/i.test(sec.act)
+      || /border(?:-(?:left|right|top|bottom))?(?:-width)?\s*:\s*(?:[2-9]|\d{2,})(?:\.\d+)?px/i.test(actividades)
       || bordeGruesoEnCss(css, clases);
     if (!grueso)
       warn(r, 'Las cajas de actividad parecen tener bordes de menos de 2 px, que se pierden en baja visión.',
@@ -480,12 +496,14 @@ for (const dir of ovas) {
       'Después de mostrar la sección, llama a .focus() sobre su título (con tabindex="-1").');
 
   // 20) Recursos y bibliografía
-  if (sec.rec) {
+  if (esOva && sec.rec) {
     if (!/<img\b[^>]*src=["'][^"']*qr/i.test(sec.rec))
       warn(r, 'La sección Recursos no tiene códigos QR.', 'Agrega a cada recurso su QR local de 2 × 2 cm (img/qr-*.png).');
   }
-  if (sec.bib) {
-    const textoBib = aTexto(sec.bib).replace(/^.*?Bibliograf[íi]a|^.*?Referencias/i, '').trim();
+  // En la página de bibliografía del curso, las referencias pueden estar en el HTML o en script.js.
+  const bib = esOva ? sec.bib : p.recurso === 'bibliografia' ? htmlLimpio.replace(/<footer[\s\S]*?<\/footer>/gi, '') + '\n' + js : '';
+  if (bib) {
+    const textoBib = aTexto(bib).replace(/^.*?Bibliograf[íi]a|^.*?Referencias/i, '').trim();
     if (textoBib.length < 40)
       err(r, 'La sección Bibliografía está vacía o casi vacía.', 'Agrega las referencias de la guía: autor, año, título y enlace.');
     else if (!/\b(19|20)\d{2}\b/.test(textoBib))
@@ -493,9 +511,9 @@ for (const dir of ovas) {
   }
 
   // 21) Encabezado, tipografía, relleno y dependencias externas
-  if (!titulo) err(r, 'El index.html no tiene <title>.', 'Agrega <title> con el título del tema (el mismo de la primera línea del README.md).');
+  if (!titulo) err(r, 'El index.html no tiene <title>.', 'Agrega <title> con el título (el mismo de la primera línea del README.md).');
   if (!/<h1\b/i.test(htmlLimpio))
-    warn(r, 'El OVA no tiene un título principal <h1>.', 'El encabezado de bienvenida debe mostrar el nombre de la unidad y el tema en un <h1>.');
+    warn(r, 'La página no tiene un título principal <h1>.', esOva ? 'El encabezado de bienvenida debe mostrar el nombre de la unidad y el tema en un <h1>.' : 'Muestra el título de la página en un <h1>.');
   if (!/Poppins/i.test(html + css))
     warn(r, 'No se usa la tipografía Poppins de la plantilla.', "Carga Poppins (Google Fonts) y aplícala con font-family: 'Poppins', sans-serif.");
   const RELLENO = /(lorem ipsum|\bFIXME\b|\[TODO\]|\[por completar\]|pendiente de contenido|contenido pendiente)/i;
@@ -516,6 +534,17 @@ for (const [curso, mapa] of tiposPorCurso) {
     for (const [r, t] of mapa)
       err(r, `El curso ${curso} mezcla OVA por tema y OVA por unidad (este es por ${t}).`,
         'Un curso usa un solo tipo para todas sus unidades: o todos sus OVA van en uNN/tNN/, o todos en uNN/.');
+}
+
+// 22b) Todo curso tiene bibliografía y rúbrica. Es una advertencia: los OVA de un
+//      curso se suben de a uno y estos recursos pueden llegar después.
+const todos = encontrarOvas(ROOT).map((d) => partesRuta(rel(ROOT, d))).filter(Boolean);
+for (const curso of new Set(ovas.map((d) => partesRuta(rel(ROOT, d))).filter(Boolean).map((x) => `${x.nivel}/${x.programa}/${x.curso}`))) {
+  const tiene = new Set(todos.filter((x) => `${x.nivel}/${x.programa}/${x.curso}` === curso && x.recurso).map((x) => x.recurso));
+  const faltan = RECURSOS_OBLIGATORIOS.filter((x) => !tiene.has(x));
+  if (faltan.length)
+    warn(curso, `El curso todavía no tiene ${faltan.map((x) => RECURSOS[x].toLowerCase()).join(' ni ')}, ${faltan.length > 1 ? 'que son obligatorias' : 'que es obligatoria'}.`,
+      `Súbelas en ${faltan.map((x) => `${curso}/${x}/`).join(' y ')} (si el curso tiene una rúbrica por unidad, van todas en la misma página).`);
 }
 
 // 23) CINTIA 5 — los enlaces externos funcionan (llevan al recurso).
@@ -584,9 +613,10 @@ if (errores.length) {
   console.error('\n📖 Reglas completas en CONTRIBUTING.md.');
 }
 
-if (problemas.length) {
+if (problemas.some((x) => x.ova.split('/').length !== 3)) {
   const porOva = new Map();
-  for (const x of problemas) { if (!porOva.has(x.ova)) porOva.set(x.ova, []); porOva.get(x.ova).push(x); }
+  // Los avisos del curso (falta la rúbrica…) no son cambios dentro de un OVA.
+  for (const x of problemas) { if (x.ova.split('/').length === 3) continue; if (!porOva.has(x.ova)) porOva.set(x.ova, []); porOva.get(x.ova).push(x); }
   console.log('\n' + '═'.repeat(70));
   console.log('📋 PARA CORREGIR CON UN AGENTE DE IA');
   console.log('Copia el bloque del OVA que quieras arreglar y pégalo en tu agente de IA.');

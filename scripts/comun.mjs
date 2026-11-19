@@ -16,6 +16,16 @@ export const SIGLA_CURSO = /^[a-z]{2,4}$/;
 export const UNIDAD = /^u\d{2}$/;
 export const TEMA = /^t\d{2}$/;
 
+/**
+ * OVA complementarios de una unidad (sin menú de 7 secciones), en uNN/<nombre>.
+ * Son opcionales. Para un tipo nuevo, basta con agregar su nombre aquí.
+ */
+export const COMPLEMENTOS = { diagnostico: 'Diagnóstico', actividades: 'Actividades' };
+/** Recursos del curso: van en la carpeta del curso, junto a las unidades. */
+export const RECURSOS = { bibliografia: 'Bibliografía', rubrica: 'Rúbrica', mapa: 'Mapa conceptual' };
+/** Recursos que todo curso debe tener. */
+export const RECURSOS_OBLIGATORIOS = ['bibliografia', 'rubrica'];
+
 export const QUEMAR = 'node scripts/quemar-tailwind.mjs <carpeta-del-ova>';
 
 /** Lee un archivo de texto sin el BOM que deja el Bloc de notas de Windows. */
@@ -34,8 +44,11 @@ export function encontrarOvas(root) {
       if (name.startsWith('.') || IGNORAR.has(name)) continue;
       const full = join(dir, name);
       if (!statSync(full).isDirectory()) continue;
-      if (existsSync(join(full, 'index.html'))) acc.push(full);
-      else recorrer(full);
+      if (existsSync(join(full, 'index.html'))) {
+        acc.push(full);
+        // Un curso por unidad (uNN/) también puede tener complementos en uNN/diagnostico/…
+        for (const c of Object.keys(COMPLEMENTOS)) if (existsSync(join(full, c, 'index.html'))) acc.push(join(full, c));
+      } else recorrer(full);
     }
   };
   for (const nivel of Object.keys(NIVELES)) {
@@ -47,19 +60,34 @@ export function encontrarOvas(root) {
 
 /**
  * Interpreta la ruta de un OVA. Devuelve null si no tiene 4 ni 5 niveles.
- *   esp/gthdo/pobh/u02/t03  → por tema
- *   esp/gthdo/pobh/u02      → por unidad
+ *   esp/gthdo/pobh/u02/t03       → tema         (OVA de un tema)
+ *   esp/gthdo/pobh/u02           → unidad       (OVA de toda la unidad)
+ *   esp/gthdo/pobh/u02/diagnostico → complemento (diagnostico o actividades de la unidad)
+ *   esp/gthdo/pobh/rubrica       → recurso      (bibliografia, rubrica o mapa del curso)
  */
 export function partesRuta(rutaRelativa) {
   const p = rutaRelativa.split('/');
   if (p.length !== 4 && p.length !== 5) return null;
-  const [nivel, programa, curso, unidad, tema = null] = p;
-  return { nivel, programa, curso, unidad, tema, tipo: tema ? 'tema' : 'unidad' };
+  const [nivel, programa, curso, cuarta, quinta = null] = p;
+  const base = { nivel, programa, curso, unidad: cuarta, tema: null, complemento: null, recurso: null };
+  if (COMPLEMENTOS[quinta]) return { ...base, complemento: quinta, tipo: 'complemento' };
+  if (quinta) return { ...base, tema: quinta, tipo: 'tema' };
+  if (RECURSOS[cuarta]) return { ...base, unidad: null, recurso: cuarta, tipo: 'recurso' };
+  return { ...base, tipo: 'unidad' };
 }
 
-/** Código único del OVA: gthdo-pobh-u02-t03 (o gthdo-pobh-u02 si es por unidad). */
-export function codigoDe({ programa, curso, unidad, tema }) {
-  return [programa, curso, unidad, tema].filter(Boolean).join('-');
+/** Código único: gthdo-pobh-u02-t03, gthdo-pobh-u02, gthdo-pobh-u02-diagnostico o gthdo-pobh-rubrica. */
+export function codigoDe({ programa, curso, unidad, tema, complemento, recurso }) {
+  return [programa, curso, unidad, tema, complemento, recurso].filter(Boolean).join('-');
+}
+
+/** Nombre corto para mostrar: "Tema 3", "Diagnóstico", "Rúbrica"… */
+export function etiquetaDe({ tipo, unidad, tema, complemento, recurso }) {
+  if (tipo === 'recurso') return RECURSOS[recurso];
+  const u = Number(unidad?.slice(1));
+  if (tipo === 'complemento') return COMPLEMENTOS[complemento];
+  if (tipo === 'tema') return `Tema ${Number(tema?.slice(1))}`;
+  return `Unidad ${u}`;
 }
 
 /** Lee catalogo.csv. Admite comillas para nombres con comas. */

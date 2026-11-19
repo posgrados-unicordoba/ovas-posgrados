@@ -14,10 +14,14 @@ de la Docencia). El público son profesionales; el OVA se incrusta en el aula vi
 
 - Ruta: `nivel/programa/curso/uNN/tNN/` (ej.: `esp/gthdo/pobh/u02/t03/`).
   Si el curso tiene un OVA por unidad: `nivel/programa/curso/uNN/`. Un curso usa un solo tipo.
+- Complementos de la unidad (opcionales): `nivel/programa/curso/uNN/diagnostico/` y `uNN/actividades/`.
+- Recursos del curso: `nivel/programa/curso/bibliografia/`, `rubrica/` (obligatorios) y
+  `mapa/` (opcional). Si hay una rúbrica por unidad, van todas en la misma página.
 - Nivel: `esp` (especialización), `mae` (maestría) o `doc` (doctorado).
 - Siglas: programa de 2 a 5 letras (su sigla oficial), curso de 2 a 4. Ambas deben estar
   en `catalogo.csv`. No inventes siglas: si no están, pregunta.
-- Código del OVA: `programa-curso-uNN-tNN` (ej.: `gthdo-pobh-u02-t03`).
+- Código del OVA: `programa-curso-uNN-tNN` (ej.: `gthdo-pobh-u02-t03`); `gthdo-pobh-u02-diagnostico`
+  para un complemento de la unidad; `gthdo-pobh-rubrica` para un recurso del curso.
 - Todo archivo y carpeta en minúsculas, sin tildes, sin ñ, sin espacios, con guion medio.
   Nunca guion bajo. Ej.: `img/mapa-procesos.png`.
 
@@ -66,12 +70,15 @@ Si cambias clases de Tailwind o agregas íconos, vuelve a generar `tailwind.css`
   solo ahí, así no choca con los estilos del aula virtual.
 - Tipografía Poppins. Los colores se pueden personalizar; no hay paleta obligatoria.
 - Logo en `img/logo.webp`: el de CINTIA (`logos/cintia.webp`) en especializaciones; el del
-  programa en maestrías y doctorados.
+  programa en maestrías y doctorados. Los recursos del curso (bibliografía, rúbrica, mapa)
+  no llevan logo.
 - Un solo pie de página de créditos, al final: Centro de Innovación en TIC para el apoyo
   de la Docencia CINTIA – Universidad de Córdoba.
 - Siete secciones, con estos `id` y en este orden:
   `introduccion`, `objetivos`, `contenido`, `actividad` (o `actividades`), `evaluacion`,
-  `recursos`, `bibliografia`.
+  `recursos`, `bibliografia`. **Solo en los OVA de tema (o de unidad).** Los complementos de
+  la unidad y los recursos del curso no llevan este menú ni autoevaluación, pero cumplen todas
+  las demás reglas de este archivo (archivos, pie, accesibilidad, enlaces, QR).
 
 ## 4. Componente de cada sección
 

@@ -1,0 +1,119 @@
+/* Estilos propios del OVA gthdo-pobh-rubrica. */
+
+        :root {
+            --bg: #e8f0e9;
+            --surface: #ffffff;
+            --surface-soft: #f1f3f5;
+            --text: #374151;
+            --heading: #569151;
+            --line: #dee2e6;
+            --accent: #569151;
+            --accent-deep: #3d6a3a;
+            --accent-soft: #16BAAF;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+        }
+
+        h1, h2, h3 {
+            color: var(--heading);
+        }
+
+        .ova-header {
+            background: linear-gradient(135deg, var(--heading) 0%, var(--accent-deep) 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+        }
+
+        th {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .level-cell {
+            transition: all 0.2s ease;
+        }
+
+        .level-cell:hover {
+            background-color: rgba(86, 145, 81, 0.08);
+        }
+
+        @media print {
+            @page {
+                size: letter landscape;
+                margin: 1cm;
+            }
+            
+            .no-print { display: none !important; }
+            
+            body { 
+                background: white !important; 
+                padding: 0 !important; 
+                margin: 0 !important;
+            }
+
+            .container-print {
+                max-width: 100% !important;
+                width: 100% !important;
+                margin: 0 !important;
+                border: none !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                transform: scale(0.88);
+                transform-origin: top left;
+            }
+
+            .shadow-2xl { box-shadow: none !important; }
+            .rounded-3xl { border-radius: 0 !important; }
+            
+            th { 
+                background-color: #e8f0e9 !important; 
+                color: #374151 !important; 
+                font-size: 8pt !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            td { 
+                font-size: 7pt !important; 
+                border: 1px solid #dee2e6 !important;
+                padding: 6px !important;
+            }
+
+            .ova-header { 
+                background: #569151 !important; 
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .bg-surface-soft { background-color: #f1f3f5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            
+            h1 { font-size: 1.2rem !important; }
+            .text-xs { font-size: 7pt !important; }
+
+            header.ova-header { padding: 16px !important; }
+            .px-8.py-4 { padding: 10px 16px !important; }
+            
+            tr { page-break-inside: avoid; }
+        }
+
+/* ===== Navegación con teclado (criterio 1 de CINTIA) =====
+   Lo agrega scripts/migrar-ova.mjs (plantilla: scripts/accesibilidad/teclado.css). */
+/* Foco visible: al navegar con Tab se ve en qué elemento está el estudiante. */
+#ova-embed :focus-visible { outline: 3px solid var(--accent-deep, #2f5d2b); outline-offset: 3px; border-radius: 6px; }
+#ova-embed .flip-card:focus-visible, #ova-embed .mini-card:focus-visible { outline-offset: 4px; }
+/* Los títulos que reciben el foco al cambiar de sección no muestran el recuadro. */
+#ova-embed [data-foco-titulo]:focus { outline: none; }
+/* Lo que se revelaba solo con el mouse también se revela con el teclado. */
+#ova-embed .mini-card:focus-within .hover-indicator { opacity: 1; }
+#ova-embed .mini-card:focus-within .hover-content { max-height: 200px; opacity: 1; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line, #e2e8f0); }
