@@ -225,7 +225,11 @@ function cambiarRef(viejo, nuevo) {
 // El logo: en especializaciones, siempre el de CINTIA.
 const logoCintia = join(ROOT, 'logos', 'cintia.webp');
 const logoOriginal = [...copias.keys()].find((r) => /(^|\/)logo[^/]*\.(webp|png|jpe?g|svg)$/i.test(r));
-if (logoOriginal) { copias.set(logoOriginal, 'img/logo.webp'); }
+if (logoOriginal && p.tipo === 'recurso') {
+  // Los recursos del curso (bibliografía, rúbrica, mapa) no llevan logo.
+  copias.delete(logoOriginal); dejados.push(logoOriginal);
+  avisos.push('Los recursos del curso no llevan logo y no lo copié: quita del index.html la imagen del logo (y el bloque que la contiene).');
+} else if (logoOriginal) { copias.set(logoOriginal, 'img/logo.webp'); }
 
 mkdirSync(join(destino, 'img'), { recursive: true });
 for (const [viejo, nuevo] of copias) {
