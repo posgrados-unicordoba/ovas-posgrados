@@ -26,7 +26,9 @@
  *   4. Pasa las imágenes a img/ con nombres válidos; el logo queda en img/logo.webp
  *      (en especializaciones, el de CINTIA: logos/cintia.webp).
  *   5. Guarda en iconos.css los íconos de Font Awesome que usa (sin internet).
- *   6. Agrega el plugin de accesibilidad elens.js si falta.
+ *   6. Agrega el plugin de accesibilidad elens.js si falta, y la navegación con
+ *      teclado (foco visible, aria-expanded, foco al contenido nuevo, tarjetas
+ *      y pestañas con Enter y flechas) con las plantillas de scripts/accesibilidad/.
  *   7. Hace que los enlaces externos abran en pestaña nueva.
  *   8. Crea el README.md y, si hace falta, registra el curso en catalogo.csv.
  *   9. Valida el resultado.
@@ -36,8 +38,9 @@
  */
 
 import { readdirSync, statSync, existsSync, mkdirSync, writeFileSync, copyFileSync, rmSync, appendFileSync } from 'node:fs';
-import { join, extname, basename, dirname, resolve } from 'node:path';
+import { join, extname, basename, dirname, resolve, posix } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import {
   NIVELES, SIGLA_PROGRAMA, SIGLA_CURSO, UNIDAD, TEMA,
   leer, rel, partesRuta, codigoDe, leerCatalogo, buscarEnCatalogo, tituloDe,
@@ -97,21 +100,50 @@ const avisos = [];
 const hechos = [];
 let html = leer(join(origen, 'index.html'));
 
-// 1) Sacar los <script> en línea (antes que los <style>: algunos scripts
-//    llevan "<style>" o "</body>" dentro de sus textos).
+// Algunos OVA ya tenían los estilos y el JavaScript en archivos aparte
+// (css/styles.css, js/script.js…). Esos archivos se reúnen en estilos.css y
+// script.js, en el mismo orden en que los cargaba la página, y no se copian.
+const consumidos = new Set();
+const esLocal = (u) => !/^(https?:)?\/\//i.test(u) && !/^(data|blob|javascript):/i.test(u);
+const rutaLocal = (u) => decodeURI(u.split('#')[0].split('?')[0]).replace(/^\.\//, '');
+/** Las url(…) de un CSS que estaba en una subcarpeta pasan a ser relativas a la raíz del OVA. */
+const reubicarUrls = (texto, carpeta) => (carpeta === '.' ? texto : texto.replace(/url\(\s*(["']?)([^"')]+)\1\s*\)/g, (todo, q, u) =>
+  (esLocal(u) && !u.startsWith('/') && !u.startsWith('#') ? `url(${q}${posix.normalize(posix.join(carpeta, u))}${q})` : todo)));
+
+// 1) Sacar los <script> en línea o locales (antes que los <style>: algunos
+//    scripts llevan "<style>" o "</body>" dentro de sus textos).
 const scripts = [];
 let configTailwind = false;
-html = html.replace(/<script(?![^>]*\bsrc=)([^>]*)>([\s\S]*?)<\/script>/gi, (todo, attrs, cuerpo) => {
-  if (/application\/ld\+json/i.test(attrs) || !cuerpo.trim()) return todo;
-  if (/^\s*tailwind\.config\s*=/.test(cuerpo)) { configTailwind = true; return ''; }
-  scripts.push(cuerpo.replace(/^\n/, '').replace(/\s+$/, ''));
+html = html.replace(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi, (todo, attrs, cuerpo) => {
+  const src = /\bsrc=["']([^"']+)["']/i.exec(attrs)?.[1];
+  let codigo = cuerpo;
+  if (src) {
+    if (!esLocal(src)) return todo;
+    const r = rutaLocal(src);
+    if (!existsSync(join(origen, r))) return todo;
+    consumidos.add(r);
+    codigo = leer(join(origen, r));
+  } else if (/application\/ld\+json/i.test(attrs) || !cuerpo.trim()) return todo;
+  if (/^\s*tailwind\.config\s*=/.test(codigo)) { configTailwind = true; return ''; }
+  scripts.push(codigo.replace(/^\n/, '').replace(/\s+$/, ''));
   return `<!--@@SCRIPT${scripts.length - 1}@@-->`;
 });
 
-// 2) Sacar los <style>.
+// 2) Sacar los <style> y las hojas de estilo locales.
 const estilos = [];
-html = html.replace(/<style[^>]*>([\s\S]*?)<\/style>/gi, (_, cuerpo) => {
-  estilos.push(cuerpo.replace(/^\n/, '').replace(/\s+$/, ''));
+html = html.replace(/<style[^>]*>([\s\S]*?)<\/style>|<link\b[^>]*>/gi, (todo, cuerpo) => {
+  let texto = cuerpo;
+  if (cuerpo === undefined) {
+    if (!/rel=["']?stylesheet/i.test(todo)) return todo;
+    const href = /href=["']([^"']+)["']/i.exec(todo)?.[1];
+    if (!href || !esLocal(href)) return todo;
+    const r = rutaLocal(href);
+    if (/^(tailwind|iconos)\.css$/i.test(r)) { consumidos.add(r); return ''; } // se vuelven a generar
+    if (!existsSync(join(origen, r))) return todo;
+    consumidos.add(r);
+    texto = reubicarUrls(leer(join(origen, r)), posix.dirname(r));
+  }
+  estilos.push(texto.replace(/^\n/, '').replace(/\s+$/, ''));
   return estilos.length === 1 ? '<!--@@ESTILOS@@-->' : '';
 });
 
@@ -126,14 +158,16 @@ const enlacesCss = '<link rel="stylesheet" href="estilos.css">\n    <link rel="s
 if (html.includes('<!--@@ESTILOS@@-->')) html = html.replace('<!--@@ESTILOS@@-->', enlacesCss);
 else html = html.replace(/<\/head>/i, `    ${enlacesCss}\n</head>`);
 if (teniaCdn) hechos.push('Quité el CDN de Tailwind' + (configTailwind ? ' y su configuración en línea (se conserva al quemar)' : '') + '.');
-if (estilos.length) hechos.push(`Moví ${estilos.length} bloque(s) <style> a estilos.css.`);
+if (estilos.length) hechos.push(`Reuní ${estilos.length} bloque(s) de estilos en estilos.css.`);
+const reunidos = [...consumidos].filter((r) => !/^(tailwind|iconos|estilos)\.css$|^script\.js$/i.test(r));
+if (reunidos.length) hechos.push(`Los archivos ${reunidos.join(', ')} quedaron dentro de estilos.css y script.js.`);
 
 // 4) Scripts: todo a script.js, cargado donde estaba el último.
 if (scripts.length) {
   const ultimo = scripts.length - 1;
   for (let i = 0; i < scripts.length; i++)
     html = html.replace(`<!--@@SCRIPT${i}@@-->`, i === ultimo ? '<script src="script.js"></script>' : '');
-  hechos.push(`Moví ${scripts.length} bloque(s) <script> a script.js.`);
+  hechos.push(`Reuní ${scripts.length} bloque(s) de JavaScript en script.js.`);
   if (scripts.length > 1) avisos.push('Había varios <script> en distintos lugares; quedaron juntos en script.js. Revisa que todo funcione igual.');
 }
 let js = scripts.join('\n\n');
@@ -160,7 +194,13 @@ for (const r of listarArchivos(origen)) {
   if (r === 'index.html') continue;
   const ext = extname(r).toLowerCase();
   if (OFFICE.has(ext)) { dejados.push(r); continue; }
-  if (/^(estilos\.css|script\.js|tailwind\.css|readme\.md)$/i.test(r)) continue;
+  if (consumidos.has(r)) continue;
+  if (ext === '.js' && /^\s*tailwind\.config\s*=/.test(leer(join(origen, r)))) { dejados.push(r); continue; } // su configuración se aplica al quemar
+  if (/^(estilos\.css|script\.js|tailwind\.css|iconos\.css|readme\.md)$/i.test(r)) continue;
+  if (/\.html?$/i.test(ext)) {
+    if (/(original|backup|respaldo|copia|antiguo|old|viejo)/i.test(r)) { dejados.push(r); continue; }
+    avisos.push(`El OVA trae otra página además de index.html (${r}). Revisa si se usa; si es una copia, bórrala.`);
+  }
   const partes = r.split('/').map(slug);
   let nuevo = partes.join('/');
   if (IMAGENES.has(ext) && partes[0] !== 'img') nuevo = `img/${partes[partes.length - 1]}`;
@@ -216,7 +256,7 @@ if (hallados.length) {
     salir('Para convertir los QR hace falta la librería "qrcode". Ejecuta una vez, en la raíz del repositorio: npm install');
   }
   for (const url of hallados) {
-    const params = new URLSearchParams(url.split('?')[1].replace(/&amp;/g, '&'));
+    const params = new URLSearchParams(url.slice(url.indexOf('?') + 1).replace(/&amp;/g, '&'));
     const dato = params.get('data');
     const tam = parseInt((params.get('size') || '150x150').split('x')[0], 10) || 150;
     if (!dato) continue;
@@ -255,6 +295,15 @@ const pestana = (src) => src.replace(/<a\b([^>]*href=["']https?:\/\/[^"']+["'][^
 html = pestana(html);
 js = pestana(js);
 if (enlaces) hechos.push(`Hice que ${enlaces} enlace(s) externo(s) abran en pestaña nueva.`);
+
+// --- Navegación con teclado (criterio 1 de CINTIA) --------------------------
+const MARCA_TECLADO = 'Navegación con teclado (criterio 1 de CINTIA)';
+if (!js.includes(MARCA_TECLADO)) {
+  const plantilla = (f) => leer(join(dirname(fileURLToPath(import.meta.url)), 'accesibilidad', f)).replace(/\s+$/, '');
+  js = `${js.replace(/\s+$/, '')}\n\n${plantilla('teclado.js')}`;
+  css = `${css.replace(/\s+$/, '')}\n\n${plantilla('teclado.css')}`;
+  hechos.push('Agregué la navegación con teclado: foco visible, aria-expanded, foco al contenido nuevo, y tarjetas y pestañas con Enter y flechas.');
+}
 
 // --- Escribir archivos ----------------------------------------------------
 const cabecera = (que) => `/* ${que} del OVA ${codigoDe(p)}. */\n\n`;

@@ -1,0 +1,10 @@
+/* ===== Navegación con teclado (criterio 1 de CINTIA) =====
+   Lo agrega scripts/migrar-ova.mjs (plantilla: scripts/accesibilidad/teclado.css). */
+/* Foco visible: al navegar con Tab se ve en qué elemento está el estudiante. */
+#ova-embed :focus-visible { outline: 3px solid var(--accent-deep, #2f5d2b); outline-offset: 3px; border-radius: 6px; }
+#ova-embed .flip-card:focus-visible, #ova-embed .mini-card:focus-visible { outline-offset: 4px; }
+/* Los títulos que reciben el foco al cambiar de sección no muestran el recuadro. */
+#ova-embed [data-foco-titulo]:focus { outline: none; }
+/* Lo que se revelaba solo con el mouse también se revela con el teclado. */
+#ova-embed .mini-card:focus-within .hover-indicator { opacity: 1; }
+#ova-embed .mini-card:focus-within .hover-content { max-height: 200px; opacity: 1; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line, #e2e8f0); }

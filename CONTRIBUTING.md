@@ -39,6 +39,17 @@ esp,gthdo,Gerencia del Talento Humano y Desarrollo Organizacional,pobh,Psicolog�
 - Si un nombre tiene comas, va entre comillas: `"Gestión, cambio y cultura"`.
 - Una sigla asignada **no se cambia**.
 
+Para no calcularla a mano, el script `sugerir-sigla.mjs` la propone con estas reglas y revisa
+en el catálogo que no esté repetida:
+
+```
+node scripts/sugerir-sigla.mjs --nivel esp --programa gthdo --curso "Psicología Organizacional y Bienestar Humano"
+node scripts/sugerir-sigla.mjs --oficial EspGTHDO
+```
+
+La primera línea propone la sigla de un curso; la segunda convierte la sigla oficial de un
+programa (la de sus documentos) en la del repositorio.
+
 ---
 
 ## 3. Migrar un OVA que ya existe
@@ -60,12 +71,14 @@ script lo registra.
 
 El script no toca la carpeta original. En la copia nueva:
 
-1. Separa los estilos en `estilos.css` y el JavaScript en `script.js`.
+1. Separa los estilos en `estilos.css` y el JavaScript en `script.js` (si el OVA ya los tenía
+   en carpetas como `css/` o `js/`, los reúne ahí). Deja fuera copias como `index_original.html`.
 2. Quita el CDN de Tailwind y genera `tailwind.css` solo con las clases del OVA.
 3. Guarda en `iconos.css` los íconos de Font Awesome que usa el OVA.
 4. Convierte los códigos QR en imágenes locales (`img/qr-01.png`…).
 5. Deja el logo en `img/logo.webp` (en especializaciones, el de CINTIA).
-6. Agrega el plugin de accesibilidad `elens.js`.
+6. Agrega el plugin de accesibilidad `elens.js` y la navegación con teclado: foco visible,
+   `aria-expanded`, foco al contenido nuevo, y tarjetas y pestañas con Enter y flechas.
 7. Hace que los enlaces externos abran en pestaña nueva.
 8. Crea el `README.md` del OVA.
 9. Valida el resultado y muestra lo que falta corregir.
