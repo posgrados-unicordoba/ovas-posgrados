@@ -1,4 +1,4 @@
-# Tema 4: Análisis de indicadores de clima y cultura para la toma de decisiones organizacionales
+# Tema 2: Estrategias de liderazgo innovador aplicadas a contextos de transformación empresarial
 
 **Código:** gthdo-pobh-u03-t02
 **Programa:** Gerencia del Talento Humano y Desarrollo Organizacional
@@ -19,4 +19,5 @@
 ## Historial
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.1 | 2026-11-19 | Corrige el título de la página, que tenía el del tema 4 de la unidad 2 |
 | 1.0 | 2026-11-19 | Versión inicial (migración al repositorio) |
