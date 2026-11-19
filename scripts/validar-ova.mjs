@@ -57,7 +57,7 @@ const PERMITIDOS_EXTERNOS = /^(https?:)?\/\/(fonts\.googleapis\.com|fonts\.gstat
 
 // Verbos de la taxonomía SOLO. Los de orden superior son los niveles
 // relacional y abstracto ampliado; los de nivel bajo, uni y multiestructural.
-const VERBOS_SUPERIORES = /^(analizar|aplicar|argumentar|comparar|construir|contrastar|crear|criticar|desarrollar|dise[ñn]ar|elaborar|evaluar|explicar|formular|generalizar|gestionar|hipotetizar|implementar|integrar|interpretar|justificar|planificar|plantear|proponer|reflexionar|relacionar|resolver|sintetizar|teorizar|transferir|valorar|fundamentar|diagnosticar|orientar|liderar|estructurar|investigar|modelar|optimizar|transformar)$/i;
+const VERBOS_SUPERIORES = /^(analizar|aplicar|argumentar|comparar|construir|contrastar|crear|criticar|desarrollar|dise[ñn]ar|elaborar|evaluar|explicar|formular|generalizar|gestionar|hipotetizar|implementar|integrar|interpretar|justificar|planificar|plantear|proponer|reflexionar|relacionar|resolver|sintetizar|teorizar|transferir|valorar|fundamentar|diagnosticar|orientar|liderar|estructurar|investigar|modelar|optimizar|transformar|correlacionar|pronosticar|predecir|problematizar|articular|contextualizar)$/i;
 const VERBOS_BAJOS = /^(identificar|reconocer|definir|enumerar|listar|nombrar|memorizar|recordar|describir|conocer|repetir|se[ñn]alar|clasificar|combinar)$/i;
 
 // --- Problemas ------------------------------------------------------------

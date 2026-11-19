@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema 4: Análisis de indicadores de clima y cultura para la toma de decisiones organizacionales</title>
+    
+<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="iconos.css">
+    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="tailwind.css">
+</head>
+<body>
+<div id="ova-embed">
+    <div class="mobile-header">
+        <div class="flex items-center gap-4">
+            <div class="logo-orb" style="width:82px;height:82px;margin:0;"><img src="img/logo.webp" alt="Logo"></div>
+            <div>
+                <p class="eyebrow">Especialización en Gerencia del Talento Humano y Desarrollo Organizacional</p>
+                <h1 class="text-green-800 font-extrabold text-lg m-0">Psicología Organizacional y Bienestar Humano</h1>
+            </div>
+        </div>
+        <select id="mobile-nav" class="mt-4 w-full rounded-xl border border-slate-300 bg-white p-3 font-semibold text-slate-700">
+            <option value="introduccion">Introducción</option>
+            <option value="objetivos">Objetivos</option>
+
+            <option value="contenido">Contenido</option>
+            <option value="actividad">Actividades</option>
+            <option value="evaluacion">Autoevaluación</option>
+            <option value="recursos">Recursos</option>
+            <option value="bibliografia">Bibliografía</option>
+        </select>
+    </div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="brand-shell">
+                <div class="logo-orb"><img src="img/logo.webp" alt="Logo"></div>
+                <div class="brand-copy">
+                    <p class="eyebrow">Especialización en Gerencia del Talento Humano y Desarrollo Organizacional</p>
+                    <h1>Psicología Organizacional y Bienestar Humano</h1>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link active" data-target="introduccion"><i class="fa-solid fa-users-viewfinder"></i> Introducción</a>
+                <a href="#" class="sidebar-link" data-target="objetivos"><i class="fa-solid fa-bullseye"></i> Objetivos</a>
+
+                <a href="#" class="sidebar-link" data-target="contenido"><i class="fa-solid fa-sitemap"></i> Contenido</a>
+                <a href="#" class="sidebar-link" data-target="actividad"><i class="fa-solid fa-hands-holding-circle"></i> Actividades</a>
+                <a href="#" class="sidebar-link" data-target="evaluacion"><i class="fa-solid fa-clipboard-check"></i> Autoevaluación</a>
+                <a href="#" class="sidebar-link" data-target="recursos"><i class="fa-solid fa-box-open"></i> Recursos</a>
+                <a href="#" class="sidebar-link" data-target="bibliografia"><i class="fa-solid fa-book-open"></i> Bibliografía</a>
+            </nav>
+        </aside>
+
+        <main class="main">
+            <div class="content-stage">
+                <section id="introduccion" class="content-pane active">
+                    <div class="hero">
+                        <p class="text-sm font-bold uppercase tracking-widest opacity-90"><i class="fa-solid fa-chart-line mr-2"></i>Unidad 2 - Tema 4</p>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold leading-tight mt-3 mb-4">Análisis de indicadores de clima y cultura para la toma de decisiones organizacionales</h2>
+                        <p class="text-lg leading-relaxed opacity-95">En 2026, la gestión de personas es una disciplina basada en datos. Este tema enseña a transitar de informes descriptivos básicos hacia el People Analytics avanzado, utilizando modelos de causalidad para probar cómo la mejora en el clima impacta en resultados financieros y lealtad del cliente.</p>
+                    </div>
+                    <div class="section-card mt-6 no-hover">
+                        <h3 class="text-2xl font-extrabold" style="color: var(--heading)">🎯 Propósito formativo</h3>
+                        <p class="mt-4 leading-relaxed">El especialista aprenderá a establecer correlaciones entre indicadores de clima y resultados de negocio, aplicar la curva de madurez de People Analytics y diseñar tableros de control automatizados que integren bienestar psicológico y sentimientos en tiempo real, sin perder la empatía cualitativa.</p>
+                    </div>
+                    <div class="section-card mt-6">
+                        <p class="text-xs font-bold tracking-widest text-slate-500 uppercase">Ruta del análisis</p>
+                        <h3 class="mt-3 text-2xl font-extrabold" style="color: var(--heading)">De las métricas a la decisión estratégica</h3>
+                        <div class="consultant-route">
+                            <div class="route-stop">
+                                <div class="route-node"><i class="fa-solid fa-database"></i></div>
+                                <h4>Datos</h4>
+                                <p>Centralizar información de clima, ausentismo, rotación y productividad.</p>
+                            </div>
+                            <div class="route-stop">
+                                <div class="route-node"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                                <h4>Diagnóstico</h4>
+                                <p>Cruzar indicadores de clima con resultados financieros y de NPS.</p>
+                            </div>
+                            <div class="route-stop">
+                                <div class="route-node"><i class="fa-solid fa-layer-group"></i></div>
+                                <h4>Madurez</h4>
+                                <p>Avanzar de análisis descriptivo a predictivo y prescriptivo.</p>
+                            </div>
+                            <div class="route-stop">
+                                <div class="route-node"><i class="fa-solid fa-gauge-high"></i></div>
+                                <h4>Dashboard</h4>
+                                <p>Visualizar sentimientos y métricas de bienestar en tiempo real.</p>
+                            </div>
+                            <div class="route-stop">
+                                <div class="route-node"><i class="fa-solid fa-gavel"></i></div>
+                                <h4>Ética</h4>
+                                <p>Garantizar gobernanza ética y transparencia en el uso de la información.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 grid md:grid-cols-3 gap-4">
+                        <div class="mini-card">
+                            <div class="hover-indicator"><i class="fa-solid fa-arrow-right"></i></div>
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: var(--surface-soft); color: var(--accent);"><i class="fa-solid fa-lightbulb text-lg"></i></div>
+                                <h4 class="font-bold" style="color: var(--heading)">Pregunta central</h4>
+                            </div>
+                            <p class="text-sm" style="color: var(--text)">¿Cómo transformar datos de clima y cultura en decisiones organizacionales concretas?</p>
+                            <div class="hover-content">
+                                <p class="text-xs" style="color: var(--text)">La pregunta orienta la reflexión sobre la relación entre evidencia cuantitativa, percepción del empleado y rentabilidad del negocio.</p>
+                            </div>
+                        </div>
+                        <div class="mini-card">
+                            <div class="hover-indicator"><i class="fa-solid fa-arrow-right"></i></div>
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: var(--surface-soft); color: var(--accent);"><i class="fa-solid fa-route text-lg"></i></div>
+                                <h4 class="font-bold" style="color: var(--heading)">Enfoque</h4>
+                            </div>
+                            <p class="text-sm" style="color: var(--text)">People Analytics, curva de madurez analítica, dashboards de sentimientos y ética de datos.</p>
+                            <div class="hover-content">
+                                <p class="text-xs" style="color: var(--text)">Se aborda el análisis de indicadores en contextos empresariales colombianos, públicos y privados, hacia el 2026.</p>
+                            </div>
+                        </div>
+                        <div class="mini-card">
+                            <div class="hover-indicator"><i class="fa-solid fa-arrow-right"></i></div>
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: var(--surface-soft); color: var(--accent);"><i class="fa-solid fa-award text-lg"></i></div>
+                                <h4 class="font-bold" style="color: var(--heading)">Producto esperado</h4>
+                            </div>
+                            <p class="text-sm" style="color: var(--text)">Diseño de un dashboard conceptual que vincule indicadores de clima con decisiones de gestión humana.</p>
+                            <div class="hover-content">
+                                <p class="text-xs" style="color: var(--text)">El especialista podrá argumentar intervenciones basadas en datos y no solo en intuición.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="objetivos" class="content-pane">
+                    <div class="section-card no-hover">
+                        <p class="text-xs font-bold tracking-widest text-slate-500 uppercase">Objetivos de aprendizaje</p>
+                        <h2 class="mt-4 text-3xl font-extrabold" style="color: var(--heading)">🎯 Metas del Tema 4</h2>
+                        <p class="mt-5 leading-relaxed text-lg">Al finalizar este tema, el especialista será capaz de vincular indicadores de clima con resultados de negocio, aplicar la curva de madurez de People Analytics y diseñar dashboards de sentimientos con gobernanza ética.</p>
+                    </div>
+                    <div class="mt-6 grid md:grid-cols-3 gap-6">
+                        <div class="section-card" style="border-left: 6px solid #D8EBF8;">
+                            <h3 class="font-bold text-lg" style="color: var(--heading)"><i class="fa-solid fa-link mr-2" style="color: #17a2b8;"></i>Correlacionar</h3>
+                            <p class="mt-2 text-sm leading-relaxed">Indicadores de clima (satisfacción, liderazgo, autonomía) con resultados de negocio (productividad, ausentismo, NPS).</p>
+                        </div>
+                        <div class="section-card" style="border-left: 6px solid #D8EBF8;">
+                            <h3 class="font-bold text-lg" style="color: var(--heading)"><i class="fa-solid fa-arrow-trend-up mr-2" style="color: #17a2b8;"></i>Pronosticar</h3>
+                            <p class="mt-2 text-sm leading-relaxed">La curva de madurez de People Analytics para desarrollar modelos predictivos que anticipen riesgos de fuga de talento por clima tóxico.</p>
+                        </div>
+                        <div class="section-card" style="border-left: 6px solid #D8EBF8;">
+                            <h3 class="font-bold text-lg" style="color: var(--heading)"><i class="fa-solid fa-chart-column mr-2" style="color: #17a2b8;"></i>Visualizar</h3>
+                            <p class="mt-2 text-sm leading-relaxed">Tableros de control automatizados que integren métricas de bienestar psicológico y sentimientos en tiempo real para 2026.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="contenido" class="content-pane">
+                    <div class="section-card no-hover">
+                        <p class="text-xs font-bold tracking-widest text-slate-500 uppercase">Contenido desarrollado</p>
+                        <h2 class="mt-4 text-3xl font-extrabold" style="color: var(--heading)">📚 Tres partes fundamentales</h2>
+                        <p class="mt-4 leading-relaxed">Este tema aborda el <strong>análisis de indicadores de clima y cultura para la toma de decisiones organizacionales</strong>, integrando People Analytics, madurez analítica y gobernanza ética de datos.</p>
+                    </div>
+
+                    <!-- Frase destacada -->
+                    <div class="mt-6 p-6 rounded-xl" style="background: linear-gradient(135deg, var(--heading) 0%, var(--accent-deep) 100%); color: white;">
+                        <div class="flex items-start gap-4">
+                            <i class="fa-solid fa-quote-left text-3xl opacity-50"></i>
+                            <div>
+                                <p class="text-lg font-medium italic">"Medir el clima no basta: hay que explicar por qué sucede, predecir qué puede ocurrir y decidir qué hacer antes de que el dato se convierta en riesgo."</p>
+                                <p class="mt-2 text-sm opacity-80">— Enfoque contemporáneo del análisis organizacional</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flip Cards: Cuatro niveles de madurez analítica -->
+                    <div class="mt-8 section-card">
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--heading)">🔄 Cuatro niveles de madurez analítica</h3>
+                        <p class="text-xs mb-6" style="color: #6c757d;"><i class="fa-solid fa-hand-pointer mr-1"></i>Pasa el cursor sobre cada tarjeta para ver el detalle.</p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+                            <div class="flip-card">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <div class="text-3xl font-black mb-2" style="opacity:0.4;">1</div>
+                                        <i class="fa-solid fa-chart-simple text-2xl mb-3"></i>
+                                        <h4 class="font-bold text-sm uppercase tracking-wide">Descriptivo</h4>
+                                    </div>
+                                    <div class="flip-card-back">
+                                        <i class="fa-solid fa-chart-simple text-xl mb-2" style="color: #374151;"></i>
+                                        <h4 class="font-bold text-sm mb-2" style="color: #374151;">¿Qué pasó?</h4>
+                                        <p class="text-xs leading-relaxed">Resumen de rotación, ausentismo y encuestas históricas.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flip-card">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <div class="text-3xl font-black mb-2" style="opacity:0.4;">2</div>
+                                        <i class="fa-solid fa-magnifying-glass-chart text-2xl mb-3"></i>
+                                        <h4 class="font-bold text-sm uppercase tracking-wide">Diagnóstico</h4>
+                                    </div>
+                                    <div class="flip-card-back">
+                                        <i class="fa-solid fa-magnifying-glass-chart text-xl mb-2" style="color: #374151;"></i>
+                                        <h4 class="font-bold text-sm mb-2" style="color: #374151;">¿Por qué pasó?</h4>
+                                        <p class="text-xs leading-relaxed">Modelos de causalidad que cruzan clima, desempeño y resultados de negocio.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flip-card">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <div class="text-3xl font-black mb-2" style="opacity:0.4;">3</div>
+                                        <i class="fa-solid fa-brain text-2xl mb-3"></i>
+                                        <h4 class="font-bold text-sm uppercase tracking-wide">Predictivo</h4>
+                                    </div>
+                                    <div class="flip-card-back">
+                                        <i class="fa-solid fa-brain text-xl mb-2" style="color: #374151;"></i>
+                                        <h4 class="font-bold text-sm mb-2" style="color: #374151;">¿Qué podría pasar?</h4>
+                                        <p class="text-xs leading-relaxed">Machine Learning para anticipar renuncia silenciosa y baja de compromiso.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flip-card">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <div class="text-3xl font-black mb-2" style="opacity:0.4;">4</div>
+                                        <i class="fa-solid fa-clipboard-check text-2xl mb-3"></i>
+                                        <h4 class="font-bold text-sm uppercase tracking-wide">Prescriptivo</h4>
+                                    </div>
+                                    <div class="flip-card-back">
+                                        <i class="fa-solid fa-clipboard-check text-xl mb-2" style="color: #374151;"></i>
+                                        <h4 class="font-bold text-sm mb-2" style="color: #374151;">¿Qué hacer?</h4>
+                                        <p class="text-xs leading-relaxed">Recomendaciones de acción: planes de retención personalizados.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Acordeón de las Tres Partes -->
+                    <div class="mt-6 section-card">
+                        <h3 class="text-xl font-bold mb-6" style="color: var(--heading)">📖 Desarrollo Temático</h3>
+                        <div class="space-y-3">
+                            <div class="border rounded-lg overflow-hidden" style="border-color: var(--line);">
+                                <button class="accordion-btn w-full px-5 py-4 text-left font-semibold flex justify-between items-center" style="background: var(--surface-soft); color: #374151;">
+                                    <span><i class="fa-solid fa-chart-line mr-2" style="color: #374151;"></i>Parte 1: De Métricas Operativas a Inteligencia de Negocio</span>
+                                    <i class="fa-solid fa-chevron-down transition-transform"></i>
+                                </button>
+                                <div class="accordion-content hidden px-5 py-4 bg-white">
+                                    <p class="text-sm leading-relaxed">Durante décadas, RR. HH. se limitó a medir rotación y ausentismo. El análisis moderno exige cruzar estos datos con encuestas de pulso, evaluaciones de desempeño e indicadores financieros. El especialista debe saber responder no solo "¿cómo estamos?", sino "¿por qué sucedió?" utilizando modelos de causalidad. Por ejemplo, demostrar que un descenso de 5 puntos en el índice de confianza del equipo precedió a una caída del 10% en la satisfacción del cliente, permitiendo que la dirección vea al clima laboral como un indicador líder de la rentabilidad futura.</p>
+                                </div>
+                            </div>
+                            <div class="border rounded-lg overflow-hidden" style="border-color: var(--line);">
+                                <button class="accordion-btn w-full px-5 py-4 text-left font-semibold flex justify-between items-center" style="background: var(--surface-soft); color: #374151;">
+                                    <span><i class="fa-solid fa-circle-nodes mr-2" style="color: #374151;"></i>Parte 2: Niveles de Madurez y Analítica Predictiva</span>
+                                    <i class="fa-solid fa-chevron-down transition-transform"></i>
+                                </button>
+                                <div class="accordion-content hidden px-5 py-4 bg-white">
+                                    <p class="text-sm leading-relaxed">Las organizaciones deben avanzar a través de los niveles de madurez analítica: 1) Análisis descriptivo (resumen de lo sucedido); 2) Diagnóstico (razones del evento); 3) Predictivo (modelar futuros probables); y 4) Prescriptivo (sugerir acciones concretas). En 2026, el uso de Machine Learning permite predecir la "renuncia silenciosa" analizando patrones de comunicación y compromiso. Esto permite al gerente de talento humano actuar de forma preventiva, diseñando planes de retención personalizados basados en datos y no solo en intuición.</p>
+                                </div>
+                            </div>
+                            <div class="border rounded-lg overflow-hidden" style="border-color: var(--line);">
+                                <button class="accordion-btn w-full px-5 py-4 text-left font-semibold flex justify-between items-center" style="background: var(--surface-soft); color: #374151;">
+                                    <span><i class="fa-solid fa-heart-pulse mr-2" style="color: #374151;"></i>Parte 3: Dashboards de Sentimientos y Ética de Datos en 2026</span>
+                                    <i class="fa-solid fa-chevron-down transition-transform"></i>
+                                </button>
+                                <div class="accordion-content hidden px-5 py-4 bg-white">
+                                    <p class="text-sm leading-relaxed">La implementación de tableros de control automatizados permite centralizar datos de planilla, asistencia y experiencia del colaborador en un solo lugar. Herramientas avanzadas permiten hoy monitorear el "sentimiento" del equipo de forma anonimizada para proteger la privacidad individual, reportando información agregada para la toma de decisiones estratégicas. Hacia el 2026, el mayor reto del especialista no será la recolección de datos, sino su gobernanza ética, asegurando que la IA se utilice para mejorar la calidad de vida y no para el control punitivo, manteniendo siempre la transparencia en el uso de la información.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Metodología y actividades (formato 088) -->
+                    <div class="mt-6 grid md:grid-cols-2 gap-6">
+                        <div class="section-card">
+                            <h3 class="text-lg font-bold mb-3" style="color: var(--heading)"><i class="fa-solid fa-chalkboard-user mr-2"></i>Metodología</h3>
+                            <ul class="list-disc list-inside text-sm leading-relaxed space-y-1">
+                                <li>Aprendizaje Basado en Problemas (ABP)</li>
+                                <li>Aprendizaje Basado en Proyectos</li>
+                                <li>Learning by Doing</li>
+                                <li>Aprendizaje autónomo centrado en el estudiante</li>
+                                <li>Evaluación continua sumativa y formativa</li>
+                            </ul>
+                        </div>
+                        <div class="section-card">
+                            <h3 class="text-lg font-bold mb-3" style="color: var(--heading)"><i class="fa-solid fa-user-graduate mr-2"></i>Trabajo independiente</h3>
+                            <ul class="list-disc list-inside text-sm leading-relaxed space-y-1">
+                                <li>Lecturas asignadas</li>
+                                <li>Indagación y profundización</li>
+                                <li>Tareas y ejercicios prácticos</li>
+                                <li>Preparación para evaluaciones</li>
+                                <li>Participación en foros</li>
+                                <li>Proyectos y trabajos de curso</li>
+                                <li>Presentación y sustentación oral</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="actividad" class="content-pane">
+                    <div class="section-card no-hover">
+                        <p class="text-xs font-bold tracking-widest text-slate-500 uppercase">Práctica</p>
+                        <h2 class="mt-4 text-2xl md:text-3xl font-extrabold" style="color: var(--heading)">🎯 Interpretación de Dashboard de People Analytics</h2>
+                        <p class="mt-3 text-sm leading-relaxed">Revisa el tablero del equipo de Operaciones y responde las 4 preguntas paso a paso.</p>
+                    </div>
+
+                    <!-- Dashboard compacto -->
+                    <div class="section-card mt-4 p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-base font-bold" style="color: var(--heading)">📊 Dashboard — Equipo de Operaciones 2026</h3>
+                            <span class="text-xs px-2 py-1 rounded-full" style="background: var(--surface-soft); color: var(--text);">Ver datos y avanzar ↓</span>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                            <div class="p-3 rounded-lg text-center" style="background: var(--surface-soft); border: 1px solid var(--line);">
+                                <p class="text-[10px] text-slate-500 uppercase font-semibold">NPS Empleado</p>
+                                <p class="text-xl font-black" style="color: #dc2626;">42</p>
+                                <p class="text-[10px] text-slate-500">Meta: 60</p>
+                            </div>
+                            <div class="p-3 rounded-lg text-center" style="background: var(--surface-soft); border: 1px solid var(--line);">
+                                <p class="text-[10px] text-slate-500 uppercase font-semibold">Sentimiento</p>
+                                <p class="text-xl font-black" style="color: #dc2626;">-0.3</p>
+                                <p class="text-[10px] text-slate-500">Tendencia ↓</p>
+                            </div>
+                            <div class="p-3 rounded-lg text-center" style="background: var(--surface-soft); border: 1px solid var(--line);">
+                                <p class="text-[10px] text-slate-500 uppercase font-semibold">Rotación</p>
+                                <p class="text-xl font-black" style="color: #dc2626;">18%</p>
+                                <p class="text-[10px] text-slate-500">Meta: 10%</p>
+                            </div>
+                            <div class="p-3 rounded-lg text-center" style="background: var(--surface-soft); border: 1px solid var(--line);">
+                                <p class="text-[10px] text-slate-500 uppercase font-semibold">Ausentismo</p>
+                                <p class="text-xl font-black" style="color: #d97706;">7.2%</p>
+                                <p class="text-[10px] text-slate-500">Meta: 5%</p>
+                            </div>
+                        </div>
+                        <div class="p-3 rounded-lg" style="background: var(--surface-soft); border: 1px solid var(--line);">
+                            <p class="text-xs font-bold mb-2" style="color: var(--heading)">Evolución últimos 6 meses</p>
+                            <div class="space-y-2">
+                                <div>
+                                    <div class="flex justify-between text-[10px] mb-1"><span>Confianza equipo</span><span class="font-semibold" style="color: var(--accent);">75 → 65 pts</span></div>
+                                    <div class="h-2 rounded-full overflow-hidden" style="background: #e5e7eb;"><div class="h-full rounded-full" style="width: 65%; background: linear-gradient(90deg, var(--accent), var(--accent-deep));"></div></div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-[10px] mb-1"><span>Satisfacción cliente</span><span class="font-semibold" style="color: #dc2626;">82% → 72%</span></div>
+                                    <div class="h-2 rounded-full overflow-hidden" style="background: #e5e7eb;"><div class="h-full rounded-full" style="width: 72%; background: linear-gradient(90deg, #fca5a5, #dc2626);"></div></div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-[10px] mb-1"><span>Rotación acumulada</span><span class="font-semibold" style="color: #d97706;">10% → 18%</span></div>
+                                    <div class="h-2 rounded-full overflow-hidden" style="background: #e5e7eb;"><div class="h-full rounded-full" style="width: 36%; background: linear-gradient(90deg, #fcd34d, #d97706);"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stepper de preguntas -->
+                    <div class="section-card mt-4 p-4 md:p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <span id="dashboardStepTitle" class="text-sm font-bold" style="color: var(--heading)">Pregunta 1 de 4</span>
+                            <div class="w-24 h-2 rounded-full overflow-hidden" style="background: #e5e7eb;"><div id="dashboardProgressBar" class="h-full rounded-full transition-all" style="width: 25%; background: var(--accent);"></div></div>
+                        </div>
+
+                        <div id="dashboardQuestionBox" class="p-4 rounded-xl mb-4" style="background: var(--surface); border: 1px solid var(--line);">
+                            <p id="dashboardQuestionText" class="text-sm md:text-base font-semibold mb-3" style="color: var(--text);"></p>
+                            <div id="dashboardOptions" class="space-y-2"></div>
+                        </div>
+
+                        <div id="dashboardMessage" class="text-xs font-semibold mb-3" style="color: #dc2626; min-height: 1.25rem;"></div>
+
+                        <div class="flex justify-between gap-3">
+                            <button id="dashboardPrev" type="button" class="btn-soft" disabled>Anterior</button>
+                            <button id="dashboardNext" type="button" class="btn-main">Siguiente</button>
+                        </div>
+                    </div>
+
+                    <!-- Resultados -->
+                    <div id="dashboardResults" class="hidden mt-4 p-4 md:p-5 rounded-2xl section-card" style="border: 1px solid var(--accent);">
+                        <h3 class="text-lg font-extrabold" style="color: var(--heading);">Retroalimentación</h3>
+                        <p class="mt-2 text-sm font-semibold" style="color: var(--text);">Puntaje: <span id="dashboardScore">0</span>/4</p>
+                        <div id="dashboardReview" class="mt-4 space-y-3"></div>
+                        <button id="dashboardRestart" type="button" class="btn-main mt-4">Reiniciar</button>
+                    </div>
+                </section>
+
+                <section id="evaluacion" class="content-pane">
+                    <div class="section-card no-hover">
+                        <p class="text-xs font-bold tracking-widest text-slate-500 uppercase">Autoevaluación</p>
+                        <h2 class="mt-4 text-3xl font-extrabold" style="color: var(--heading)">✅ Autoevaluación del Tema 4</h2>
+                        <p class="mt-4 leading-relaxed">Responde las 4 preguntas extraídas de la Guía 4 y el formato 088 sobre People Analytics, indicadores de clima, madurez analítica y gobernanza ética. Al finalizar podrás ver tu puntaje y revisar tus respuestas.</p>
+                    </div>
+                    <div class="section-card mt-6">
+                        <div id="quiz-box">
+                            <div class="flex justify-between items-center gap-4">
+                                <h3 id="quiz-title" class="text-xl font-extrabold" style="color: var(--heading);">Pregunta 1</h3>
+                                <span id="quiz-progress" class="text-sm font-bold" style="color: var(--text);">1/4</span>
+                            </div>
+                            <p id="quiz-text" class="mt-4 text-lg font-semibold" style="color: var(--text);"></p>
+                            <div id="quiz-options" class="mt-5 space-y-3"></div>
+                            <div class="mt-6 flex justify-between gap-3">
+                                <button id="quiz-prev" type="button" class="btn-soft">Anterior</button>
+                                <button id="quiz-next" type="button" class="btn-main">Siguiente</button>
+                            </div>
+                        </div>
+                        <div id="quiz-results" class="hidden mt-6 p-5 rounded-2xl" style="background: var(--surface-soft); border: 1px solid var(--accent);">
+                            <h3 class="text-xl font-extrabold" style="color: var(--heading);">Autoevaluación completada</h3>
+                            <p class="mt-2 font-semibold" style="color: var(--text);">Puntaje: <span id="quiz-score">0</span>/4</p>
+                            <p id="quiz-feedback" class="mt-2" style="color: var(--text);"></p>
+                            <div id="quiz-review" class="mt-5 space-y-3"></div>
+                            <button id="quiz-restart" type="button" class="btn-main mt-5">Reiniciar</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="recursos" class="content-pane">
+                    <div class="section-card no-hover">
+                        <p class="text-xs font-bold tracking-widest text-slate-500 uppercase">Recursos</p>
+                        <h2 class="mt-4 text-3xl font-extrabold" style="color: var(--heading)">📦 Herramientas y plantillas</h2>
+                        <p class="mt-3 text-sm" style="color: var(--text);">Recursos prácticos para construir dashboards, explorar datos de People Analytics y revisar marcos de gobernanza ética. Haz clic para acceder o escanea el QR con tu celular.</p>
+                    </div>
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                        <!-- Recurso 1: Microsoft Power BI -->
+                        <div class="section-card border-l-4 hover:shadow-lg transition-shadow" style="border-color: var(--accent);">
+                            <div class="flex items-start gap-3">
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-sm flex items-center gap-2" style="color: var(--heading)">
+                                        <i class="fa-solid fa-chart-pie" style="color: #f2c811; font-size: 1em;"></i> Microsoft Power BI
+                                    </h3>
+                                    <p class="mt-2 text-xs leading-relaxed" style="color: var(--text);">Plataforma para diseñar dashboards interactivos de RRHH y consolidar métricas de clima, rotación y desempeño en un solo lugar.</p>
+                                    <a href="https://powerbi.microsoft.com/es-es/" target="_blank" class="mt-3 inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg text-white btn-main" style="text-decoration: none;">
+                                        Abrir recurso
+                                    </a>
+                                </div>
+                                <div class="flex-shrink-0 flex flex-col items-center gap-1">
+                                    <img src="img/qr-01.png" alt="QR Microsoft Power BI" class="rounded" style="width:80px;height:80px; border: 1px solid var(--line);">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recurso 2: Tableau Public -->
+                        <div class="section-card border-l-4 hover:shadow-lg transition-shadow" style="border-color: var(--accent);">
+                            <div class="flex items-start gap-3">
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-sm flex items-center gap-2" style="color: var(--heading)">
+                                        <i class="fa-solid fa-table-cells-large" style="color: #e97622; font-size: 1em;"></i> Tableau Public
+                                    </h3>
+                                    <p class="mt-2 text-xs leading-relaxed" style="color: var(--text);">Galería pública de dashboards donde puedes explorar ejemplos de visualizaciones de datos aplicadas a recursos humanos.</p>
+                                    <a href="https://public.tableau.com/app/discover" target="_blank" class="mt-3 inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg text-white btn-main" style="text-decoration: none;">
+                                        Abrir recurso
+                                    </a>
+                                </div>
+                                <div class="flex-shrink-0 flex flex-col items-center gap-1">
+                                    <img src="img/qr-02.png" alt="QR Tableau Public" class="rounded" style="width:80px;height:80px; border: 1px solid var(--line);">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recurso 3: Kaggle HR Analytics -->
+                        <div class="section-card border-l-4 hover:shadow-lg transition-shadow" style="border-color: var(--accent);">
+                            <div class="flex items-start gap-3">
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-sm flex items-center gap-2" style="color: var(--heading)">
+                                        <i class="fa-solid fa-database" style="color: #20beff; font-size: 1em;"></i> Kaggle — Datasets de HR Analytics
+                                    </h3>
+                                    <p class="mt-2 text-xs leading-relaxed" style="color: var(--text);">Repositorio de conjuntos de datos reales y notebooks de práctica para entrenar modelos predictivos de rotación y desempeño.</p>
+                                    <a href="https://www.kaggle.com/datasets?search=hr+analytics" target="_blank" class="mt-3 inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg text-white btn-main" style="text-decoration: none;">
+                                        Abrir recurso
+                                    </a>
+                                </div>
+                                <div class="flex-shrink-0 flex flex-col items-center gap-1">
+                                    <img src="img/qr-03.png" alt="QR Kaggle HR Analytics" class="rounded" style="width:80px;height:80px; border: 1px solid var(--line);">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recurso 4: OECD AI Principles -->
+                        <div class="section-card border-l-4 hover:shadow-lg transition-shadow" style="border-color: var(--accent);">
+                            <div class="flex items-start gap-3">
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-sm flex items-center gap-2" style="color: var(--heading)">
+                                        <i class="fa-solid fa-shield-halved" style="color: #2563eb; font-size: 1em;"></i> OECD AI Principles
+                                    </h3>
+                                    <p class="mt-2 text-xs leading-relaxed" style="color: var(--text);">Marco internacional de gobernanza ética para el uso responsable de la inteligencia artificial en procesos de gestión de personas y datos.</p>
+                                    <a href="https://oecd.ai/en/ai-principles" target="_blank" class="mt-3 inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg text-white btn-main" style="text-decoration: none;">
+                                        Abrir recurso
+                                    </a>
+                                </div>
+                                <div class="flex-shrink-0 flex flex-col items-center gap-1">
+                                    <img src="img/qr-04.png" alt="QR OECD AI Principles" class="rounded" style="width:80px;height:80px; border: 1px solid var(--line);">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section id="bibliografia" class="content-pane">
+                    <div class="section-card no-hover">
+                        <p class="text-xs font-bold tracking-widest text-slate-500 uppercase">Bibliografía</p>
+                        <h2 class="mt-4 text-3xl font-extrabold" style="color: var(--heading)">📖 Referencias bibliográficas</h2>
+                        <p class="mt-3 text-sm" style="color: var(--text);">Escanea el QR o usa los enlaces para acceder directamente a cada referencia.</p>
+                    </div>
+                    <div class="mt-6 space-y-4">
+
+                        <!-- Ref 1: ESAN -->
+                        <div class="section-card border-l-4 hover:shadow-md transition-shadow" style="border-color: var(--accent);">
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-xl" style="color: var(--accent);">
+                                    <i class="fa-solid fa-book"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-bold text-sm" style="color: var(--heading);">ESAN (2025).</p>
+                                    <p class="italic text-sm leading-relaxed mt-1">Diplomado en People Analytics: Gestión basada en datos.</p>
+                                    <div class="mt-3 flex flex-wrap gap-3">
+                                        <a href="https://www.esan.edu.pe/conexion-esan/people-analytics-en-el-peru-estamos-preparados-para-una-gestion-basada-en-datos-en-el-mundo-del-talento" target="_blank" class="bib-link">
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Ver documento
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 flex flex-col items-center gap-1">
+                                    <img src="img/qr-05.png" alt="QR ESAN People Analytics" class="rounded" style="width:90px;height:90px; border: 1px solid var(--line);">
+                                    <p class="text-xs" style="color: #6c757d;">Escanear</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ref 2: Buk -->
+                        <div class="section-card border-l-4 hover:shadow-md transition-shadow" style="border-color: var(--accent);">
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-xl" style="color: var(--accent);">
+                                    <i class="fa-solid fa-book"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-bold text-sm" style="color: var(--heading);">Buk (2026).</p>
+                                    <p class="italic text-sm leading-relaxed mt-1">People Analytics: De medir datos a tomar decisiones estratégicas.</p>
+                                    <div class="mt-3 flex flex-wrap gap-3">
+                                        <a href="https://www.buk.pe/blog/people-analytics-en-2026-de-medir-datos-a-tomar-mejores-decisiones" target="_blank" class="bib-link">
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Ver documento
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 flex flex-col items-center gap-1">
+                                    <img src="img/qr-06.png" alt="QR Buk People Analytics" class="rounded" style="width:90px;height:90px; border: 1px solid var(--line);">
+                                    <p class="text-xs" style="color: #6c757d;">Escanear</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ref 3: Openmet -->
+                        <div class="section-card border-l-4 hover:shadow-md transition-shadow" style="border-color: var(--accent);">
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-xl" style="color: var(--accent);">
+                                    <i class="fa-solid fa-book"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-bold text-sm" style="color: var(--heading);">Openmet (2026).</p>
+                                    <p class="italic text-sm leading-relaxed mt-1">People Analytics o Consultoría Tradicional: El equilibrio necesario.</p>
+                                    <div class="mt-3 flex flex-wrap gap-3">
+                                        <a href="https://www.openmet.com/people-analytics-engagement-rrhh/" target="_blank" class="bib-link">
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Ver documento
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 flex flex-col items-center gap-1">
+                                    <img src="img/qr-07.png" alt="QR Openmet People Analytics" class="rounded" style="width:90px;height:90px; border: 1px solid var(--line);">
+                                    <p class="text-xs" style="color: #6c757d;">Escanear</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ref 4: CPAE Colombia -->
+                        <div class="section-card border-l-4 hover:shadow-md transition-shadow" style="border-color: var(--accent);">
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-xl" style="color: var(--accent);">
+                                    <i class="fa-solid fa-book"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-bold text-sm" style="color: var(--heading);">CPAE Colombia (2026).</p>
+                                    <p class="italic text-sm leading-relaxed mt-1">People Analytics en Colombia: Del instinto a la evidencia.</p>
+                                    <div class="mt-3 flex flex-wrap gap-3">
+                                        <a href="https://www.cpae.gov.co/noticias/people-analytics-en-colombia-del-instinto-la-evidencia" target="_blank" class="bib-link">
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Ver documento
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 flex flex-col items-center gap-1">
+                                    <img src="img/qr-08.png" alt="QR CPAE People Analytics" class="rounded" style="width:90px;height:90px; border: 1px solid var(--line);">
+                                    <p class="text-xs" style="color: #6c757d;">Escanear</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <footer class="mt-10 pb-10 text-center">
+                    <p class="text-slate-600 font-medium">Creado por:</p>
+                    <p class="font-bold text-lg" style="color: var(--heading)">Centro de Innovación en TIC para el apoyo de la Docencia CINTIA</p>
+                    <p class="text-slate-500 text-sm">Universidad de Córdoba</p>
+                </footer>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="script.js"></script>
+<script src="https://elens.ecodestudio.dev/elens.js"></script>
+</body>
+</html>
