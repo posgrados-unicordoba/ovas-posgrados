@@ -233,7 +233,9 @@ if (logoOriginal && p.tipo === 'recurso') {
 
 mkdirSync(join(destino, 'img'), { recursive: true });
 for (const [viejo, nuevo] of copias) {
-  if (nuevo === 'img/logo.webp' && extname(viejo).toLowerCase() !== '.webp') {
+  // En especializaciones el logo siempre se reemplaza por el de CINTIA (webp),
+  // así que el formato del original no importa.
+  if (nuevo === 'img/logo.webp' && p.nivel !== 'esp' && extname(viejo).toLowerCase() !== '.webp') {
     avisos.push(`El logo original (${viejo}) no es .webp; conviértelo a webp y guárdalo como img/logo.webp.`);
     copias.set(viejo, `img/${slug(basename(viejo))}`);
   }
