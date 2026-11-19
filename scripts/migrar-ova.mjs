@@ -6,6 +6,11 @@
  *
  *   node scripts/migrar-ova.mjs <carpeta-del-ova-original> <ruta-destino> [opciones]
  *
+ * La ruta destino dice qué es:
+ *   esp/gthdo/pobh/u02/t03         OVA del tema 3 de la unidad 2
+ *   esp/gthdo/pobh/u02/diagnostico OVA complementarios de la unidad 2: diagnostico o actividades
+ *   esp/gthdo/pobh/bibliografia    recursos del curso: bibliografia, rubrica o mapa
+ *
  *   node scripts/migrar-ova.mjs "C:\Users\monic\Documents\Tema3" esp/gthdo/pobh/u02/t03 ^
  *        --programa "Gerencia del Talento Humano y Desarrollo Organizacional" ^
  *        --curso "Psicología Organizacional y Bienestar Humano" ^
@@ -42,7 +47,7 @@ import { join, extname, basename, dirname, resolve, posix } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {
-  NIVELES, SIGLA_PROGRAMA, SIGLA_CURSO, UNIDAD, TEMA,
+  NIVELES, SIGLA_PROGRAMA, SIGLA_CURSO, UNIDAD, TEMA, RECURSOS, COMPLEMENTOS,
   leer, rel, partesRuta, codigoDe, leerCatalogo, buscarEnCatalogo, tituloDe,
 } from './comun.mjs';
 import { quemarTailwind } from './quemar-tailwind.mjs';
@@ -66,12 +71,13 @@ if (!existsSync(join(origen, 'index.html'))) salir(`No hay index.html en "${orig
 
 const destinoNorm = destinoRel.replace(/\\/g, '/').replace(/^\.\//, '').replace(/\/$/, '');
 const p = partesRuta(destinoNorm);
-if (!p) salir(`La ruta destino "${destinoRel}" debe ser nivel/programa/curso/uNN/tNN (o terminar en la unidad).`);
+if (!p) salir(`La ruta destino "${destinoRel}" debe ser nivel/programa/curso/uNN/tNN, …/uNN/${Object.keys(COMPLEMENTOS).join('|')} o …/${Object.keys(RECURSOS).join('|')}.`);
 if (!NIVELES[p.nivel]) salir(`El nivel "${p.nivel}" debe ser esp, mae o doc.`);
 if (!SIGLA_PROGRAMA.test(p.programa)) salir(`La sigla del programa "${p.programa}" debe tener de 2 a 5 letras minúsculas.`);
 if (!SIGLA_CURSO.test(p.curso)) salir(`La sigla del curso "${p.curso}" debe tener de 2 a 4 letras minúsculas.`);
-if (!UNIDAD.test(p.unidad)) salir(`La unidad "${p.unidad}" debe ser u + dos dígitos (u01).`);
-if (p.tema && !TEMA.test(p.tema)) salir(`El tema "${p.tema}" debe ser t + dos dígitos (t01).`);
+if (p.tipo !== 'recurso' && !UNIDAD.test(p.unidad))
+  salir(`"${p.unidad}" debe ser una unidad (u + dos dígitos: u01) o un recurso del curso (${Object.keys(RECURSOS).join(', ')}).`);
+if (p.tema && !TEMA.test(p.tema)) salir(`"${p.tema}" debe ser un tema (t + dos dígitos: t01) o un complemento de la unidad (${Object.keys(COMPLEMENTOS).join(', ')}).`);
 
 const destino = join(ROOT, destinoNorm);
 if (existsSync(destino)) {
@@ -236,7 +242,9 @@ for (const [viejo, nuevo] of copias) {
 const movidas = [...copias].filter(([a, b]) => a !== b);
 if (movidas.length) hechos.push(`Pasé ${movidas.length} archivo(s) a su lugar: ${movidas.map(([a, b]) => `${a} → ${b}`).join(', ')}.`);
 
-if (p.nivel === 'esp') {
+if (p.tipo === 'recurso') {
+  // Los recursos del curso (bibliografía, rúbrica, mapa) no llevan logo.
+} else if (p.nivel === 'esp') {
   if (!existsSync(logoCintia)) avisos.push('No encontré logos/cintia.webp en el repositorio para poner el logo de CINTIA.');
   else {
     copyFileSync(logoCintia, join(destino, 'img', 'logo.webp'));
@@ -256,6 +264,10 @@ if (hallados.length) {
     salir('Para convertir los QR hace falta la librería "qrcode". Ejecuta una vez, en la raíz del repositorio: npm install');
   }
   for (const url of hallados) {
+    if (url.includes('${')) { // el QR se arma en el JavaScript con un dato que cambia
+      avisos.push('Hay códigos QR que el JavaScript genera en api.qrserver.com con direcciones que arma al vuelo. No los pude convertir: hay que cambiarlos a mano por imágenes locales (img/qr-NN.png).');
+      continue;
+    }
     const params = new URLSearchParams(url.slice(url.indexOf('?') + 1).replace(/&amp;/g, '&'));
     const dato = params.get('data');
     const tam = parseInt((params.get('size') || '150x150').split('x')[0], 10) || 150;
@@ -276,7 +288,7 @@ if (hallados.length) {
     });
     js = js.split(url).join(archivo);
   }
-  hechos.push(`Convertí ${hallados.length} QR de api.qrserver.com en ${qrs.size} imagen(es) local(es) (img/qr-NN.png).`);
+  if (qrs.size) hechos.push(`Convertí ${hallados.length} QR de api.qrserver.com en ${qrs.size} imagen(es) local(es) (img/qr-NN.png).`);
 }
 
 // --- Plugin de accesibilidad ---------------------------------------------
@@ -311,13 +323,15 @@ writeFileSync(join(destino, 'index.html'), html);
 writeFileSync(join(destino, 'estilos.css'), cabecera('Estilos propios') + css + '\n');
 writeFileSync(join(destino, 'script.js'), cabecera('Interacciones') + js + '\n');
 
-const titulo = tituloDe(html) || '[Título del tema o de la unidad]';
+const titulo = tituloDe(html) || '[Título]';
+const TIPO = { tema: 'OVA de tema', unidad: 'OVA de unidad', complemento: `OVA complementario de la unidad (${COMPLEMENTOS[p.complemento]})`, recurso: `Recurso del curso (${RECURSOS[p.recurso]})` };
 const readme = [
   `# ${titulo}`, '',
   `**Código:** ${codigoDe(p)}`,
   `**Programa:** ${nombres.programa}`,
   `**Curso:** ${nombres.curso}`,
-  `**Unidad:** ${p.unidad.slice(1)}`,
+  `**Tipo:** ${TIPO[p.tipo]}`,
+  ...(p.unidad ? [`**Unidad:** ${p.unidad.slice(1)}`] : []),
   ...(p.tema ? [`**Tema:** ${p.tema.slice(1)}`] : []),
   `**Fecha de carga:** ${hoy}`, '',
   '## Archivos',
