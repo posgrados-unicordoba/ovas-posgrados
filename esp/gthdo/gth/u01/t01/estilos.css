@@ -176,3 +176,9 @@
 /* Lo que se revelaba solo con el mouse también se revela con el teclado. */
 #ova-embed .mini-card:focus-within .hover-indicator { opacity: 1; }
 #ova-embed .mini-card:focus-within .hover-content { max-height: 200px; opacity: 1; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line, #e2e8f0); }
+
+/* Cajas de actividad con bordes visibles para baja visión (CINTIA: 1.5 a 2 pt). */
+#ova-embed #actividad .section-card,
+#ova-embed #actividad .mini-card,
+#ova-embed #actividad .btn-soft { border-width: 2px; border-color: #8a96a3; }
+#ova-embed #actividad .field-panel { border-width: 2px; border-color: #8a96a3; }
