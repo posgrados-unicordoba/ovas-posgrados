@@ -291,6 +291,16 @@ for (const dir of ovas) {
   if (posTw >= 0 && posEst >= 0 && posTw < posEst)
     err(r, 'tailwind.css está enlazado antes que estilos.css. El OVA se diseñó con el CDN de Tailwind, que cargaba sus estilos al final; en este orden cambian botones, bordes y espacios.',
       'En el <head>, pon primero estilos.css y después tailwind.css.');
+  const cssExtra = [...htmlLimpio.matchAll(/<link\b[^>]*rel=["']?stylesheet[^>]*>/gi)].map((m) => /href=["']([^"']+)["']/i.exec(m[0])?.[1])
+    .filter((h) => h && !/^(https?:)?\/\//i.test(h) && !/^(\.\/)?(tailwind|estilos|iconos)\.css$/i.test(h));
+  if (cssExtra.length)
+    err(r, `El OVA carga estilos de otros archivos (${cssExtra.join(', ')}). Los estilos propios van todos en estilos.css.`,
+      'Pasa el contenido de esos archivos a estilos.css, en el mismo orden, y borra sus <link> y los archivos.');
+  const jsExtra = [...htmlLimpio.matchAll(/<script\b[^>]*\bsrc=["']([^"']+)["']/gi)].map((m) => m[1])
+    .filter((s) => !/^(https?:)?\/\//i.test(s) && !/^(\.\/)?script\.js$/i.test(s));
+  if (jsExtra.length)
+    err(r, `El OVA carga JavaScript de otros archivos (${jsExtra.join(', ')}). Todo el JavaScript va en script.js.`,
+      'Pasa el contenido de esos archivos a script.js, en el mismo orden en que se cargaban, y borra sus <script> y los archivos.');
   if (!/<script[^>]+src=["']script\.js["']/i.test(html))
     err(r, 'El index.html no carga script.js.', 'Agrega antes de </body>: <script src="script.js"></script>');
   const estilosEnLinea = (htmlLimpio.match(/<style[\s>]/gi) || []).length;

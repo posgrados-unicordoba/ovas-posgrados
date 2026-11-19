@@ -55,4 +55,5 @@ Requieren [Node.js](https://nodejs.org). La primera vez, en la raíz del reposit
 | `node scripts/migrar-ova.mjs <carpeta-original> <ruta-destino>` | Lleva un OVA existente a la estructura del repositorio. |
 | `node scripts/quemar-tailwind.mjs <ruta-del-ova>` | Vuelve a generar el `tailwind.css` de un OVA. |
 | `node scripts/guardar-iconos.mjs <ruta-del-ova>` | Vuelve a generar el `iconos.css` de un OVA. |
+| `node scripts/sugerir-sigla.mjs --nivel esp --programa gthdo --curso "…"` | Propone la sigla de un curso nuevo y revisa que no esté repetida. |
 | `node scripts/generar-enlaces.mjs` | Arma en `sitio/` la página con el listado de OVA, para verla en tu computador. En GitHub corre sola en cada push a `main` y se publica. |
