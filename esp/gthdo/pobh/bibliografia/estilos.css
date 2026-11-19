@@ -1,0 +1,221 @@
+/* Estilos propios del OVA gthdo-pobh-bibliografia. */
+
+    :root {
+      --ink: #1a2e1a;
+      --paper: #f7faf7;
+      --primary: #1a472a;
+      --primary-light: #2e7d32;
+      --accent: #0097a7;
+      --accent-light: #e0f2f1;
+      --outline: rgba(26, 46, 26, 0.08);
+      --shadow-soft: 0 18px 35px -30px rgba(26, 46, 26, 0.45);
+      --shadow-strong: 0 28px 60px -40px rgba(26, 46, 26, 0.6);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Source Sans 3", sans-serif;
+      color: var(--ink);
+      line-height: 1.6;
+      min-height: 100%;
+      background:
+        radial-gradient(900px 320px at 8% -12%, rgba(0, 151, 167, 0.14), transparent 60%),
+        radial-gradient(700px 320px at 96% 6%, rgba(46, 125, 50, 0.12), transparent 55%),
+        linear-gradient(120deg, rgba(26, 71, 42, 0.06), transparent 60%),
+        repeating-linear-gradient(90deg, rgba(26, 46, 26, 0.03), rgba(26, 46, 26, 0.03) 1px, transparent 1px, transparent 140px),
+        var(--paper);
+      background-attachment: fixed;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      top: -210px;
+      right: -140px;
+      background: radial-gradient(circle, rgba(0, 151, 167, 0.35), transparent 70%);
+      opacity: 0.8;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 460px;
+      height: 460px;
+      bottom: -240px;
+      left: -120px;
+      background: radial-gradient(circle, rgba(46, 125, 50, 0.25), transparent 70%);
+      opacity: 0.8;
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .title-font {
+      font-family: "Playfair Display", serif;
+    }
+
+    .filter-panel {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--outline);
+      border-radius: 24px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(8px);
+    }
+
+    .unit-section {
+      scroll-margin-top: 2rem;
+    }
+
+    .unit-header {
+      border-left: 5px solid var(--accent);
+      background: linear-gradient(90deg, rgba(0, 151, 167, 0.08), transparent);
+    }
+
+    #references-container {
+      grid-auto-rows: 1fr;
+      align-items: stretch;
+    }
+
+    .reference-card {
+      position: relative;
+      border: 1px solid var(--outline);
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+      box-shadow: var(--shadow-soft);
+      height: 100%;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.35s cubic-bezier(0.3, 0.7, 0.4, 1), box-shadow 0.35s ease, opacity 0.25s ease, filter 0.25s ease;
+    }
+
+    .card-citation {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 6;
+      line-clamp: 6;
+    }
+
+    .card-actions {
+      margin-top: auto;
+    }
+
+    .reference-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(140px 140px at 90% 8%, rgba(0, 151, 167, 0.15), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+    }
+
+    .reference-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 30px 50px -40px rgba(26, 46, 26, 0.6);
+    }
+
+    .reference-card:hover::after {
+      opacity: 1;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.55s cubic-bezier(0.3, 0.7, 0.4, 1) both;
+      animation-delay: var(--delay, 0ms);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .filter-chip {
+      border: 1px solid rgba(26, 46, 26, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+      box-shadow: 0 10px 20px -16px rgba(26, 46, 26, 0.4);
+    }
+
+    .filter-chip:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 26px -18px rgba(26, 46, 26, 0.5);
+    }
+
+    .filter-chip:focus-visible {
+      outline: 3px solid rgba(0, 151, 167, 0.35);
+      outline-offset: 2px;
+    }
+
+    .filter-chip.is-active {
+      background: var(--accent-light);
+      border-color: rgba(0, 151, 167, 0.4);
+      color: #006978;
+      box-shadow: 0 18px 30px -20px rgba(0, 151, 167, 0.5);
+    }
+
+    .platform-chip {
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .platform-chip:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 18px -16px rgba(26, 46, 26, 0.5);
+    }
+
+    .type-pill {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .reference-card:hover .type-pill {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px -18px rgba(26, 46, 26, 0.4);
+    }
+
+    .reference-card img {
+      border-radius: 0.75rem;
+      background: #fff;
+      box-shadow: 0 12px 22px -16px rgba(26, 46, 26, 0.45);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .reference-card:hover img {
+      transform: scale(1.04);
+      box-shadow: 0 18px 30px -20px rgba(26, 46, 26, 0.55);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+/* ===== Navegación con teclado (criterio 1 de CINTIA) =====
+   Lo agrega scripts/migrar-ova.mjs (plantilla: scripts/accesibilidad/teclado.css). */
+/* Foco visible: al navegar con Tab se ve en qué elemento está el estudiante. */
+#ova-embed :focus-visible { outline: 3px solid var(--accent-deep, #2f5d2b); outline-offset: 3px; border-radius: 6px; }
+#ova-embed .flip-card:focus-visible, #ova-embed .mini-card:focus-visible { outline-offset: 4px; }
+/* Los títulos que reciben el foco al cambiar de sección no muestran el recuadro. */
+#ova-embed [data-foco-titulo]:focus { outline: none; }
+/* Lo que se revelaba solo con el mouse también se revela con el teclado. */
+#ova-embed .mini-card:focus-within .hover-indicator { opacity: 1; }
+#ova-embed .mini-card:focus-within .hover-content { max-height: 200px; opacity: 1; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line, #e2e8f0); }

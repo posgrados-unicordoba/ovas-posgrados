@@ -269,6 +269,9 @@ for (const dir of ovas) {
       err(r, `Las ${p.nivel === 'mae' ? 'maestrías' : 'doctorados'} llevan el logo de su programa, y img/logo.webp es el de CINTIA.`,
         'Reemplaza img/logo.webp por el logo del programa.');
   }
+  if (!llevaLogo && /<img\b[^>]*src=["'][^"']*logo[^"']*["']/i.test(htmlLimpio))
+    err(r, 'Los recursos del curso (bibliografía, rúbrica, mapa conceptual) no llevan logo, y esta página muestra uno.',
+      'Quita del index.html la imagen del logo (y el bloque que la contiene) y borra el archivo del logo.');
   if (llevaLogo && !/src=["']img\/logo\.webp["']/.test(html))
     err(r, 'El index.html no muestra el logo desde img/logo.webp.', 'Cambia la ruta de la imagen del logo a src="img/logo.webp".');
 

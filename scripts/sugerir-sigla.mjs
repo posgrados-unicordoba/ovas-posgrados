@@ -98,4 +98,6 @@ const otras = candidatas.filter((c) => c !== libre && !ocupadas.has(c)).slice(0,
 if (otras.length) console.log(`   Otras opciones libres: ${otras.join(', ')}`);
 console.log(`\nRuta de sus OVA: ${nivel}/${programa}/${libre}/uNN/tNN`);
 if (!delPrograma.length) console.log(`\n⚠️  El programa "${programa}" (${nivel}) todavía no está en el catálogo. Revisa que sea su sigla oficial.`);
-console.log('Al migrar el primer OVA con --programa y --curso, el curso queda registrado en catalogo.csv.\n');
+console.log(delPrograma.length
+  ? `Al migrar el primer OVA, agrega --curso "${curso}" y el curso queda registrado en catalogo.csv.\n`
+  : `Al migrar el primer OVA, agrega --programa "Nombre completo del programa" --curso "${curso}" y quedan registrados en catalogo.csv.\n`);
