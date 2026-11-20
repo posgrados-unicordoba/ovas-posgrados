@@ -1,0 +1,372 @@
+/* Estilos propios del OVA gthdo-gth-u01-t02. */
+
+        html { scroll-behavior: smooth; }
+        #ova-embed {
+            --bg: #e8f0e9;
+            --surface: #ffffff;
+            --surface-soft: #f1f3f5;
+            --text: #374151;
+            --heading: #569151;
+            --line: #dee2e6;
+            --accent: #569151;
+            --accent-deep: #3d6a3a;
+            --accent-soft: #16BAAF;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-family: 'Poppins', sans-serif;
+            width: 100%;
+            min-height: 100vh;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(86, 145, 81, 0.12), transparent 34%),
+                linear-gradient(135deg, #e8f0e9 0%, #f0f4f1 48%, #e8f0e9 100%);
+        }
+        #ova-embed *, #ova-embed *::before, #ova-embed *::after { box-sizing: border-box; }
+        #ova-embed .content-pane { opacity: 0; transform: translateY(12px); pointer-events: none; position: absolute; left: 0; right: 0; top: 0; visibility: hidden; width: 100%; z-index: 0; transition: opacity 0.35s ease, transform 0.35s ease, visibility 0s linear 0.35s; }
+        #ova-embed .content-pane.active { opacity: 1; transform: translateY(0); pointer-events: auto; position: relative; visibility: visible; z-index: 1; transition: opacity 0.35s ease, transform 0.35s ease, visibility 0s; }
+        #ova-embed .sidebar { width: 280px; background: #f0f4f1; box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05); border-right: 1px solid var(--line); flex-shrink: 0; display: flex; flex-direction: column; padding: 20px 0; }
+        #ova-embed .brand-shell { padding: 0 20px 20px; }
+        #ova-embed .logo-orb { width: 120px; height: 120px; margin: 0 auto 16px; background: var(--surface-soft); border-radius: 50%; border: 2px solid #dee2e6; display: flex; align-items: center; justify-content: center; padding: 10px; overflow: hidden; }
+        #ova-embed .logo-orb img { width: 100%; height: 100%; object-fit: contain; }
+        #ova-embed .brand-copy { text-align: center; }
+        #ova-embed .brand-copy h1 { margin: 0; font-weight: 700; color: var(--heading); font-size: 1.1rem; line-height: 1.4; }
+        #ova-embed .eyebrow { margin: 0 0 8px; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; color: #6c757d; }
+        #ova-embed .sidebar-nav { margin-top: 12px; padding-bottom: 20px; }
+        #ova-embed .sidebar-link { width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-left: 4px solid transparent; color: #495057; font-weight: 500; text-decoration: none; transition: all 0.25s ease; }
+        #ova-embed .sidebar-link:hover, #ova-embed .sidebar-link.active { background: rgba(13, 110, 253, 0.08); color: var(--accent); border-left-color: var(--accent); }
+        #ova-embed .layout { display: flex; min-height: 100vh; }
+        #ova-embed .main { flex: 1; min-width: 0; padding: 32px; }
+        #ova-embed .content-stage { position: relative; max-width: 1200px; margin: 0 auto; }
+        #ova-embed .hero { background: linear-gradient(135deg, var(--heading) 0%, var(--accent-deep) 100%); color: white; border-radius: 16px; padding: 40px; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+        #ova-embed .hero::before { content: ''; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); border-radius: 50%; }
+        #ova-embed .hero::after { content: ''; position: absolute; bottom: -30%; left: -30%; width: 80%; height: 80%; background: radial-gradient(circle, rgba(22, 186, 175, 0.15) 0%, transparent 70%); border-radius: 50%; }
+        #ova-embed .section-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); padding: 32px; transition: all 0.3s ease; }
+        #ova-embed .section-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(23, 162, 184, 0.25), 0 0 0 1px rgba(23, 162, 184, 0.35); border-left-color: #0c7b8a !important; }
+        #ova-embed .section-card.no-hover { transition: none; }
+        #ova-embed .section-card.no-hover:hover { transform: none; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-left-color: inherit !important; }
+        #ova-embed .mini-card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 20px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); transition: all 0.3s ease; position: relative; overflow: hidden; }
+        #ova-embed .mini-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(23, 162, 184, 0.25); border-color: #17a2b8; }
+        #ova-embed .mini-card .hover-indicator { position: absolute; top: 16px; right: 16px; color: var(--accent); opacity: 0.5; font-size: 0.9rem; transition: opacity 0.3s ease; }
+        #ova-embed .mini-card:hover .hover-indicator { opacity: 1; }
+        #ova-embed .mini-card .hover-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; opacity: 0; }
+        #ova-embed .mini-card:hover .hover-content { max-height: 200px; opacity: 1; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+        #ova-embed .btn-main { background: var(--accent); color: white; font-weight: 600; border-radius: 8px; padding: 12px 24px; border: none; cursor: pointer; transition: background 0.25s ease; }
+        #ova-embed .btn-main:hover { background: var(--accent-deep); }
+        #ova-embed .btn-soft { background: var(--surface); color: #495057; font-weight: 600; border-radius: 8px; padding: 12px 24px; border: 1px solid var(--line); cursor: pointer; transition: all 0.2s ease; }
+        #ova-embed .btn-soft:hover { background: #e9ecef; border-color: #adb5bd; }
+        #ova-embed .bib-link { background: var(--surface-soft); color: var(--heading); border: 1px solid var(--line); font-weight: 700; font-size: 0.75rem; border-radius: 8px; padding: 6px 12px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; transition: all 0.25s ease; }
+        #ova-embed .bib-link:hover { background: #D8EBF8; color: #0c7b8a; border-color: #17a2b8; box-shadow: 0 4px 12px rgba(23, 162, 184, 0.25); }
+        #ova-embed .consultant-route { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; margin-top: 24px; padding: 22px; overflow: hidden; }
+        #ova-embed .consultant-route::before { content: ""; position: absolute; left: 8%; right: 8%; top: 76px; height: 3px; background: linear-gradient(90deg, transparent, #17a2b8, #0c7b8a, #17a2b8, transparent); opacity: 0.6; }
+        #ova-embed .route-stop { position: relative; z-index: 1; text-align: center; }
+        #ova-embed .route-node { width: 58px; height: 58px; margin: 0 auto 12px; border-radius: 999px; background: var(--surface); border: 2px solid #17a2b8; box-shadow: 0 8px 18px rgba(23,162,184,0.2); display: flex; align-items: center; justify-content: center; color: #0c7b8a; font-size: 1.25rem; }
+        #ova-embed .route-stop h4 { margin: 0; color: #0c7b8a; font-weight: 700; font-size: 0.98rem; }
+        #ova-embed .route-stop p { margin: 8px 0 0; color: #495057; font-size: 0.84rem; line-height: 1.45; }
+        #ova-embed .field-panel { margin-top: 18px; padding: 16px; border: 1px dashed var(--line); border-radius: 16px; background: var(--surface-soft); }
+        #ova-embed textarea, #ova-embed input, #ova-embed select, #ova-embed button { font-family: inherit; }
+        #ova-embed .quiz-option { display: block; width: 100%; text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: 14px; padding: 12px 14px; cursor: pointer; font-weight: 600; color: var(--text); transition: all 0.25s ease; }
+        #ova-embed .quiz-option:hover { background: #D8EBF8; border-color: #17a2b8; }
+        #ova-embed .quiz-option.selected { border-color: #17a2b8; background: #D8EBF8; color: #0c7b8a; }
+        #ova-embed .mobile-header { display: none; }
+        #ova-embed .flip-card { perspective: 1000px; height: 200px; cursor: pointer; }
+        #ova-embed .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s ease; transform-style: preserve-3d; }
+        #ova-embed .flip-card:hover .flip-card-inner, #ova-embed .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+        #ova-embed .flip-card-front, #ova-embed .flip-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
+        #ova-embed .flip-card-front { background: linear-gradient(135deg, #D8EBF8 0%, #b8d4e8 100%); color: #374151; box-shadow: 0 4px 16px rgba(216,235,248,0.4); }
+        #ova-embed .flip-card-back { background: var(--surface); border: 2px solid #D8EBF8; color: var(--text); transform: rotateY(180deg); }
+        @media (max-width: 900px) {
+            #ova-embed .layout { display: block; }
+            #ova-embed .sidebar { display: none; }
+            #ova-embed .mobile-header { display: block; padding: 18px; background: var(--surface); box-shadow: 0 2px 14px rgba(0, 0, 0, 0.05); }
+            #ova-embed .main { padding: 18px; }
+            #ova-embed .hero { padding: 24px; }
+            #ova-embed .consultant-route { grid-template-columns: 1fr; }
+            #ova-embed .consultant-route::before { left: 50%; right: auto; top: 24px; bottom: 24px; width: 3px; height: auto; background: linear-gradient(180deg, transparent, var(--accent), var(--accent-deep), var(--accent), transparent); }
+        }
+        /* Menú de descarga: dentro del flujo, nunca superpuesto al formulario */
+        #ova-embed .download-menu { position: static; display: flex; flex-wrap: wrap; gap: 8px; max-width: 520px; padding: 10px; background: var(--surface-soft); border: 1px solid var(--line); border-radius: 10px; }
+        #ova-embed .download-menu.hidden { display: none; }
+        #ova-embed .download-menu button { flex: 1 1 200px; text-align: left; padding: 10px 14px; font-size: 0.875rem; font-weight: 600; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; transition: all 0.2s ease; }
+        #ova-embed .download-menu button:hover { background: #D8EBF8; border-color: #17a2b8; color: #0c7b8a; }
+        #ova-embed .quiz-option:disabled { cursor: default; }
+        #ova-embed .hidden { display: none !important; }
+        /* Textos largos (justificación, caso propio, resultados) siempre dentro de sus recuadros */
+        #ova-embed textarea { max-width: 100%; overflow-wrap: anywhere; word-break: break-word; resize: vertical; }
+        #ova-embed #actReview, #ova-embed #actReview *, #ova-embed .section-card p, #ova-embed .field-panel { overflow-wrap: anywhere; word-break: break-word; min-width: 0; }
+        #ova-embed .section-card, #ova-embed .field-panel { max-width: 100%; }
+        /* ===== Bordes y esquinas explícitos =====
+           Tailwind se usa sin "preflight", por lo que sus clases border/border-l-4 no definen estilo de línea
+           y los bordes no se dibujan (y en Moodle el tema puede alterarlos). Aquí se fijan de forma independiente. */
+        #ova-embed .border { border-width: 1px !important; border-style: solid !important; border-color: var(--line); }
+        #ova-embed .border-l-4 { border-style: solid !important; border-width: 1px 1px 1px 4px !important; }
+        #ova-embed .border-slate-300 { border-color: #cbd5e1 !important; }
+        #ova-embed .rounded { border-radius: 0.25rem !important; }
+        #ova-embed .rounded-lg { border-radius: 0.5rem !important; }
+        #ova-embed .rounded-xl { border-radius: 0.75rem !important; }
+        #ova-embed .rounded-2xl { border-radius: 1rem !important; }
+        #ova-embed .rounded-full { border-radius: 9999px !important; }
+        #ova-embed .section-card, #ova-embed .mini-card, #ova-embed .quiz-option, #ova-embed .field-panel, #ova-embed .download-menu, #ova-embed .btn-soft { border-style: solid; }
+        #ova-embed .field-panel { border-style: dashed; }
+        #ova-embed .section-card.border-l-4 { border-left-color: var(--accent) !important; }
+        #ova-embed .section-card.border-l-4:hover { border-left-color: #0c7b8a !important; }
+        /* Moodle (tema Boost/Bootstrap) puede redefinir botones, enlaces y campos: se restablecen dentro del OVA */
+        #ova-embed button { line-height: 1.4; text-transform: none; }
+        #ova-embed a.btn-main, #ova-embed a.btn-main:hover { color: #fff !important; text-decoration: none !important; }
+        #ova-embed textarea, #ova-embed select { box-shadow: none; outline-offset: 2px; }
+        #ova-embed img { max-width: 100%; height: auto; }
+        /* ===== Efecto de borde azul sutil (como en la plantilla de muestra) =====
+           Solo las tarjetas interactivas lo muestran al pasar el cursor; las marcadas como .no-hover quedan estáticas. */
+        #ova-embed .section-card:not(.no-hover):hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(23, 162, 184, 0.25), 0 0 0 1px rgba(23, 162, 184, 0.35) !important; border-left-color: #0c7b8a !important; }
+        #ova-embed .mini-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(23, 162, 184, 0.25) !important; border-color: #17a2b8 !important; }
+        #ova-embed .section-card.no-hover, #ova-embed .section-card.no-hover:hover { transform: none !important; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important; transition: none; }
+        #ova-embed .section-card.no-hover:hover { border-left-color: inherit; }
+        /* ===== Títulos de cada tema/sección: totalmente estáticos =====
+           (la plantilla usaba border-left-color: inherit, que al pasar el cursor dibujaba una línea oscura) */
+        #ova-embed .section-card.no-hover:hover, #ova-embed .section-card.no-hover:hover { border-color: var(--line) !important; border-left-color: var(--line) !important; transform: none !important; }
+        /* Menú lateral: sin subrayado (Moodle) ni línea al pasar el cursor; solo se marca el tema activo */
+        #ova-embed a, #ova-embed a:hover, #ova-embed a:focus { text-decoration: none !important; }
+        #ova-embed .sidebar-link:hover:not(.active) { background: transparent; color: #495057; border-left-color: transparent; }
+        #ova-embed .accordion-btn, #ova-embed .accordion-btn:hover, #ova-embed .accordion-btn:focus { text-decoration: none; border: none; }
+
+/* =====================================================================
+   TEMA 2 — Componentes propios de la unidad (liderazgo, competencias y onboarding 90 días)
+   ===================================================================== */
+
+#ova-embed .hero > * { position: relative; z-index: 1; }
+
+/* Comparativo: autoridad formal vs. liderazgo violeta */
+#ova-embed .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+#ova-embed .compare-grid .c-head { padding: 12px 16px; font-weight: 700; font-size: 0.9rem; }
+#ova-embed .compare-grid .c-head.old { background: var(--surface-soft); color: #6c757d; }
+#ova-embed .compare-grid .c-head.new { background: #ede9fe; color: #5b21b6; }
+#ova-embed .compare-grid .c-cell { padding: 12px 16px; font-size: 0.85rem; line-height: 1.5; border-top: 1px solid var(--line); }
+#ova-embed .compare-grid .c-cell.new { background: #faf8ff; }
+#ova-embed .compare-grid .c-label { display: block; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #6c757d; margin-bottom: 2px; }
+#ova-embed .ei-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: #ede9fe; color: #5b21b6; font-size: 0.8rem; font-weight: 600; border: 1px solid #ddd6fe; }
+
+/* Franja 30-60-90 */
+#ova-embed .phase-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+#ova-embed .phase-step { position: relative; border-radius: 12px; padding: 16px; background: var(--surface-soft); border: 1px solid var(--line); border-top: 4px solid var(--accent); }
+#ova-embed .phase-step .p-days { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #6c757d; }
+#ova-embed .phase-step h4 { margin: 4px 0 6px; color: var(--heading); font-weight: 700; font-size: 1rem; }
+#ova-embed .phase-step p { margin: 0; font-size: 0.82rem; line-height: 1.45; }
+#ova-embed .phase-step.p1 { border-top-color: #17a2b8; }
+#ova-embed .phase-step.p2 { border-top-color: var(--accent); }
+#ova-embed .phase-step.p3 { border-top-color: var(--accent-deep); }
+#ova-embed .stat-callout { display: flex; align-items: center; gap: 16px; border-radius: 12px; padding: 16px 20px; background: #D8EBF8; border: 1px solid #17a2b8; color: #0c7b8a; }
+#ova-embed .stat-callout .big { font-size: 2.2rem; font-weight: 800; line-height: 1; }
+
+/* Chips de competencias (dura / blanda) */
+#ova-embed .chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; line-height: 1.3; border: 1px solid transparent; }
+#ova-embed .chip-dura { background: #D8EBF8; color: #0c7b8a; border-color: #9fd0e6; }
+#ova-embed .chip-blanda { background: #e8f0e9; color: #3d6a3a; border-color: #b9d3b6; }
+#ova-embed .chip-comp { background: var(--surface); color: var(--text); border-color: var(--line); }
+#ova-embed .comp-tag { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); font-size: 0.85rem; font-weight: 600; }
+#ova-embed .comp-tag.covered { border-color: #16a34a; background: #f0fdf4; }
+
+/* Botones para mover / quitar acciones del cronograma */
+#ova-embed .assign-btn { min-height: 40px; border: 1px solid var(--line); background: var(--surface-soft); color: var(--text); border-radius: 8px; font-size: 0.74rem; font-weight: 700; cursor: pointer; padding: 6px 4px; line-height: 1.2; transition: all 0.2s ease; }
+#ova-embed .assign-btn:hover:not(:disabled) { background: #D8EBF8; border-color: #17a2b8; color: #0c7b8a; }
+#ova-embed .assign-btn.current { background: var(--accent); border-color: var(--accent); color: #fff; }
+#ova-embed .assign-btn:disabled { cursor: default; opacity: 0.55; }
+#ova-embed .assign-btn.current:disabled { opacity: 1; }
+#ova-embed .remove-btn { border: none; background: transparent; color: #6c757d; font-size: 0.74rem; font-weight: 700; cursor: pointer; padding: 6px 4px; }
+#ova-embed .remove-btn:hover:not(:disabled) { color: #dc2626; }
+
+/* Cronograma de 3 columnas */
+#ova-embed .timeline-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+#ova-embed .phase-col { background: var(--surface-soft); border: 1px solid var(--line); border-radius: 12px; display: flex; flex-direction: column; min-height: 180px; overflow: hidden; }
+#ova-embed .phase-col .ph-head { padding: 12px 14px; color: #fff; }
+#ova-embed .phase-col.p1 .ph-head { background: #17a2b8; }
+#ova-embed .phase-col.p2 .ph-head { background: var(--accent); }
+#ova-embed .phase-col.p3 .ph-head { background: var(--accent-deep); }
+#ova-embed .phase-col .ph-days { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.9; }
+#ova-embed .phase-col .ph-name { font-size: 0.98rem; font-weight: 700; }
+#ova-embed .phase-col .ph-count { display: flex; gap: 6px; flex-wrap: wrap; padding: 8px 12px 0; }
+#ova-embed .phase-col .ph-body { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+#ova-embed .phase-col .ph-empty { font-size: 0.78rem; color: #9ca3af; text-align: center; padding: 18px 6px; border: 1px dashed #cbd5e1; border-radius: 10px; }
+#ova-embed .placed-card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+#ova-embed .placed-card.ideal { border-color: #16a34a; box-shadow: inset 4px 0 0 #16a34a; }
+#ova-embed .placed-card.early, #ova-embed .placed-card.late { border-color: #d97706; box-shadow: inset 4px 0 0 #d97706; }
+#ova-embed .placed-card .p-title { font-size: 0.8rem; font-weight: 700; line-height: 1.35; }
+#ova-embed .placed-card .mini-assign { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+#ova-embed .placed-card .mini-assign .assign-btn { min-height: 34px; flex: 1 1 auto; font-size: 0.68rem; padding: 4px 6px; }
+#ova-embed .fb-box { font-size: 0.76rem; line-height: 1.45; border-radius: 8px; padding: 8px 10px; }
+#ova-embed .fb-box.ideal { background: #ecfdf5; color: #166534; border: 1px solid #bbf7d0; }
+#ova-embed .fb-box.early, #ova-embed .fb-box.late { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+
+/* Panel de validación */
+#ova-embed .rule-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+#ova-embed .rule-line { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); font-size: 0.82rem; line-height: 1.4; }
+#ova-embed .rule-line i { margin-top: 2px; }
+#ova-embed .rule-line.ok { border-color: #bbf7d0; background: #f0fdf4; color: #166534; }
+#ova-embed .rule-line.pending { color: #4b5563; }
+#ova-embed .rule-line.info { grid-column: 1 / -1; background: #D8EBF8; border-color: #9fd0e6; color: #0c7b8a; }
+#ova-embed .notice { border-radius: 10px; padding: 12px 14px; font-size: 0.85rem; line-height: 1.5; }
+#ova-embed .notice.ok { background: #f0fdf4; border: 1px solid #86efac; color: #166534; }
+#ova-embed .notice.warn { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+#ova-embed .notice.info { background: var(--surface-soft); border: 1px solid var(--line); color: var(--text); }
+#ova-embed .locked-wrap { position: relative; }
+#ova-embed .locked-wrap.is-locked .locked-content { opacity: 0.35; pointer-events: none; filter: grayscale(0.4); }
+#ova-embed .lock-msg { display: none; }
+#ova-embed .locked-wrap.is-locked .lock-msg { display: flex; }
+#ova-embed .counter-bar { height: 6px; border-radius: 999px; background: #e5e7eb; overflow: hidden; margin-top: 6px; }
+#ova-embed .counter-bar > span { display: block; height: 100%; width: 0; background: #d97706; transition: width 0.2s ease, background 0.2s ease; }
+#ova-embed .toast-line { min-height: 1.25rem; font-size: 0.8rem; font-weight: 600; color: #0c7b8a; }
+#ova-embed button:disabled.btn-main { opacity: 0.5; cursor: not-allowed; }
+#ova-embed .review-phase { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+#ova-embed .review-phase .rp-head { padding: 8px 12px; color: #fff; font-weight: 700; font-size: 0.85rem; }
+#ova-embed .review-phase ul { margin: 0; padding: 10px 12px 10px 28px; font-size: 0.82rem; line-height: 1.5; }
+
+/* ===== Móvil: la mayoría de estudiantes accede desde el teléfono ===== */
+@media (hover: none) {
+    #ova-embed .mini-card .hover-content { max-height: none; opacity: 1; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+    #ova-embed .mini-card .hover-indicator { display: none; }
+    #ova-embed .section-card:not(.no-hover):hover, #ova-embed .mini-card:hover { transform: none; }
+}
+@media (max-width: 900px) {
+    #ova-embed .timeline-grid, #ova-embed .phase-strip { grid-template-columns: 1fr; }
+    #ova-embed .rule-list { grid-template-columns: 1fr; }
+    #ova-embed .section-card { padding: 20px; }
+}
+@media (max-width: 640px) {
+    #ova-embed .main { padding: 12px; }
+    #ova-embed .hero { padding: 20px; }
+    #ova-embed .hero h2 { font-size: 1.55rem !important; }
+    #ova-embed .section-card { padding: 16px; }
+    #ova-embed .compare-grid .c-head, #ova-embed .compare-grid .c-cell { padding: 10px 12px; }
+    #ova-embed .qr-box, #ova-embed .bib-icon { display: none !important; } /* en el celular el QR no aporta: se usa el botón */
+    #ova-embed .btn-main, #ova-embed .btn-soft { padding: 12px 16px; }
+    #ova-embed .stat-callout .big { font-size: 1.8rem; }
+    #ova-embed h2.text-3xl { font-size: 1.5rem !important; }
+}
+
+/* Secciones ocultas fuera del flujo: evita espacio en blanco al final de las secciones cortas
+   (en Moodle/celular la altura de la página se ajusta a la sección visible) */
+#ova-embed .content-pane:not(.active) { display: none; }
+#ova-embed .content-pane.active { animation: ovaFadeUp 0.35s ease; }
+@keyframes ovaFadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+/* =====================================================================
+   ACTIVIDAD COMO ASISTENTE POR PASOS (optimizado para celular y Moodle)
+   ===================================================================== */
+#ova-embed .wz { padding: 0; overflow: hidden; }
+#ova-embed .wz-top { padding: 16px 20px 14px; background: var(--surface-soft); border-bottom: 1px solid var(--line); }
+#ova-embed .wz-pills { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+#ova-embed .wz-pill { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 6px 8px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: #6c757d; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: all 0.2s ease; }
+#ova-embed .wz-pill .n { width: 24px; height: 24px; flex-shrink: 0; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: var(--surface-soft); border: 1px solid var(--line); font-size: 0.72rem; }
+#ova-embed .wz-pill:hover { border-color: #17a2b8; color: #0c7b8a; }
+#ova-embed .wz-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+#ova-embed .wz-pill.active .n { background: #fff; color: var(--accent); border-color: #fff; }
+#ova-embed .wz-pill.done { color: #166534; border-color: #86efac; background: #f0fdf4; }
+#ova-embed .wz-pill.done .n { background: #16a34a; border-color: #16a34a; color: #fff; }
+#ova-embed .wz-bar { height: 6px; border-radius: 999px; background: #e5e7eb; overflow: hidden; margin-top: 12px; }
+#ova-embed .wz-bar > span { display: block; height: 100%; width: 25%; background: linear-gradient(90deg, var(--accent), var(--accent-deep)); transition: width 0.35s ease; }
+#ova-embed .wz-status { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+#ova-embed .wz-panel { padding: 20px; animation: ovaFadeUp 0.3s ease; }
+#ova-embed .wz-title { margin: 0; color: var(--heading); font-size: 1.1rem; font-weight: 700; }
+#ova-embed .wz-sub { margin: 4px 0 16px; font-size: 0.82rem; color: #6c757d; line-height: 1.45; }
+#ova-embed .wz-nav { display: flex; justify-content: space-between; gap: 10px; padding: 14px 20px 4px; border-top: 1px solid var(--line); }
+#ova-embed .wz-nav .btn-main, #ova-embed .wz-nav .btn-soft { min-height: 46px; }
+#ova-embed .wz-hint { margin: 6px 20px 0; min-height: 1.1rem; font-size: 0.78rem; font-weight: 600; color: #b45309; text-align: right; }
+#ova-embed .link-btn { background: none; border: none; color: #6c757d; font-weight: 600; font-size: 0.8rem; cursor: pointer; padding: 8px 6px; min-height: 40px; }
+#ova-embed .link-btn:hover:not(:disabled) { color: #0c7b8a; }
+#ova-embed .link-btn:disabled { opacity: 0.4; cursor: default; }
+#ova-embed .wz > .text-center { padding-bottom: 10px; }
+
+/* Puntos de acción (A–I) */
+#ova-embed .dots { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+#ova-embed .dot { width: 34px; height: 34px; border-radius: 999px; border: 2px solid var(--line); background: var(--surface); color: #6c757d; font-weight: 800; font-size: 0.75rem; cursor: pointer; padding: 0; transition: all 0.2s ease; }
+#ova-embed .dot.ph1 { background: #17a2b8; border-color: #17a2b8; color: #fff; }
+#ova-embed .dot.ph2 { background: #569151; border-color: #569151; color: #fff; }
+#ova-embed .dot.ph3 { background: #3d6a3a; border-color: #3d6a3a; color: #fff; }
+#ova-embed .dot.active { box-shadow: 0 0 0 3px #fff, 0 0 0 5px #0c7b8a; }
+
+/* Tarjeta de decisión */
+#ova-embed .decision-card { border: 1px solid var(--line); border-radius: 14px; padding: 18px; background: var(--surface); box-shadow: 0 4px 14px rgba(0,0,0,0.05); }
+#ova-embed .dc-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; }
+#ova-embed .dc-count { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #6c757d; }
+#ova-embed .dc-title { display: flex; align-items: flex-start; gap: 10px; font-size: 1.05rem; font-weight: 700; color: var(--text); line-height: 1.35; }
+#ova-embed .a-id { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; background: var(--surface-soft); border: 1px solid var(--line); font-size: 0.78rem; font-weight: 800; color: var(--heading); flex-shrink: 0; }
+#ova-embed .a-id.sm { width: 22px; height: 22px; font-size: 0.7rem; border-radius: 6px; }
+#ova-embed .dc-desc { margin: 10px 0 12px; font-size: 0.88rem; line-height: 1.55; color: #4b5563; }
+#ova-embed .dc-ask { margin: 16px 0 8px; font-size: 0.85rem; font-weight: 700; color: var(--heading); }
+#ova-embed .phase-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+#ova-embed .phase-choice { position: relative; display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 10px 14px; text-align: left; border-radius: 12px; border: 2px solid var(--line); border-left-width: 6px; background: var(--surface); color: var(--text); cursor: pointer; transition: all 0.2s ease; }
+#ova-embed .phase-choice > i:first-child { font-size: 1.1rem; width: 22px; text-align: center; }
+#ova-embed .phase-choice span { display: flex; flex-direction: column; line-height: 1.25; }
+#ova-embed .phase-choice strong { font-size: 0.9rem; }
+#ova-embed .phase-choice small { font-size: 0.75rem; color: #6c757d; font-weight: 600; }
+#ova-embed .phase-choice.pc1 { border-left-color: #17a2b8; } #ova-embed .phase-choice.pc1 > i:first-child { color: #17a2b8; }
+#ova-embed .phase-choice.pc2 { border-left-color: #569151; } #ova-embed .phase-choice.pc2 > i:first-child { color: #569151; }
+#ova-embed .phase-choice.pc3 { border-left-color: #3d6a3a; } #ova-embed .phase-choice.pc3 > i:first-child { color: #3d6a3a; }
+#ova-embed .phase-choice:hover:not(:disabled) { background: #D8EBF8; border-color: #17a2b8; }
+#ova-embed .phase-choice.selected { background: #e8f0e9; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(86,145,81,0.25); }
+#ova-embed .phase-choice .pc-check { position: absolute; top: 8px; right: 10px; color: var(--accent); }
+#ova-embed .phase-choice:disabled { cursor: default; opacity: 0.6; }
+#ova-embed .phase-choice.selected:disabled { opacity: 1; }
+#ova-embed .dc-nav { display: flex; justify-content: space-between; gap: 8px; margin-top: 10px; }
+
+/* Cronograma: pestañas en celular, 3 columnas en computador */
+#ova-embed .phase-tabs { display: none; }
+#ova-embed .placed-card .mini-assign { gap: 6px; }
+#ova-embed .rules-box { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; background: var(--surface-soft); }
+#ova-embed .rules-box summary { cursor: pointer; font-weight: 700; font-size: 0.88rem; color: var(--heading); min-height: 28px; }
+
+@media (max-width: 900px) {
+    #ova-embed .phase-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-bottom: 10px; }
+    #ova-embed .phase-tab { display: flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; min-height: 44px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); font-weight: 700; font-size: 0.78rem; color: #6c757d; cursor: pointer; padding: 4px; }
+    #ova-embed .phase-tab .pt-n { min-width: 22px; height: 22px; padding: 0 6px; border-radius: 999px; background: var(--surface-soft); display: inline-flex; align-items: center; justify-content: center; font-size: 0.7rem; }
+    #ova-embed .phase-tab.active.pt1 { background: #17a2b8; border-color: #17a2b8; color: #fff; }
+    #ova-embed .phase-tab.active.pt2 { background: #569151; border-color: #569151; color: #fff; }
+    #ova-embed .phase-tab.active.pt3 { background: #3d6a3a; border-color: #3d6a3a; color: #fff; }
+    #ova-embed .phase-tab.active .pt-n { background: rgba(255,255,255,0.25); color: #fff; }
+    #ova-embed .timeline-grid .phase-col { display: none; }
+    #ova-embed .timeline-grid .phase-col.tab-active { display: flex; }
+    #ova-embed .phase-choices { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+    #ova-embed .wz-top { padding: 12px; }
+    #ova-embed .wz-panel { padding: 16px 12px; }
+    #ova-embed .wz-pill { flex-direction: column; gap: 2px; font-size: 0.66rem; padding: 6px 2px; min-height: 52px; }
+    #ova-embed .wz-nav { padding: 12px 12px 4px; }
+    #ova-embed .wz-nav button { flex: 1 1 0; padding-left: 10px; padding-right: 10px; }
+    #ova-embed .wz-hint { margin: 6px 12px 0; text-align: center; }
+    #ova-embed .decision-card { padding: 14px; }
+    #ova-embed .dot { width: 30px; height: 30px; }
+    #ova-embed .dots { gap: 4px; justify-content: center; }
+}
+
+/* =====================================================================
+   ACCESIBILIDAD (baja visión): cajas de la actividad y la autoevaluación
+   con bordes de 2 px y contraste >= 3:1 frente al fondo (WCAG 1.4.11)
+   ===================================================================== */
+#ova-embed #actividad, #ova-embed #evaluacion { --line: #7f8c99; }
+#ova-embed #actividad .section-card, #ova-embed #evaluacion .section-card,
+#ova-embed #actividad .quiz-option, #ova-embed #evaluacion .quiz-option,
+#ova-embed #actividad .field-panel, #ova-embed #actividad textarea, #ova-embed #actividad input, #ova-embed #actividad select,
+#ova-embed #actividad .act-tab, #ova-embed #actividad .activity-subnav-btn, #ova-embed #actividad .btn-soft, #ova-embed #evaluacion .btn-soft,
+#ova-embed #actividad .download-menu, #ova-embed #actividad .download-menu button,
+#ova-embed #actividad .wz-pill, #ova-embed #actividad .decision-card, #ova-embed #actividad .phase-choice, #ova-embed #actividad .dot,
+#ova-embed #actividad .phase-tab, #ova-embed #actividad .phase-col, #ova-embed #actividad .placed-card, #ova-embed #actividad .assign-btn,
+#ova-embed #actividad .rule-line, #ova-embed #actividad .rules-box, #ova-embed #actividad .comp-tag, #ova-embed #actividad .notice,
+#ova-embed #actividad .fb-box, #ova-embed #actividad .chip, #ova-embed #actividad .a-id, #ova-embed #actividad .ph-empty,
+#ova-embed #actividad [style*="border:"], #ova-embed #actividad [style*="border: "], #ova-embed #evaluacion [style*="border:"], #ova-embed #evaluacion [style*="border: "] {
+    border-width: 2px !important;
+}
+#ova-embed #actividad .section-card.border-l-4, #ova-embed #evaluacion .section-card.border-l-4 { border-width: 2px 2px 2px 4px !important; }
+#ova-embed #actividad .phase-choice { border-left-width: 6px !important; }
+#ova-embed #actividad .wz { border-color: var(--line); }
+#ova-embed #actividad .wz-pill .n { border-width: 2px !important; }
+#ova-embed #actividad .wz-nav { border-top-width: 2px !important; }
+#ova-embed #actividad .wz-top { border-bottom-width: 2px !important; }
+
+/* ===== Navegación con teclado (criterio 1 de CINTIA) =====
+   Lo agrega scripts/migrar-ova.mjs (plantilla: scripts/accesibilidad/teclado.css). */
+/* Foco visible: al navegar con Tab se ve en qué elemento está el estudiante. */
+#ova-embed :focus-visible { outline: 3px solid var(--accent-deep, #2f5d2b); outline-offset: 3px; border-radius: 6px; }
+#ova-embed .flip-card:focus-visible, #ova-embed .mini-card:focus-visible { outline-offset: 4px; }
+/* Los títulos que reciben el foco al cambiar de sección no muestran el recuadro. */
+#ova-embed [data-foco-titulo]:focus { outline: none; }
+/* Lo que se revelaba solo con el mouse también se revela con el teclado. */
+#ova-embed .mini-card:focus-within .hover-indicator { opacity: 1; }
+#ova-embed .mini-card:focus-within .hover-content { max-height: 200px; opacity: 1; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line, #e2e8f0); }
