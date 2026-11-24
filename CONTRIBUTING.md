@@ -60,6 +60,7 @@ La ruta destino dice qué es la página:
 | Ruta destino | Qué es | ¿Obligatorio? |
 |---|---|---|
 | `esp/gthdo/pobh/u02/t03` | OVA del tema 3 de la unidad 2 | — |
+| `esp/gthdo/pobh/u02/presentacion` | Presentación de la unidad 2 | No |
 | `esp/gthdo/pobh/u02/diagnostico` | Diagnóstico de la unidad 2 | No |
 | `esp/gthdo/pobh/u02/actividades` | Actividades evaluativas de la unidad 2 | No |
 | `esp/gthdo/pobh/bibliografia` | Bibliografía del curso | Sí |
@@ -169,7 +170,7 @@ conserva todas las versiones anteriores.
 
 | Tema | Regla |
 |---|---|
-| Ruta | `nivel/programa/curso/uNN/tNN/` (o `uNN/` si el curso es por unidad; un curso no mezcla los dos), `uNN/diagnostico/` y `uNN/actividades/` para los complementos de la unidad, y `bibliografia/`, `rubrica/` o `mapa/` para los recursos del curso |
+| Ruta | `nivel/programa/curso/uNN/tNN/` (o `uNN/` si el curso es por unidad; un curso no mezcla los dos), `uNN/presentacion/`, `uNN/diagnostico/` y `uNN/actividades/` para los complementos de la unidad, y `bibliografia/`, `rubrica/` o `mapa/` para los recursos del curso |
 | Siglas | Nivel `esp`, `mae` o `doc`; programa de 2 a 5 letras; curso de 2 a 4; programa y curso registrados en `catalogo.csv` |
 | Nombres | Archivos y carpetas en minúsculas, sin tildes, sin ñ, sin espacios ni guion bajo |
 | Archivos | `README.md`, `index.html`, `estilos.css`, `script.js`, `tailwind.css`, `img/logo.webp`, e `iconos.css` si usa íconos |

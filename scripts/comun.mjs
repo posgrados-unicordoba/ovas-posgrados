@@ -20,7 +20,9 @@ export const TEMA = /^t\d{2}$/;
  * OVA complementarios de una unidad (sin menú de 7 secciones), en uNN/<nombre>.
  * Son opcionales. Para un tipo nuevo, basta con agregar su nombre aquí.
  */
-export const COMPLEMENTOS = { diagnostico: 'Diagnóstico', actividades: 'Actividades' };
+export const COMPLEMENTOS = { presentacion: 'Presentación de la unidad', diagnostico: 'Diagnóstico', actividades: 'Actividades' };
+/** Complementos que en el listado van antes de los temas de su unidad. */
+export const COMPLEMENTOS_PRIMERO = ['presentacion'];
 /** Recursos del curso: van en la carpeta del curso, junto a las unidades. */
 export const RECURSOS = { bibliografia: 'Bibliografía', rubrica: 'Rúbrica', mapa: 'Mapa conceptual' };
 /** Recursos que todo curso debe tener. */

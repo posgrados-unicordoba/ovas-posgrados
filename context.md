@@ -14,7 +14,7 @@ de la Docencia). El público son profesionales; el OVA se incrusta en el aula vi
 
 - Ruta: `nivel/programa/curso/uNN/tNN/` (ej.: `esp/gthdo/pobh/u02/t03/`).
   Si el curso tiene un OVA por unidad: `nivel/programa/curso/uNN/`. Un curso usa un solo tipo.
-- Complementos de la unidad (opcionales): `nivel/programa/curso/uNN/diagnostico/` y `uNN/actividades/`.
+- Complementos de la unidad (opcionales): `nivel/programa/curso/uNN/presentacion/`, `uNN/diagnostico/` y `uNN/actividades/`.
 - Recursos del curso: `nivel/programa/curso/bibliografia/`, `rubrica/` (obligatorios) y
   `mapa/` (opcional). Si hay una rúbrica por unidad, van todas en la misma página.
 - Nivel: `esp` (especialización), `mae` (maestría) o `doc` (doctorado).
