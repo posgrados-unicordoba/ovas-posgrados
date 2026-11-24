@@ -137,3 +137,6 @@
 #ova-embed #actividad .mini-card,
 #ova-embed #actividad .btn-soft { border-width: 2px; border-color: #8a96a3; }
 #ova-embed #actividad .field-panel { border-width: 2px; border-color: #8a96a3; }
+
+/* El logo no se encoge en pantallas angostas (celular). */
+#ova-embed .logo-orb { flex-shrink: 0; }

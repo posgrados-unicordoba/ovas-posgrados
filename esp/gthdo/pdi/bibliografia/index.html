@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Referencias bibliográficas — Proyecto de Intervención</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="tailwind.css">
+</head>
+<body>
+  <div class="min-h-screen">
+    <header class="hero bg-gradient-to-r from-[#1a472a] via-[#2e7d32] to-[#0097a7] text-white" aria-label="Presentación">
+      <div class="container mx-auto px-4 py-10">
+        <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div class="flex items-center gap-4">
+            <div>
+              <p class="text-sm font-semibold uppercase tracking-wider text-white/80">Especialización en Gerencia del Talento Humano y Desarrollo Organizacional</p>
+              <h1 class="title-font text-3xl md:text-4xl font-semibold mt-1">Referencias bibliográficas</h1>
+              <p class="text-white/90 mt-1">C01 · Proyecto de Intervención</p>
+            </div>
+          </div>
+          <div class="self-start md:self-center rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-semibold text-white/90">
+            Universidad de Córdoba
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-6xl px-4 py-10">
+      <section class="filter-panel mb-8" aria-label="Acerca del acceso">
+        <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+          <div>
+            <h2 class="title-font text-2xl text-[#1a472a] mb-2">Acceso a los recursos</h2>
+            <p class="text-slate-600 text-sm max-w-2xl">
+              Los enlaces de <strong>EbookCentral</strong> están configurados con el proxy institucional de la Universidad de Córdoba
+              (<code>ezproxyucor.unicordoba.edu.co</code>). Para acceder se requieren credenciales institucionales. Si un docID no corresponde exactamente al título, se recomienda buscar directamente en <a href="https://ebookcentral.proquest.com/lib/unicordobasp" target="_blank" rel="noopener noreferrer" class="text-[#006978] font-semibold underline hover:text-[#0097a7]">ebookcentral.proquest.com/lib/unicordobasp</a>.
+            </p>
+          </div>
+          <div class="shrink-0 rounded-2xl bg-[#f0f9f0] border border-[#1a472a]/10 px-4 py-3">
+            <p class="text-xs font-bold uppercase tracking-wider text-[#1a472a] mb-2">Leyenda de plataformas</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="platform-chip inline-flex items-center gap-1 rounded-full bg-white border border-slate-200 px-3 py-1 text-xs font-semibold text-[#006978]"><span class="w-2 h-2 rounded-full bg-[#0097a7]"></span> EbookCentral</span>
+              <span class="platform-chip inline-flex items-center gap-1 rounded-full bg-white border border-slate-200 px-3 py-1 text-xs font-semibold text-sky-700"><span class="w-2 h-2 rounded-full bg-sky-500"></span> Google Scholar</span>
+              <span class="platform-chip inline-flex items-center gap-1 rounded-full bg-white border border-slate-200 px-3 py-1 text-xs font-semibold text-amber-700"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Dialnet</span>
+              <span class="platform-chip inline-flex items-center gap-1 rounded-full bg-white border border-slate-200 px-3 py-1 text-xs font-semibold text-emerald-700"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> ResearchGate</span>
+              <span class="platform-chip inline-flex items-center gap-1 rounded-full bg-white border border-slate-200 px-3 py-1 text-xs font-semibold text-indigo-700"><span class="w-2 h-2 rounded-full bg-indigo-500"></span> Repositorio</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="filter-panel mb-8" aria-label="Filtros">
+        <div class="mb-4">
+          <label for="reference-search" class="block text-sm font-semibold text-slate-700">Buscar</label>
+          <input id="reference-search" type="search" placeholder="Escribe autor, título o palabra clave" class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-800 shadow-sm outline-none focus:border-[#0097a7] focus:ring-4 focus:ring-[#0097a7]/10" autocomplete="off" />
+        </div>
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrar por unidad de aprendizaje">
+            <button class="filter-chip is-active px-4 py-2 rounded-full bg-white text-slate-700" type="button" data-unit="" aria-pressed="true">Todas las UA</button>
+            <button class="filter-chip px-4 py-2 rounded-full bg-white text-slate-700" type="button" data-unit="UA01" aria-pressed="false">UA01</button>
+            <button class="filter-chip px-4 py-2 rounded-full bg-white text-slate-700" type="button" data-unit="UA02" aria-pressed="false">UA02</button>
+            <button class="filter-chip px-4 py-2 rounded-full bg-white text-slate-700" type="button" data-unit="UA03" aria-pressed="false">UA03</button>
+          </div>
+          <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrar por tipo de recurso">
+            <button class="filter-chip is-active px-4 py-2 rounded-full bg-white text-slate-700" type="button" data-type="" aria-pressed="true">Todos</button>
+            <button class="filter-chip px-4 py-2 rounded-full bg-white text-slate-700" type="button" data-type="libro" aria-pressed="false">Libros</button>
+            <button class="filter-chip px-4 py-2 rounded-full bg-white text-slate-700" type="button" data-type="documento" aria-pressed="false">Documentos</button>
+          </div>
+        </div>
+      </section>
+
+      <div id="references-container" aria-label="Lista de referencias por unidad de aprendizaje"></div>
+    </main>
+
+    <footer class="border-t border-slate-200 bg-white/70 mt-12">
+      <div class="mx-auto max-w-6xl px-4 py-8 text-center text-sm text-slate-600">
+        <p class="font-semibold text-[#1a472a]">Especialización en Gerencia del Talento Humano y Desarrollo Organizacional</p>
+        <p class="mt-1">Universidad de Córdoba — Acceso vía Proxy Institucional <code>ezproxyucor.unicordoba.edu.co</code></p>
+        <p class="mt-3 text-xs text-slate-500">Centro de Innovación en TIC para el apoyo de la Academia — CINTIA</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+<script src="https://elens.ecodestudio.dev/elens.js"></script>
+</body>
+</html>

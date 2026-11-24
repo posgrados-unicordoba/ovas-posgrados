@@ -336,7 +336,11 @@ if (!js.includes(MARCA_TECLADO)) {
 // --- Escribir archivos ----------------------------------------------------
 const cabecera = (que) => `/* ${que} del OVA ${codigoDe(p)}. */\n\n`;
 writeFileSync(join(destino, 'index.html'), html);
-writeFileSync(join(destino, 'estilos.css'), cabecera('Estilos propios') + css + '\n');
+// En celular, el nombre largo del programa empuja el logo y lo vuelve ovalado.
+const ARREGLO_LOGO = '\n/* El logo no se encoge en pantallas angostas (celular). */\n#ova-embed .logo-orb { flex-shrink: 0; }\n';
+const cssFinal = css.includes('.logo-orb') && !css.includes('logo-orb { flex-shrink: 0; }') ? css + ARREGLO_LOGO : css;
+if (cssFinal !== css) hechos.push('El logo del encabezado móvil ya no se deforma en el celular.');
+writeFileSync(join(destino, 'estilos.css'), cabecera('Estilos propios') + cssFinal + '\n');
 writeFileSync(join(destino, 'script.js'), cabecera('Interacciones') + js + '\n');
 
 const titulo = tituloDe(html) || '[Título]';
