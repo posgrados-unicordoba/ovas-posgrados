@@ -590,8 +590,22 @@ async function probar(url) {
 const SIN_COMPROBAR = /(^|\.)(scholar\.google\.[a-z.]+|gemini\.google\.com|canva\.com|doi\.org|ebookcentral\.proquest\.com|researchgate\.net|linkedin\.com|chatgpt\.com|openai\.com|claude\.ai|perplexity\.ai|copilot\.microsoft\.com|notebooklm\.google\.com)$/i;
 const sinComprobar = (u) => { try { return SIN_COMPROBAR.test(new URL(u).hostname); } catch { return false; } };
 
+// Los enlaces a nuestro propio sitio se revisan contra los archivos del
+// repositorio, no por internet: así un OVA puede enlazar a otro que se sube en
+// el mismo PR (por ejemplo, el mapa conceptual a la rúbrica del curso).
+const SITIO = 'https://posgrados-unicordoba.github.io/ovas-posgrados/';
+const esDelSitio = (u) => u.startsWith(SITIO);
+for (const [u, quienes] of enlacesPorUrl) {
+  if (!esDelSitio(u)) continue;
+  let ruta = decodeURIComponent(u.slice(SITIO.length).split(/[?#]/)[0]);
+  if (ruta === '' || ruta.endsWith('/')) ruta += 'index.html';
+  const existe = existsSync(resolve(ruta)) || existsSync(resolve(ruta, 'index.html'));
+  if (!existe) for (const r of quienes)
+    err(r, `El enlace ${u} lleva a un OVA que no está en el repositorio (${ruta}).`, 'Revisa la ruta del enlace o sube ese OVA en el mismo Pull Request.');
+}
+
 if (!process.argv.includes('--sin-enlaces') && enlacesPorUrl.size) {
-  const urls = [...enlacesPorUrl.keys()].filter((u) => !sinComprobar(u));
+  const urls = [...enlacesPorUrl.keys()].filter((u) => !sinComprobar(u) && !esDelSitio(u));
   const resultados = new Map();
   let i = 0;
   await Promise.all(Array.from({ length: Math.min(6, urls.length) }, async () => {
