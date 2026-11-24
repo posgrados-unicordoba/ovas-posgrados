@@ -5,7 +5,6 @@ name: Publicar OVA
 #   https://posgrados-unicordoba.github.io/ovas-posgrados/
 #
 # No guarda nada en el repositorio, así que funciona con la rama main protegida.
-#
 # Requisito: Settings → Pages → Build and deployment → Source: "GitHub Actions".
 
 on:
@@ -24,20 +23,17 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  publicar:
-    name: Armar y publicar el sitio
+  armar:
+    name: Armar el sitio
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.despliegue.outputs.page_url }}
     steps:
       - name: Descargar el repositorio
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Preparar Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Armar el sitio con la página de enlaces
         run: node scripts/generar-enlaces.mjs
@@ -46,10 +42,19 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Empaquetar el sitio
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: sitio
+          include-hidden-files: true
 
+  publicar:
+    name: Publicar en GitHub Pages
+    needs: armar
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
       - name: Publicar
         id: despliegue
         uses: actions/deploy-pages@v4
