@@ -57,6 +57,7 @@ const ROOT = process.cwd();
 const ELENS = '<script src="https://elens.ecodestudio.dev/elens.js"></script>';
 const IMAGENES = new Set(['.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg', '.avif']);
 const OFFICE = new Set(['.doc', '.docx', '.ppt', '.pptx', '.xls', '.xlsx']);
+const DOCUMENTOS = new Set(['.txt', '.pdf', '.md', '.zip', '.rar', '.rtf', '.odt']);
 
 // --- Argumentos -----------------------------------------------------------
 const args = process.argv.slice(2);
@@ -184,11 +185,17 @@ if (!/<script[^>]+src=["']script\.js["']/i.test(html)) html = html.replace(/<\/b
 const slug = (nombre) => nombre.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
   .replace(/ñ/g, 'n').replace(/[^a-z0-9.]+/g, '-').replace(/-+/g, '-').replace(/^-|-(?=\.)|-$/g, '');
 
+const otrosOva = [];
 function listarArchivos(dir, base = dir, acc = []) {
   for (const name of readdirSync(dir)) {
     if (name.startsWith('.')) continue;
     const full = join(dir, name);
-    if (statSync(full).isDirectory()) listarArchivos(full, base, acc);
+    if (statSync(full).isDirectory()) {
+      // Una subcarpeta con su propio index.html es otro OVA (por ejemplo, un tema
+      // dentro de la carpeta de la unidad): no se copia dentro de este.
+      if (existsSync(join(full, 'index.html'))) { otrosOva.push(rel(base, full)); continue; }
+      listarArchivos(full, base, acc);
+    }
     else acc.push(rel(base, full));
   }
   return acc;
@@ -201,6 +208,9 @@ for (const r of listarArchivos(origen)) {
   const ext = extname(r).toLowerCase();
   if (OFFICE.has(ext)) { dejados.push(r); continue; }
   if (consumidos.has(r)) continue;
+  // Documentos de trabajo (la guía o el 088 en .txt o .pdf, notas, comprimidos) que el OVA
+  // no usa: no van al repositorio. Si el OVA sí los enlaza, se copian.
+  if (DOCUMENTOS.has(ext) && !`${html}\n${css}\n${js}`.includes(basename(r))) { dejados.push(r); continue; }
   if (ext === '.js' && /^\s*tailwind\.config\s*=/.test(leer(join(origen, r)))) { dejados.push(r); continue; } // su configuración se aplica al quemar
   if (/^(estilos\.css|script\.js|tailwind\.css|iconos\.css|readme\.md)$/i.test(r)) continue;
   if (/\.html?$/i.test(ext)) {
@@ -382,6 +392,7 @@ try {
 console.log(`\n✅ OVA migrado a ${destinoNorm} (código ${codigoDe(p)})\n`);
 for (const h of hechos) console.log(`   · ${h}`);
 if (dejados.length) console.log(`\n   Dejé fuera (no van al repositorio): ${dejados.join(', ')}`);
+if (otrosOva.length) console.log(`   No copié estas subcarpetas porque son otros OVA (se migran aparte): ${otrosOva.join(', ')}`);
 if (avisos.length) {
   console.log('\n⚠️  Para revisar:');
   for (const a of avisos) console.log(`   · ${a}`);

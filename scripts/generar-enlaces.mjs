@@ -23,7 +23,7 @@
 import { writeFileSync, existsSync, rmSync, mkdirSync, cpSync } from 'node:fs';
 import { join } from 'node:path';
 import {
-  NIVELES, RECURSOS, COMPLEMENTOS, RECURSOS_OBLIGATORIOS, leer, rel, encontrarOvas, partesRuta, codigoDe, etiquetaDe,
+  NIVELES, RECURSOS, COMPLEMENTOS, COMPLEMENTOS_PRIMERO, RECURSOS_OBLIGATORIOS, leer, rel, encontrarOvas, partesRuta, codigoDe, etiquetaDe,
   leerCatalogo, buscarEnCatalogo, tituloDe,
 } from './comun.mjs';
 
@@ -51,7 +51,7 @@ for (const dir of encontrarOvas(ROOT)) {
   });
 }
 // Orden: unidades (temas y luego la evaluación) y al final los recursos del curso.
-const orden = (o) => o.tipo === 'recurso' ? `zzz${Object.keys(RECURSOS).indexOf(o.recurso)}` : `${o.unidad}/${o.tipo === 'complemento' ? `zz${Object.keys(COMPLEMENTOS).indexOf(o.complemento)}` : o.tema || ''}`;
+const orden = (o) => o.tipo === 'recurso' ? `zzz${Object.keys(RECURSOS).indexOf(o.recurso)}` : `${o.unidad}/${o.tipo === 'complemento' ? `${COMPLEMENTOS_PRIMERO.includes(o.complemento) ? '00' : 'zz'}${Object.keys(COMPLEMENTOS).indexOf(o.complemento)}` : o.tema || ''}`;
 ovas.sort((a, b) => `${a.nivel}/${a.programa}/${a.curso}`.localeCompare(`${b.nivel}/${b.programa}/${b.curso}`) || orden(a).localeCompare(orden(b)));
 
 // --- Página -----------------------------------------------------------------

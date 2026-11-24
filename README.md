@@ -28,6 +28,7 @@ Además de los OVA de tema, un curso puede tener:
 
 | Carpeta | Qué es | ¿Obligatorio? |
 |---|---|---|
+| `uNN/presentacion/` | Presentación de la unidad (propósito, objetivos y ruta de sus temas). | No |
 | `uNN/diagnostico/` | Diagnóstico de la unidad. No lleva el menú de 7 secciones. | No |
 | `uNN/actividades/` | Actividades evaluativas de la unidad. No lleva el menú de 7 secciones. | No |
 | `bibliografia/` | Bibliografía del curso | Sí |

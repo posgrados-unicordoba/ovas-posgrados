@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema 1: Fundamentos conceptuales y normativos</title>
+    
+<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="iconos.css">
+    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="tailwind.css">
+</head>
+<body>
+<div id="ova-embed">
+    <div class="mobile-header">
+        <div class="flex items-center gap-4">
+            <div class="logo-orb" style="width:82px;height:82px;margin:0;"><img src="img/logo.webp" alt="Logo"></div>
+            <div>
+                <p class="eyebrow">Especialización en Gerencia del Talento Humano y Desarrollo Organizacional</p>
+                <h1 class="text-green-800 font-extrabold text-lg m-0">Proyecto de Intervención</h1>
+            </div>
+        </div>
+        <select id="mobile-nav" class="mt-4 w-full rounded-xl border border-slate-300 bg-white p-3 font-semibold text-slate-700">
+            <option value="introduccion">Introducción</option>
+            <option value="objetivos">Objetivos</option>
+            <option value="contenido">Contenido</option>
+            <option value="actividad">Actividades</option>
+            <option value="evaluacion">Autoevaluación</option>
+            <option value="recursos">Recursos</option>
+            <option value="bibliografia">Bibliografía</option>
+        </select>
+    </div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="brand-shell">
+                <div class="logo-orb"><img src="img/logo.webp" alt="Logo"></div>
+                <div class="brand-copy">
+                    <p class="eyebrow">Especialización en Gerencia del Talento Humano y Desarrollo Organizacional</p>
+                    <h1>Proyecto de Intervención</h1>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link active" data-target="introduccion"><i class="fa-solid fa-users-viewfinder"></i> Introducción</a>
+                <a href="#" class="sidebar-link" data-target="objetivos"><i class="fa-solid fa-bullseye"></i> Objetivos</a>
+                <a href="#" class="sidebar-link" data-target="contenido"><i class="fa-solid fa-sitemap"></i> Contenido</a>
+                <a href="#" class="sidebar-link" data-target="actividad"><i class="fa-solid fa-hands-holding-circle"></i> Actividades</a>
+                <a href="#" class="sidebar-link" data-target="evaluacion"><i class="fa-solid fa-clipboard-check"></i> Autoevaluación</a>
+                <a href="#" class="sidebar-link" data-target="recursos"><i class="fa-solid fa-box-open"></i> Recursos</a>
+                <a href="#" class="sidebar-link" data-target="bibliografia"><i class="fa-solid fa-book-open"></i> Bibliografía</a>
+            </nav>
+        </aside>
+
+        <main class="main">
+            <div class="content-stage">
+                <section id="introduccion" class="content-pane active">
+                    <div class="hero">
+                        <p class="text-sm font-bold uppercase tracking-widest opacity-90"><i class="fa-solid fa-scale-balanced mr-2"></i>Unidad 1 - Tema 1</p>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold leading-tight mt-3 mb-4">Fundamentos Conceptuales y Normativos</h2>
+                        <p class="text-lg leading-relaxed opacity-95">Un proyecto de intervención organizacional no es simplemente una propuesta de mejora; es un ejercicio académico y profesional que busca transformar una realidad específica mediante la aplicación sistemática de teorías de la gestión humana.</p>
+                    </div>
+                    <div class="section-card mt-6 no-hover">
+                        <h3 class="text-2xl font-extrabold" style="color: var(--heading)">🎯 Propósito formativo</h3>
+                        <p class="mt-4 leading-relaxed">Este tema establece la diferencia entre la consultoría técnica y la intervención reflexiva, situando el proceso dentro del marco legal colombiano que rige las opciones de grado en posgrado. Para el especialista de la Universidad de Córdoba, esto implica alinear su propuesta con el compromiso social y la excelencia académica del PEI.</p>
+                    </div>
+                    <div class="section-card mt-6">
+                        <p class="text-xs font-bold tracking-widest text-slate-500 uppercase">Ruta de consultor</p>
+                        <h3 class="mt-3 text-2xl font-extrabold" style="color: var(--heading)">El proceso de intervención organizacional</h3>
+                        <div class="consultant-route">
+                            <div class="route-stop">
+                                <div class="route-node"><i class="fa-solid fa-user-doctor"></i></div>
+                                <h4>Diagnóstico</h4>
+                                <p>Identificación del problema organizacional.</p>
+                            </div>
+                            <div class="route-stop">
+                                <div class="route-node"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                                <h4>Análisis</h4>
+                                <p>Marco normativo y contexto organizacional.</p>
+                            </div>
+                            <div class="route-stop">
+                                <div class="route-node"><i class="fa-solid fa-pen-ruler"></i></div>
+                                <h4>Formulación</h4>
+                                <p>Metodología y diseño del proyecto.</p>
+                            </div>
+                            <div class="route-stop">
+                                <div class="route-node"><i class="fa-solid fa-rocket"></i></div>
+                                <h4>Implementación</h4>
+                                <p>Plan de acción y ejecución.</p>
+                            </div>
+                            <div class="route-stop">
+                                <div class="route-node"><i class="fa-solid fa-chart-line"></i></div>
+                                <h4>Evaluación</h4>
+                                <p>Medición de resultados y ajustes.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 grid md:grid-cols-3 gap-4">
+                        <div class="mini-card" style="transition: all 0.3s ease;"><h3 class="font-bold" style="color: var(--heading)"><i class="fa-solid fa-lightbulb mr-2" style="color: #17a2b8;"></i>Pregunta central</h3><p class="mt-2">¿Qué diferencia existe entre la consultoría técnica y la intervención reflexiva en el contexto de proyectos de grado?</p></div>
+                        <div class="mini-card" style="transition: all 0.3s ease;"><h3 class="font-bold" style="color: var(--heading)"><i class="fa-solid fa-route mr-2" style="color: #17a2b8;"></i>Enfoque</h3><p class="mt-2">Marco normativo colombiano (Decreto 1330 de 2019), conceptualización de intervención organizacional y modalidades de trabajo de grado.</p></div>
+                        <div class="mini-card" style="transition: all 0.3s ease;"><h3 class="font-bold" style="color: var(--heading)"><i class="fa-solid fa-award mr-2" style="color: #17a2b8;"></i>Producto esperado</h3><p class="mt-2">Comprensión del marco legal y conceptual para formular proyectos de intervención alineados con los requisitos institucionales.</p></div>
+                    </div>
+                </section>
+
+                <section id="objetivos" class="content-pane">
+                    <div class="section-card no-hover">
+                        <p class="text-xs font-bold tracking-widest text-slate-500 uppercase">Objetivos de aprendizaje</p>
+                        <h2 class="mt-4 text-3xl font-extrabold" style="color: var(--heading)">🎯 Metas del Tema 1</h2>
+                        <p class="mt-5 leading-relaxed text-lg">Al finalizar este tema, el especialista será capaz de comprender la naturaleza epistemológica de la intervención organizacional, analizar el marco normativo colombiano y diferenciar las modalidades de trabajo de grado.</p>
+                    </div>
+                    <div class="mt-6 grid md:grid-cols-3 gap-6">
+                        <div class="section-card" style="border-left: 6px solid #D8EBF8;">
+                            <h3 class="font-bold text-lg" style="color: var(--heading)"><i class="fa-solid fa-brain mr-2" style="color: #17a2b8;"></i>Comprender</h3>
+                            <p class="mt-2 text-sm leading-relaxed">La naturaleza epistemológica de la intervención organizacional como una actividad científica y profesional de cambio profundo.</p>
+                        </div>
+                        <div class="section-card" style="border-left: 6px solid #D8EBF8;">
+                            <h3 class="font-bold text-lg" style="color: var(--heading)"><i class="fa-solid fa-magnifying-glass-chart mr-2" style="color: #17a2b8;"></i>Analizar</h3>
+                            <p class="mt-2 text-sm leading-relaxed">El marco normativo colombiano (Decreto 1330 de 2019 y reglamentos institucionales) que regula las modalidades de trabajo de grado en nivel de especialización.</p>
+                        </div>
+                        <div class="section-card" style="border-left: 6px solid #D8EBF8;">
+                            <h3 class="font-bold text-lg" style="color: var(--heading)"><i class="fa-solid fa-handshake mr-2" style="color: #17a2b8;"></i>Diferenciar</h3>
+                            <p class="mt-2 text-sm leading-relaxed">Las modalidades de proyecto aplicado, monografía y proyecto de investigación, seleccionando la más adecuada para su contexto profesional.</p>
+                        </div>
+                    </div>
+                </section>
+
+
+                <section id="contenido" class="content-pane">
+                    <div class="section-card no-hover">
+                        <p class="text-xs font-bold tracking-widest text-slate-500 uppercase">Contenido desarrollado</p>
+                        <h2 class="mt-4 text-3xl font-extrabold" style="color: var(--heading)">📚 Tres partes fundamentales</h2>
+                        <p class="mt-4 leading-relaxed">Este tema se estructura en tres partes que abordan desde la conceptualización hasta el marco normativo y los requisitos institucionales.</p>
+                    </div>
+
+                    <!-- Frase de consultor destacada -->
+                    <div class="mt-6 p-6 rounded-xl" style="background: linear-gradient(135deg, var(--heading) 0%, var(--accent-deep) 100%); color: white;">
+                        <div class="flex items-start gap-4">
+                            <i class="fa-solid fa-quote-left text-3xl opacity-50"></i>
+                            <div>
+                                <p class="text-lg font-medium italic">"La intervención no es solo resolver problemas, es transformar culturas y capacitar organizaciones para el cambio sostenible."</p>
+                                <p class="mt-2 text-sm opacity-80">— Beckhard & Bennis, Fundadores de la Intervención Organizacional</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flip Cards del Ciclo de Investigación-Acción -->
+                    <div class="mt-8 section-card">
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--heading)">🔄 El Plan de Vuelo: Ciclo de Investigación-Acción (Kurt Lewin)</h3>
+                        <p class="text-xs mb-6" style="color: #6c757d;"><i class="fa-solid fa-hand-pointer mr-1"></i>Pasa el cursor sobre cada tarjeta para ver el detalle.</p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+                            <div class="flip-card">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <div class="text-3xl font-black mb-2" style="opacity:0.4;">1</div>
+                                        <i class="fa-solid fa-magnifying-glass text-2xl mb-3"></i>
+                                        <h4 class="font-bold text-sm uppercase tracking-wide">Planear</h4>
+                                    </div>
+                                    <div class="flip-card-back">
+                                        <i class="fa-solid fa-magnifying-glass text-xl mb-2" style="color: #374151;"></i>
+                                        <h4 class="font-bold text-sm mb-2" style="color: #374151;">Planear</h4>
+                                        <p class="text-xs leading-relaxed">Diagnóstico inicial y diseño de la intervención organizacional.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flip-card">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <div class="text-3xl font-black mb-2" style="opacity:0.4;">2</div>
+                                        <i class="fa-solid fa-rocket text-2xl mb-3"></i>
+                                        <h4 class="font-bold text-sm uppercase tracking-wide">Actuar</h4>
+                                    </div>
+                                    <div class="flip-card-back">
+                                        <i class="fa-solid fa-rocket text-xl mb-2" style="color: #374151;"></i>
+                                        <h4 class="font-bold text-sm mb-2" style="color: #374151;">Actuar</h4>
+                                        <p class="text-xs leading-relaxed">Implementación de las acciones planificadas en la intervención.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flip-card">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <div class="text-3xl font-black mb-2" style="opacity:0.4;">3</div>
+                                        <i class="fa-solid fa-eye text-2xl mb-3"></i>
+                                        <h4 class="font-bold text-sm uppercase tracking-wide">Observar</h4>
+                                    </div>
+                                    <div class="flip-card-back">
+                                        <i class="fa-solid fa-eye text-xl mb-2" style="color: #374151;"></i>
+                                        <h4 class="font-bold text-sm mb-2" style="color: #374151;">Observar</h4>
+                                        <p class="text-xs leading-relaxed">Recolección de datos y evaluación de resultados obtenidos.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flip-card">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <div class="text-3xl font-black mb-2" style="opacity:0.4;">4</div>
+                                        <i class="fa-solid fa-brain text-2xl mb-3"></i>
+                                        <h4 class="font-bold text-sm uppercase tracking-wide">Reflexionar</h4>
+                                    </div>
+                                    <div class="flip-card-back">
+                                        <i class="fa-solid fa-brain text-xl mb-2" style="color: #374151;"></i>
+                                        <h4 class="font-bold text-sm mb-2" style="color: #374151;">Reflexionar</h4>
+                                        <p class="text-xs leading-relaxed">Análisis crítico y ajuste para iniciar el siguiente ciclo.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Acordeón de las Tres Partes -->
+                    <div class="mt-6 section-card">
+                        <h3 class="text-xl font-bold mb-6" style="color: var(--heading)">📚 Tres Partes Fundamentales</h3>
+                        <div class="space-y-3">
+                            <div class="border rounded-lg overflow-hidden" style="border-color: var(--line);">
+                                <button class="accordion-btn w-full px-5 py-4 text-left font-semibold flex justify-between items-center" style="background: var(--surface-soft); color: #374151;">
+                                    <span><i class="fa-solid fa-lightbulb mr-2" style="color: #374151;"></i>Parte 1: Conceptualización de la Intervención Organizacional</span>
+                                    <i class="fa-solid fa-chevron-down transition-transform"></i>
+                                </button>
+                                <div class="accordion-content hidden px-5 py-4 bg-white">
+                                    <p class="text-sm leading-relaxed">La intervención se define como una secuencia de acciones planificadas que buscan modificar el estado actual de un sistema para alcanzar niveles superiores de efectividad y bienestar. A diferencia de la administración rutinaria, la intervención requiere que el especialista asuma el rol de "interventor", quien debe poseer la voluntad de reflexionar sobre problemáticas complejas, reconocer fortalezas y debilidades institucionales y actuar con ética profesional. Autores clásicos como Beckhard y Bennis enfatizan que este proceso debe ser apoyado por la alta gerencia y basarse en las ciencias de la conducta para generar cambios sostenibles en la cultura y los procesos.</p>
+                                </div>
+                            </div>
+                            <div class="border rounded-lg overflow-hidden" style="border-color: var(--line);">
+                                <button class="accordion-btn w-full px-5 py-4 text-left font-semibold flex justify-between items-center" style="background: var(--surface-soft); color: #374151;">
+                                    <span><i class="fa-solid fa-scale-balanced mr-2" style="color: #374151;"></i>Parte 2: Marco Normativo en Colombia - El Decreto 1330 de 2019</span>
+                                    <i class="fa-solid fa-chevron-down transition-transform"></i>
+                                </button>
+                                <div class="accordion-content hidden px-5 py-4 bg-white">
+                                    <p class="text-sm leading-relaxed">La educación posgradual en Colombia ha evolucionado hacia la priorización de resultados de aprendizaje. El Decreto 1330 de 2019 establece que los programas deben demostrar condiciones de calidad en su gestión curricular y fomentar la creación de conocimiento o innovación. En este contexto, el proyecto de intervención se configura como un "Proyecto Aplicado", el cual permite la transferencia social de conocimiento para solucionar problemas focalizados. La normativa exige que el trabajo de grado refleje la profundización en el área de especialidad y que el estudiante demuestre autonomía y espíritu crítico-transformador.</p>
+                                </div>
+                            </div>
+                            <div class="border rounded-lg overflow-hidden" style="border-color: var(--line);">
+                                <button class="accordion-btn w-full px-5 py-4 text-left font-semibold flex justify-between items-center" style="background: var(--surface-soft); color: #374151;">
+                                    <span><i class="fa-solid fa-university mr-2" style="color: #374151;"></i>Parte 3: Modalidades y Requisitos Institucionales</span>
+                                    <i class="fa-solid fa-chevron-down transition-transform"></i>
+                                </button>
+                                <div class="accordion-content hidden px-5 py-4 bg-white">
+                                    <p class="text-sm leading-relaxed">Las Instituciones de Educación Superior (IES) ofrecen diversas rutas para la obtención del título. El Proyecto Aplicado (en modalidades de emprendimiento, desarrollo tecnológico o social) y la Investigación-Acción son las más valoradas en especializaciones de gerencia por su impacto directo. Es fundamental que el especialista conozca los requisitos de permanencia y graduación, tales como el porcentaje de créditos cursados (generalmente entre el 40% y el 80%) para la inscripción de la propuesta, y los plazos máximos de graduación (usualmente hasta 3 años). Este tema concluye analizando la propiedad intelectual, donde los resultados derivados del trabajo suelen regirse por acuerdos de co-creación entre el estudiante y la universidad.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pestañas 7S de McKinsey -->
+                    <div class="mt-8 section-card">
+                        <h3 class="text-xl font-bold mb-6" style="color: var(--heading)">🧬 Las 7S de McKinsey: Marco de Diagnóstico Organizacional</h3>
+                        <div class="mckinsey-tabs">
+                            <div class="flex flex-wrap gap-2 mb-4 border-b" style="border-color: var(--line);">
+                                <button class="mckinsey-tab-btn px-4 py-2 font-bold text-sm rounded-t-lg transition-all" data-tab="strategy" style="background: #17a2b8; color: white;">
+                                    <i class="fa-solid fa-chess-king mr-1"></i>Estrategia
+                                </button>
+                                <button class="mckinsey-tab-btn px-4 py-2 font-semibold text-sm rounded-t-lg transition-all" data-tab="structure" style="background: var(--surface-soft); color: #374151;">
+                                    <i class="fa-solid fa-sitemap mr-1"></i>Estructura
+                                </button>
+                                <button class="mckinsey-tab-btn px-4 py-2 font-semibold text-sm rounded-t-lg transition-all" data-tab="systems" style="background: var(--surface-soft); color: #374151;">
+                                    <i class="fa-solid fa-cogs mr-1"></i>Sistemas
+                                </button>
+                                <button class="mckinsey-tab-btn px-4 py-2 font-semibold text-sm rounded-t-lg transition-all" data-tab="values" style="background: var(--surface-soft); color: #374151;">
+                                    <i class="fa-solid fa-heart mr-1"></i>Valores
+                                </button>
+                                <button class="mckinsey-tab-btn px-4 py-2 font-semibold text-sm rounded-t-lg transition-all" data-tab="style" style="background: var(--surface-soft); color: #374151;">
+                                    <i class="fa-solid fa-users mr-1"></i>Estilo
+                                </button>
+                                <button class="mckinsey-tab-btn px-4 py-2 font-semibold text-sm rounded-t-lg transition-all" data-tab="skills" style="background: var(--surface-soft); color: #374151;">
+                                    <i class="fa-solid fa-user-graduate mr-1"></i>Habilidades
+                                </button>
+                                <button class="mckinsey-tab-btn px-4 py-2 font-semibold text-sm rounded-t-lg transition-all" data-tab="staff" style="background: var(--surface-soft); color: #374151;">
+                                    <i class="fa-solid fa-users-gear mr-1"></i>Personal
+                                </button>
+                            </div>
+                            <div class="mckinsey-tab-content">
+                                <div class="mckinsey-tab-pane active p-5 bg-white rounded-lg" data-content="strategy">
+                                    <h4 class="font-bold text-lg mb-3" style="color: var(--heading)">Estrategia (Strategy)</h4>
+                                    <p class="text-sm leading-relaxed">El plan de acción de la organización para construir y mantener una ventaja competitiva sostenible. Incluye la misión, visión, objetivos y la forma en que la empresa comprenderá y abordará el mercado.</p>
+                                </div>
+                                <div class="mckinsey-tab-pane hidden p-5 bg-white rounded-lg" data-content="structure">
+                                    <h4 class="font-bold text-lg mb-3" style="color: var(--heading)">Estructura (Structure)</h4>
+                                    <p class="text-sm leading-relaxed">La forma en que la organización está estructurada, incluyendo la jerarquía, división del trabajo, líneas de autoridad y comunicación. Determina cómo se distribuyen las responsabilidades y el poder.</p>
+                                </div>
+                                <div class="mckinsey-tab-pane hidden p-5 bg-white rounded-lg" data-content="systems">
+                                    <h4 class="font-bold text-lg mb-3" style="color: var(--heading)">Sistemas (Systems)</h4>
+                                    <p class="text-sm leading-relaxed">Los procesos y procedimientos formales e informales que gobiernan el trabajo diario. Incluye sistemas de información, gestión de desempeño, finanzas, recursos humanos y operaciones.</p>
+                                </div>
+                                <div class="mckinsey-tab-pane hidden p-5 bg-white rounded-lg" data-content="values">
+                                    <h4 class="font-bold text-lg mb-3" style="color: var(--heading)">Valores Compartidos (Shared Values)</h4>
+                                    <p class="text-sm leading-relaxed">El núcleo central de la cultura organizacional. Son las creencias, principios y filosofía que guían las decisiones y comportamientos. Es el "pegamento" que mantiene unidas las otras S.</p>
+                                </div>
+                                <div class="mckinsey-tab-pane hidden p-5 bg-white rounded-lg" data-content="style">
+                                    <h4 class="font-bold text-lg mb-3" style="color: var(--heading)">Estilo (Style)</h4>
+                                    <p class="text-sm leading-relaxed">El estilo de liderazgo y la cultura organizacional. Incluye cómo los líderes interactúan con los empleados, el nivel de empowerment, la toma de decisiones y el clima laboral.</p>
+                                </div>
+                                <div class="mckinsey-tab-pane hidden p-5 bg-white rounded-lg" data-content="skills">
+                                    <h4 class="font-bold text-lg mb-3" style="color: var(--heading)">Habilidades (Skills)</h4>
+                                    <p class="text-sm leading-relaxed">Las capacidades distintivas de la organización y sus empleados. Incluye competencias técnicas, conocimientos especializados y habilidades que crean ventaja competitiva.</p>
+                                </div>
+                                <div class="mckinsey-tab-pane hidden p-5 bg-white rounded-lg" data-content="staff">
+                                    <h4 class="font-bold text-lg mb-3" style="color: var(--heading)">Personal (Staff)</h4>
+                                    <p class="text-sm leading-relaxed">Las personas de la organización y cómo son gestionadas. Incluye reclutamiento, capacitación, desarrollo, compensación y la composición del talento humano.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="actividad" class="content-pane">
+                    <div class="section-card no-hover">
+                        <p class="text-xs font-bold tracking-widest text-slate-500 uppercase">Actividad Interactiva</p>
+                        <h2 class="mt-4 text-3xl font-extrabold" style="color: var(--heading)">🎯 El Consultor vs. El Interventor</h2>
+                        <p class="mt-4 leading-relaxed">Una organización enfrenta una crisis. Tú eres el experto llamado a actuar. Toma decisiones en cada encrucijada y descubre si tu enfoque genera cambio sostenible o soluciones de corto plazo.</p>
+                    </div>
+
+                    <!-- Árbol de Decisiones -->
+                    <div class="mt-6 section-card" id="decision-tree-container">
+
+                        <!-- Barra de progreso del árbol -->
+                        <div class="mb-6">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold uppercase tracking-widest" style="color: var(--accent);">Progreso de la simulación</span>
+                                <span id="dt-step-label" class="text-xs font-semibold" style="color: var(--text);">Paso 1 de 3</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full" style="background: var(--line);">
+                                <div id="dt-progress-bar" class="h-2 rounded-full transition-all duration-500" style="width: 33%; background: var(--accent);"></div>
+                            </div>
+                        </div>
+
+                        <!-- Panel de situación -->
+                        <div id="dt-situation" class="p-5 rounded-xl mb-6" style="background: linear-gradient(135deg, #1a3c5e 0%, #0c7b8a 100%); color: white;">
+                            <p class="text-xs font-bold uppercase tracking-widest opacity-70 mb-2">🏢 Situación</p>
+                            <p id="dt-situation-text" class="text-base leading-relaxed font-medium"></p>
+                        </div>
+
+                        <!-- Pregunta de decisión -->
+                        <div id="dt-question-box">
+                            <h3 id="dt-question-title" class="text-lg font-extrabold mb-1" style="color: var(--heading);"></h3>
+                            <p id="dt-question-hint" class="text-xs mb-5" style="color: #6c757d;"></p>
+                            <div id="dt-options" class="grid md:grid-cols-2 gap-4"></div>
+                        </div>
+
+                        <!-- Panel de consecuencia (oculto hasta elegir) -->
+                        <div id="dt-consequence" class="hidden mt-6 p-5 rounded-xl" style="border: 2px solid var(--line);">
+                            <p id="dt-consequence-label" class="text-xs font-bold uppercase tracking-widest mb-2"></p>
+                            <p id="dt-consequence-text" class="text-base leading-relaxed"></p>
+                            <p id="dt-consequence-lesson" class="mt-3 text-sm font-semibold italic" style="color: var(--accent);"></p>
+                            <div class="mt-5 flex gap-3">
+                                <button id="dt-next-btn" type="button" class="btn-main flex items-center gap-2">
+                                    Continuar <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Resultado final (oculto hasta completar) -->
+                        <div id="dt-final" class="hidden mt-6">
+                            <div id="dt-final-card" class="p-6 rounded-2xl text-center" style="border: 2px solid var(--accent);">
+                                <div id="dt-final-icon" class="text-5xl mb-4"></div>
+                                <h3 id="dt-final-title" class="text-2xl font-extrabold mb-3" style="color: var(--heading);"></h3>
+                                <p id="dt-final-desc" class="leading-relaxed mb-4" style="color: var(--text);"></p>
+                                <div id="dt-score-pills" class="flex justify-center gap-3 flex-wrap mb-5"></div>
+                                <button id="dt-restart-btn" type="button" class="btn-soft flex items-center gap-2 mx-auto">
+                                    <i class="fa-solid fa-rotate-right"></i> Volver a intentar
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section id="evaluacion" class="content-pane">
+                    <div class="section-card no-hover">
+                        <p class="text-xs font-bold tracking-widest text-slate-500 uppercase">Autoevaluación</p>
+                        <h2 class="mt-4 text-3xl font-extrabold" style="color: var(--heading)">✅ Cuestionario del Tema 1</h2>
+                        <p class="mt-4 leading-relaxed">Responde las 3 preguntas. Al finalizar podrás ver tu puntaje y revisar tus respuestas.</p>
+                    </div>
+                    <div class="section-card mt-6">
+                        <div id="quiz-box">
+                            <div class="flex justify-between items-center gap-4">
+                                <h3 id="quiz-title" class="text-xl font-extrabold" style="color: var(--heading);">Pregunta 1</h3>
+                                <span id="quiz-progress" class="text-sm font-bold" style="color: var(--text);">1/3</span>
+                            </div>
+                            <p id="quiz-text" class="mt-4 text-lg font-semibold" style="color: var(--text);"></p>
+                            <div id="quiz-options" class="mt-5 space-y-3"></div>
+                            <div class="mt-6 flex justify-between gap-3">
+                                <button id="quiz-prev" type="button" class="btn-soft">Anterior</button>
+                                <button id="quiz-next" type="button" class="btn-main">Siguiente</button>
+                            </div>
+                        </div>
+                        <div id="quiz-results" class="hidden mt-6 p-5 rounded-2xl" style="background: var(--surface-soft); border: 1px solid var(--accent);">
+                            <h3 class="text-xl font-extrabold" style="color: var(--heading);">Autoevaluación completada</h3>
+                            <p class="mt-2 font-semibold" style="color: var(--text);">Puntaje: <span id="quiz-score">0</span>/3</p>
+                            <p id="quiz-feedback" class="mt-2" style="color: var(--text);"></p>
+                            <div id="quiz-review" class="mt-5 space-y-3"></div>
+                            <button id="quiz-restart" type="button" class="btn-main mt-5">Reiniciar</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="recursos" class="content-pane">
+                    <div class="section-card no-hover">
+                        <p class="text-xs font-bold tracking-widest text-slate-500 uppercase">Recursos</p>
+                        <h2 class="mt-4 text-3xl font-extrabold" style="color: var(--heading)">📦 Materiales de apoyo</h2>
+                        <p class="mt-3 text-sm" style="color: var(--text);">Escanea el código QR de cada recurso con tu celular o haz clic en el botón para acceder directamente.</p>
+                    </div>
+                    <div class="mt-6 space-y-4">
+
+                        <!-- Recurso 1: Decreto 1330 -->
+                        <div class="section-card border-t-4 hover:shadow-lg transition-shadow" style="border-color: var(--accent);">
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center text-2xl" style="color: #e53e3e;">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-bold" style="color: var(--heading)">Decreto 1330 de 2019</h3>
+                                    <p class="mt-1 text-sm leading-relaxed">Documento oficial del Ministerio de Educación sobre calidad de la educación superior.</p>
+                                    <a href="https://www.mineducacion.gov.co/1780/articles-387348_archivo_pdf.pdf" target="_blank" class="mt-3 inline-flex items-center gap-2 text-sm font-bold" style="color: var(--accent);">
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir recurso
+                                    </a>
+                                </div>
+                                <div class="flex-shrink-0 flex flex-col items-center gap-1">
+                                    <img src="img/qr-01.png" alt="QR Decreto 1330" class="rounded-lg" style="width:110px;height:110px; border: 1px solid var(--line);">
+                                    <p class="text-xs font-semibold" style="color: #6c757d;">Escanear</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section id="bibliografia" class="content-pane">
+                    <div class="section-card no-hover">
+                        <p class="text-xs font-bold tracking-widest text-slate-500 uppercase">Bibliografía</p>
+                        <h2 class="mt-4 text-3xl font-extrabold" style="color: var(--heading)">📖 Referencias bibliográficas</h2>
+                        <p class="mt-3 text-sm" style="color: var(--text);">Escanea el QR o usa los enlaces para acceder a cada referencia desde la biblioteca virtual o Google Scholar.</p>
+                    </div>
+                    <div class="mt-6 space-y-4">
+
+                        <!-- Ref 1: Cummings -->
+                        <div class="section-card border-l-4 hover:shadow-md transition-shadow" style="border-color: var(--accent);">
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-xl" style="color: var(--accent);">
+                                    <i class="fa-solid fa-book"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-bold text-sm" style="color: var(--heading);">Cummings, T. G.</p>
+                                    <p class="italic text-sm leading-relaxed mt-1">Desarrollo organizacional y cambio.</p>
+                                    <div class="mt-3 flex flex-wrap gap-3">
+                                        <a href="https://login.ezproxyucor.unicordoba.edu.co/login?qurl=https%3a%2f%2febookcentral.proquest.com%2flib%2funicordobasp%2fdetail.action%3fdocID%3d3196423" target="_blank" class="bib-link">
+                                            <i class="fa-solid fa-building-columns"></i> EbookCentral
+                                        </a>
+                                        <a href="https://scholar.google.com/scholar?q=Cummings%20Worley%20Desarrollo%20organizacional%20cambio" target="_blank" class="bib-link">
+                                            <i class="fa-brands fa-google"></i> Google Scholar
+                                        </a>
+                                    </div>
+                                    <p class="mt-2 text-xs" style="color: #6c757d;"><i class="fa-solid fa-circle-info mr-1"></i>EbookCentral requiere credenciales institucionales de Unicórdoba.</p>
+                                </div>
+                                <div class="flex-shrink-0 flex flex-col items-center gap-1">
+                                    <img src="img/qr-02.png" alt="QR Cummings" class="rounded" style="width:90px;height:90px; border: 1px solid var(--line);">
+                                    <p class="text-xs" style="color: #6c757d;">Escanear</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ref 2: Guízar Montúfar -->
+                        <div class="section-card border-l-4 hover:shadow-md transition-shadow" style="border-color: var(--accent);">
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-xl" style="color: var(--accent);">
+                                    <i class="fa-solid fa-book"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-bold text-sm" style="color: var(--heading);">Guízar Montúfar, R.</p>
+                                    <p class="italic text-sm leading-relaxed mt-1">Desarrollo organizacional: principios y aplicaciones.</p>
+                                    <div class="mt-3 flex flex-wrap gap-3">
+                                        <a href="https://login.ezproxyucor.unicordoba.edu.co/login?qurl=https%3a%2f%2febookcentral.proquest.com%2flib%2funicordobasp%2fdetail.action%3fdocID%3d3195984" target="_blank" class="bib-link">
+                                            <i class="fa-solid fa-building-columns"></i> EbookCentral
+                                        </a>
+                                        <a href="https://scholar.google.com/scholar?q=Guizar%20Montufar%20Desarrollo%20organizacional%20principios%20aplicaciones" target="_blank" class="bib-link">
+                                            <i class="fa-brands fa-google"></i> Google Scholar
+                                        </a>
+                                    </div>
+                                    <p class="mt-2 text-xs" style="color: #6c757d;"><i class="fa-solid fa-circle-info mr-1"></i>EbookCentral requiere credenciales institucionales de Unicórdoba.</p>
+                                </div>
+                                <div class="flex-shrink-0 flex flex-col items-center gap-1">
+                                    <img src="img/qr-03.png" alt="QR Guízar" class="rounded" style="width:90px;height:90px; border: 1px solid var(--line);">
+                                    <p class="text-xs" style="color: #6c757d;">Escanear</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ref 3: Mello -->
+                        <div class="section-card border-l-4 hover:shadow-md transition-shadow" style="border-color: var(--accent);">
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-xl" style="color: var(--accent);">
+                                    <i class="fa-solid fa-book"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-bold text-sm" style="color: var(--heading);">Mello, O. A. de F.</p>
+                                    <p class="italic text-sm leading-relaxed mt-1">Desarrollo organizacional: enfoque integral.</p>
+                                    <div class="mt-3 flex flex-wrap gap-3">
+                                        <a href="https://dialnet.unirioja.es/servlet/libro?codigo=223910" target="_blank" class="bib-link">
+                                            <i class="fa-solid fa-database"></i> Dialnet
+                                        </a>
+                                        <a href="https://scholar.google.com/scholar?q=Mello%20Desarrollo%20organizacional%20enfoque%20integral" target="_blank" class="bib-link">
+                                            <i class="fa-brands fa-google"></i> Google Scholar
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 flex flex-col items-center gap-1">
+                                    <img src="img/qr-04.png" alt="QR Mello" class="rounded" style="width:90px;height:90px; border: 1px solid var(--line);">
+                                    <p class="text-xs" style="color: #6c757d;">Escanear</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ref 4: Ferrer Pérez -->
+                        <div class="section-card border-l-4 hover:shadow-md transition-shadow" style="border-color: var(--accent);">
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-xl" style="color: var(--accent);">
+                                    <i class="fa-solid fa-book"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-bold text-sm" style="color: var(--heading);">Ferrer Pérez, L.</p>
+                                    <p class="italic text-sm leading-relaxed mt-1">Desarrollo organizacional.</p>
+                                    <div class="mt-3 flex flex-wrap gap-3">
+                                        <a href="https://scholar.google.com/scholar?q=Ferrer%20Perez%20Desarrollo%20organizacional" target="_blank" class="bib-link">
+                                            <i class="fa-brands fa-google"></i> Google Scholar
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 flex flex-col items-center gap-1">
+                                    <img src="img/qr-05.png" alt="QR Ferrer" class="rounded" style="width:90px;height:90px; border: 1px solid var(--line);">
+                                    <p class="text-xs" style="color: #6c757d;">Escanear</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <footer class="mt-10 pb-10 text-center">
+                    <p class="text-slate-600 font-medium">Creado por:</p>
+                    <p class="font-bold text-lg" style="color: var(--heading)">Centro de Innovación en TIC para el apoyo de la Docencia CINTIA</p>
+                    <p class="text-slate-500 text-sm">Universidad de Córdoba</p>
+                </footer>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="script.js"></script>
+<script src="https://elens.ecodestudio.dev/elens.js"></script>
+</body>
+</html>
