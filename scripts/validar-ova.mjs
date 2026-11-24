@@ -123,9 +123,20 @@ function anchoPx(tag) {
 function contarPreguntas(js, secEval) {
   let hay = false, n = 0;
   // (a) un arreglo JS de preguntas con claves question/pregunta/prompt/enunciado.
-  if (/\b(?:quizData|quizQuestions|preguntas|questions|quiz)\s*=\s*\[/.test(js)) {
+  const arreglo = js.match(/\b(?:quizData|quizQuestions|preguntas|questions|quiz)\s*=\s*\[/);
+  if (arreglo) {
     hay = true;
     n = Math.max(n, (js.match(/\b(?:question|pregunta|prompt|enunciado)\s*:/gi) || []).length);
+    // Preguntas escritas con la clave corta q: o contadas por su respuesta (correct:).
+    // Solo dentro del arreglo de preguntas: desde su [ hasta el ] que lo cierra.
+    const ini = arreglo.index + arreglo[0].length - 1;
+    let prof = 0, fin = js.length;
+    for (let k = ini; k < js.length; k++) {
+      if (js[k] === '[') prof++;
+      else if (js[k] === ']' && --prof === 0) { fin = k; break; }
+    }
+    const lista = js.slice(ini, fin);
+    n = Math.max(n, (lista.match(/(?:^|[\s{,])q\s*:/g) || []).length, (lista.match(/\bcorrect\s*:/g) || []).length);
   }
   // (b) todas las respuestas en un solo atributo: data-correct='[0,1,2]'.
   for (const m of secEval.matchAll(/data-correct=['"]\s*\[([^\]]*)\]/g)) {
