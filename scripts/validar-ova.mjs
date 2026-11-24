@@ -209,9 +209,9 @@ for (const dir of ovas) {
     err(r, `El nivel "${p.nivel}" no es válido.`, 'La primera carpeta debe ser esp (especialización), mae (maestría) o doc (doctorado).');
   if (!SIGLA_PROGRAMA.test(p.programa))
     err(r, `La sigla del programa "${p.programa}" no es válida.`,
-      'Usa la sigla oficial del programa en minúsculas, sin la abreviatura del nivel, de 2 a 5 letras (ej: EspGTHDO → gthdo).');
+      'Usa de 2 a 5 letras minúsculas: las iniciales de las palabras importantes del nombre del programa, sin el nivel (ej: Gerencia del Talento Humano y Desarrollo Organizacional → gthdo).');
   if (!SIGLA_CURSO.test(p.curso))
-    err(r, `La sigla del curso "${p.curso}" no es válida.`, 'Usa de 2 a 4 letras minúsculas: las iniciales de las palabras importantes (ej: Psicología Organizacional y Bienestar Humano → pobh).');
+    err(r, `La sigla del curso "${p.curso}" no es válida.`, 'Usa de 2 a 4 letras minúsculas: las iniciales de las palabras importantes (ej: Psicología Organizacional y Bienestar Humano → pobh). Si el curso va en secuencia, termina en su número (Metodología de la investigación I → mi1).');
   if (p.tipo !== 'recurso' && !UNIDAD.test(p.unidad))
     err(r, `La carpeta "${p.unidad}" no es una unidad ni un recurso del curso.`,
       `Si es una unidad, renómbrala como u + dos dígitos (u01, u02…). Si es un recurso del curso, usa uno de estos nombres: ${Object.keys(RECURSOS).join(', ')}.`);

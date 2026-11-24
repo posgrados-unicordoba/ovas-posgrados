@@ -11,10 +11,10 @@
  *   esp/gthdo/pobh/u02/diagnostico OVA complementarios de la unidad 2: diagnostico o actividades
  *   esp/gthdo/pobh/bibliografia    recursos del curso: bibliografia, rubrica o mapa
  *
- *   node scripts/migrar-ova.mjs "C:\Users\monic\Documents\Tema3" esp/gthdo/pobh/u02/t03 ^
+ *   node scripts/migrar-ova.mjs "C:\Users\usuario\Documents\Tema3" esp/gthdo/pobh/u02/t03 ^
  *        --programa "Gerencia del Talento Humano y Desarrollo Organizacional" ^
  *        --curso "Psicología Organizacional y Bienestar Humano" ^
- *        --responsable "Mónica Trochez"
+ *        --responsable "Nombre Apellido"
  *
  * Opciones:
  *   --programa "…"     Nombre completo del programa (solo si aún no está en catalogo.csv)
@@ -75,7 +75,7 @@ const p = partesRuta(destinoNorm);
 if (!p) salir(`La ruta destino "${destinoRel}" debe ser nivel/programa/curso/uNN/tNN, …/uNN/${Object.keys(COMPLEMENTOS).join('|')} o …/${Object.keys(RECURSOS).join('|')}.`);
 if (!NIVELES[p.nivel]) salir(`El nivel "${p.nivel}" debe ser esp, mae o doc.`);
 if (!SIGLA_PROGRAMA.test(p.programa)) salir(`La sigla del programa "${p.programa}" debe tener de 2 a 5 letras minúsculas.`);
-if (!SIGLA_CURSO.test(p.curso)) salir(`La sigla del curso "${p.curso}" debe tener de 2 a 4 letras minúsculas.`);
+if (!SIGLA_CURSO.test(p.curso)) salir(`La sigla del curso "${p.curso}" debe tener de 2 a 4 letras minúsculas (y, si el curso va en secuencia, un número al final: mi1).`);
 if (p.tipo !== 'recurso' && !UNIDAD.test(p.unidad))
   salir(`"${p.unidad}" debe ser una unidad (u + dos dígitos: u01) o un recurso del curso (${Object.keys(RECURSOS).join(', ')}).`);
 if (p.tema && !TEMA.test(p.tema)) salir(`"${p.tema}" debe ser un tema (t + dos dígitos: t01) o un complemento de la unidad (${Object.keys(COMPLEMENTOS).join(', ')}).`);

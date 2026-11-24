@@ -18,7 +18,7 @@ de la Docencia). El público son profesionales; el OVA se incrusta en el aula vi
 - Recursos del curso: `nivel/programa/curso/bibliografia/`, `rubrica/` (obligatorios) y
   `mapa/` (opcional). Si hay una rúbrica por unidad, van todas en la misma página.
 - Nivel: `esp` (especialización), `mae` (maestría) o `doc` (doctorado).
-- Siglas: programa de 2 a 5 letras (su sigla oficial), curso de 2 a 4. Ambas deben estar
+- Siglas: programa de 2 a 5 letras (iniciales de su nombre sin el nivel), curso de 2 a 4 (más un número final si el curso va en secuencia: `mi1`). Ambas deben estar
   en `catalogo.csv`. No inventes siglas: si no están, pregunta.
 - Código del OVA: `programa-curso-uNN-tNN` (ej.: `gthdo-pobh-u02-t03`); `gthdo-pobh-u02-diagnostico`
   para un complemento de la unidad; `gthdo-pobh-rubrica` para un recurso del curso.
