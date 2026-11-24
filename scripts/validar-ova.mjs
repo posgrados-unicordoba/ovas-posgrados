@@ -574,8 +574,13 @@ async function probar(url) {
   return r;
 }
 
+// Sitios que bloquean las comprobaciones automáticas aunque el enlace funcione:
+// no se comprueban, para no llenar el resultado de advertencias inútiles.
+const SIN_COMPROBAR = /(^|\.)(scholar\.google\.[a-z.]+|gemini\.google\.com|canva\.com|doi\.org|ebookcentral\.proquest\.com|researchgate\.net|linkedin\.com|chatgpt\.com|openai\.com|claude\.ai|perplexity\.ai|copilot\.microsoft\.com|notebooklm\.google\.com)$/i;
+const sinComprobar = (u) => { try { return SIN_COMPROBAR.test(new URL(u).hostname); } catch { return false; } };
+
 if (!process.argv.includes('--sin-enlaces') && enlacesPorUrl.size) {
-  const urls = [...enlacesPorUrl.keys()];
+  const urls = [...enlacesPorUrl.keys()].filter((u) => !sinComprobar(u));
   const resultados = new Map();
   let i = 0;
   await Promise.all(Array.from({ length: Math.min(6, urls.length) }, async () => {
@@ -587,17 +592,23 @@ if (!process.argv.includes('--sin-enlaces') && enlacesPorUrl.size) {
   if (sinRed) {
     console.warn(`ℹ️  No se pudieron comprobar los ${urls.length} enlaces externos (parece que no hay conexión a internet). En GitHub se comprueban al abrir el PR.`);
   } else {
+    const dudosos = new Map(); // OVA → enlaces que el sitio no dejó comprobar
     for (const [u, res] of resultados) {
       for (const r of enlacesPorUrl.get(u)) {
         if (res.status === 404 || res.status === 410)
           err(r, `El enlace ${u} está roto (la página no existe: error ${res.status}).`, 'Busca la dirección correcta del recurso y actualiza el enlace y su código QR.');
         else if (res.error === 'ENOTFOUND')
           err(r, `El enlace ${u} lleva a un sitio que no existe.`, 'Revisa que la dirección esté bien escrita; actualiza el enlace y su código QR.');
-        else if (res.error || res.status >= 400)
-          warn(r, `No se pudo confirmar que el enlace ${u} funcione (${res.error ? `error ${res.error}` : `el sitio respondió ${res.status}`}).`,
-            'Ábrelo en el navegador: si funciona, no hay que hacer nada; si no, actualiza el enlace y su código QR.');
+        else if (res.error || res.status >= 400) {
+          if (!dudosos.has(r)) dudosos.set(r, []);
+          dudosos.get(r).push(u);
+        }
       }
     }
+    // Una sola advertencia por OVA con todos sus enlaces dudosos.
+    for (const [r, lista] of dudosos)
+      warn(r, `${lista.length === 1 ? 'Un enlace no se dejó' : `${lista.length} enlaces no se dejaron`} comprobar automáticamente: ${lista.join(' · ')}`,
+        'Ábrelos en el navegador: si funcionan, no hay que hacer nada; si alguno no abre, actualiza el enlace y su código QR.');
   }
 }
 

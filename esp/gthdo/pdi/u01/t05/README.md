@@ -19,4 +19,5 @@
 ## Historial
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.1 | 2026-11-23 | Quita de la bibliografía la referencia de Quality Service: su sitio ya no existe |
 | 1.0 | 2026-11-23 | Versión inicial (migración al repositorio) |
