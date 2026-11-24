@@ -49,8 +49,9 @@ esp/gthdo/pobh/
 
 - Todo en minúsculas, sin tildes, sin ñ y sin espacios.
 - Guion medio (`-`) como separador, nunca guion bajo (`_`).
-- Los programas usan su sigla oficial de la universidad, en minúsculas y sin la abreviatura del nivel (EspGTHDO → `gthdo`), de 2 a 5 letras.
-- Los cursos se nombran con una sigla de 2 a 4 letras.
+- Los programas se nombran con las iniciales de las palabras importantes de su nombre, sin el nivel, de 2 a 5 letras (Gerencia del Talento Humano y Desarrollo Organizacional → `gthdo`). Para sugerirla: `node scripts/sugerir-sigla.mjs --nombre-programa "Nombre del programa"`.
+- Los cursos se nombran con una sigla de 2 a 4 letras; si van en secuencia, terminan en su número (Metodología de la investigación I → `mi1`).
+- Si el programa o el curso ya tiene una sigla interna, se usa esa (con el mismo formato); el script solo sugiere una cuando no la hay.
 - Toda sigla se registra en `catalogo.csv`.
 - Unidades y temas con dos dígitos: `u01`, `t01`.
 - Cada OVA contiene `README.md`, `index.html`, `estilos.css`, `script.js`, `tailwind.css`, `iconos.css` (si usa íconos) y la carpeta `img/`.

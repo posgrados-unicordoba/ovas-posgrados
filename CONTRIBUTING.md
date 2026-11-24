@@ -34,9 +34,10 @@ nivel,sigla-programa,programa,sigla-curso,curso,fecha,responsable
 esp,gthdo,Gerencia del Talento Humano y Desarrollo Organizacional,pobh,Psicología Organizacional y Bienestar Humano,2026-11-10,Mónica Trochez
 ```
 
-- **Programa:** su sigla oficial de la universidad, en minúsculas y sin la abreviatura del nivel (EspGTHDO → `gthdo`), de 2 a 5 letras.
-- **Curso:** de 2 a 4 letras, con las iniciales de las palabras importantes (Psicología Organizacional y Bienestar Humano → `pobh`).
+- **Programa:** las iniciales de las palabras importantes de su nombre, sin el nivel (Especialización, Maestría, Doctorado), en minúsculas y de 2 a 5 letras. Si una parte del nombre tiene una abreviatura reconocida en los catálogos ocupacionales y educativos (TH para Talento Humano, DO para Desarrollo Organizacional), se usa esa: Gerencia del Talento Humano y Desarrollo Organizacional → `gthdo`; Actividad Física y Deporte → `afd`.
+- **Curso:** de 2 a 4 letras, con las iniciales de las palabras importantes (Psicología Organizacional y Bienestar Humano → `pobh`). Si el curso va en secuencia (I, II, III), la sigla termina en su número: Metodología de la investigación I → `mi1`, II → `mi2`.
 - Si un nombre tiene comas, va entre comillas: `"Gestión, cambio y cultura"`.
+- Si el programa o el curso ya tiene una sigla que se maneje internamente, se usa esa, siempre que cumpla el formato (letras minúsculas sin tildes: 2 a 5 para el programa; 2 a 4 para el curso, más el número final si va en secuencia). `node scripts/sugerir-sigla.mjs` solo propone una cuando no hay.
 - Una sigla asignada **no se cambia**.
 
 ---
@@ -52,7 +53,7 @@ node scripts/migrar-ova.mjs "<carpeta del OVA original>" <ruta-destino>
 Ejemplo:
 
 ```
-node scripts/migrar-ova.mjs "C:\Users\monic\Documents\Tema3" esp/gthdo/pobh/u02/t03
+node scripts/migrar-ova.mjs "C:\Users\usuario\Documents\Tema3" esp/gthdo/pobh/u02/t03
 ```
 
 La ruta destino dice qué es la página:
@@ -171,7 +172,7 @@ conserva todas las versiones anteriores.
 | Tema | Regla |
 |---|---|
 | Ruta | `nivel/programa/curso/uNN/tNN/` (o `uNN/` si el curso es por unidad; un curso no mezcla los dos), `uNN/presentacion/`, `uNN/diagnostico/` y `uNN/actividades/` para los complementos de la unidad, y `bibliografia/`, `rubrica/` o `mapa/` para los recursos del curso |
-| Siglas | Nivel `esp`, `mae` o `doc`; programa de 2 a 5 letras; curso de 2 a 4; programa y curso registrados en `catalogo.csv` |
+| Siglas | Nivel `esp`, `mae` o `doc`; programa de 2 a 5 letras; curso de 2 a 4 (más un número si va en secuencia); programa y curso registrados en `catalogo.csv` |
 | Nombres | Archivos y carpetas en minúsculas, sin tildes, sin ñ, sin espacios ni guion bajo |
 | Archivos | `README.md`, `index.html`, `estilos.css`, `script.js`, `tailwind.css`, `img/logo.webp`, e `iconos.css` si usa íconos |
 | README | Título igual al `<title>` del OVA y código que coincide con la ruta |

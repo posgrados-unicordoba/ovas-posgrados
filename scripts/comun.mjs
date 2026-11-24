@@ -12,7 +12,8 @@ export const NIVELES = { esp: 'Especialización', mae: 'Maestría', doc: 'Doctor
 export const IGNORAR = new Set(['plantilla', 'scripts', 'logos', 'node_modules', '.git', '.github']);
 
 export const SIGLA_PROGRAMA = /^[a-z]{2,5}$/;
-export const SIGLA_CURSO = /^[a-z]{2,4}$/;
+// Curso: 2 a 4 letras y, solo para cursos en secuencia, un número al final (mi1, mi2).
+export const SIGLA_CURSO = /^[a-z]{2,4}[1-9]?$/;
 export const UNIDAD = /^u\d{2}$/;
 export const TEMA = /^t\d{2}$/;
 

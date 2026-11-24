@@ -4,16 +4,22 @@
  * organización y revisa en catalogo.csv que no esté repetida.
  *
  * Curso:     node scripts/sugerir-sigla.mjs --nivel esp --programa gthdo --curso "Psicología Organizacional y Bienestar Humano"
- * Programa:  node scripts/sugerir-sigla.mjs --oficial EspGTHDO
+ * Programa:  node scripts/sugerir-sigla.mjs --nombre-programa "Actividad Física y Deporte"
  *
  * Reglas:
- *   - Programa: su sigla oficial (la de sus documentos, ej. FDOC_088-EspGTHDO),
- *     en minúsculas y sin la abreviatura del nivel (Esp, Mae, Doc): 2 a 5 letras.
+ *   - Programa: las iniciales de las palabras importantes de su nombre, sin el
+ *     nivel (Especialización, Maestría, Doctorado): 2 a 5 letras. Es una sigla
+ *     interna que sigue las abreviaturas de los catálogos ocupacionales y
+ *     educativos (TH = Talento Humano, DO = Desarrollo Organizacional):
+ *     Gerencia del Talento Humano y Desarrollo Organizacional → gthdo.
  *   - Curso: las iniciales de las palabras importantes (sin artículos ni
- *     preposiciones), de 2 a 4 letras. Si ya existe en el mismo programa, se
+ *     preposiciones), de 2 a 4 letras. Si el nombre termina en un número
+ *     (I, II, 2…), la sigla termina en ese número: Metodología de la
+ *     investigación I → mi1. Si ya existe en el mismo programa, se
  *     propone otra.
  *
- * Es una propuesta: la persona responsable la confirma. Una sigla registrada en
+ * Es una propuesta: la persona responsable la confirma. Si el programa o el
+ * curso ya tiene una sigla interna que cumple el formato, se usa esa. Una sigla registrada en
  * el catálogo no se cambia.
  */
 
@@ -30,8 +36,19 @@ export function siglaPrograma(oficial) {
   return sinTildes(oficial).replace(/^(esp|mae|doc)(?=[a-z]{2})/, '').replace(/[^a-z]/g, '');
 }
 
+/** Sigla del programa a partir de su nombre: Actividad Física y Deporte → afd. */
+export function siglaDesdeNombre(nombre) {
+  const sinNivel = sinTildes(nombre).replace(/^\s*(especializacion|maestria|doctorado)\s+(en|de)\s+/, '');
+  return sinNivel.replace(/[^a-z\s-]/g, ' ').split(/[\s-]+/)
+    .filter((p) => p && !VACIAS.has(p)).map((p) => p[0]).join('');
+}
+
 /** Candidatas para la sigla de un curso, de la más natural a la menos. */
+const ROMANOS = { i: 1, ii: 2, iii: 3, iv: 4, v: 5, vi: 6, vii: 7, viii: 8, ix: 9 };
 export function candidatasCurso(nombre) {
+  // Curso en secuencia: "Metodología de la investigación I" → letras de "Metodología de la investigación" + 1.
+  const m = sinTildes(nombre).trim().match(/^(.*\S)\s+(i{1,3}|iv|vi{0,3}|ix|[1-9])$/);
+  if (m) return candidatasCurso(m[1]).map((s) => s + (ROMANOS[m[2]] || m[2])).filter((s) => SIGLA_CURSO.test(s));
   const palabras = sinTildes(nombre).replace(/[^a-z0-9ñ\s-]/g, ' ').replace(/ñ/g, 'n')
     .split(/[\s-]+/).filter((p) => p && !VACIAS.has(p) && !/^\d+$/.test(p));
   if (!palabras.length) return [];
@@ -53,10 +70,10 @@ export function candidatasCurso(nombre) {
 const { filas, error } = leerCatalogo(process.cwd());
 if (error) { console.error(`❌ ${error}`); process.exit(1); }
 
-if (opt('oficial')) {
-  const s = siglaPrograma(opt('oficial'));
+if (opt('nombre-programa') || opt('oficial')) {
+  const s = opt('nombre-programa') ? siglaDesdeNombre(opt('nombre-programa')) : siglaPrograma(opt('oficial'));
   if (!SIGLA_PROGRAMA.test(s)) {
-    console.error(`❌ "${opt('oficial')}" da "${s}", que no tiene de 2 a 5 letras. Revisa la sigla oficial del programa.`);
+    console.error(`❌ El nombre da "${s}", que no tiene de 2 a 5 letras. Elige a mano una sigla de 2 a 5 letras con las partes más importantes del nombre y revisa que no esté en el catálogo.`);
     process.exit(1);
   }
   const usada = filas.filter((f) => f['sigla-programa'] === s);
@@ -71,7 +88,7 @@ const programa = opt('programa');
 const curso = opt('curso');
 if (!nivel || !programa || !curso) {
   console.error('Uso:  node scripts/sugerir-sigla.mjs --nivel esp --programa gthdo --curso "Nombre completo del curso"');
-  console.error('      node scripts/sugerir-sigla.mjs --oficial EspGTHDO');
+  console.error('      node scripts/sugerir-sigla.mjs --nombre-programa "Nombre del programa"');
   process.exit(1);
 }
 if (!NIVELES[nivel]) { console.error('❌ El nivel debe ser esp, mae o doc.'); process.exit(1); }
@@ -97,7 +114,7 @@ if (libre !== candidatas[0]) console.log(`   (${candidatas[0]} ya la usa otro cu
 const otras = candidatas.filter((c) => c !== libre && !ocupadas.has(c)).slice(0, 3);
 if (otras.length) console.log(`   Otras opciones libres: ${otras.join(', ')}`);
 console.log(`\nRuta de sus OVA: ${nivel}/${programa}/${libre}/uNN/tNN`);
-if (!delPrograma.length) console.log(`\n⚠️  El programa "${programa}" (${nivel}) todavía no está en el catálogo. Revisa que sea su sigla oficial.`);
+if (!delPrograma.length) console.log(`\n⚠️  El programa "${programa}" (${nivel}) todavía no está en el catálogo. Revisa su sigla con --nombre-programa.`);
 console.log(delPrograma.length
   ? `Al migrar el primer OVA, agrega --curso "${curso}" y el curso queda registrado en catalogo.csv.\n`
   : `Al migrar el primer OVA, agrega --programa "Nombre completo del programa" --curso "${curso}" y quedan registrados en catalogo.csv.\n`);
