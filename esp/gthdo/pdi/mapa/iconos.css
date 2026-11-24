@@ -1,0 +1,24 @@
+/* Íconos del OVA: Font Awesome Free 6.4.0 (https://fontawesome.com),
+   licencia CC BY 4.0. Solo los 0 íconos que usa este OVA, incrustados aquí.
+   Generado por scripts/guardar-iconos.mjs: no editar a mano; si se agrega un ícono, se vuelve a generar. */
+
+/* El ícono se dibuja con una máscara del color del texto. El carácter invisible
+   de ::before le da el mismo alto y la misma línea base que tenía la letra de
+   la fuente de Font Awesome, así que ocupa exactamente el mismo espacio;
+   flex-shrink evita que se encoja dentro de filas o columnas flexibles. */
+.fa, .fa-solid, .fa-regular, .fa-brands, .fas, .far, .fab {
+  display: var(--fa-display, inline-block);
+  width: 1em;
+  flex-shrink: 0;
+  line-height: 1;
+  font-style: normal;
+  background-color: currentColor;
+  -webkit-mask: var(--fa-icono) no-repeat center / contain;
+  mask: var(--fa-icono) no-repeat center / contain;
+}
+.fa::before, .fa-solid::before, .fa-regular::before, .fa-brands::before, .fas::before, .far::before, .fab::before {
+  content: "\200b";
+}
+
+
+
