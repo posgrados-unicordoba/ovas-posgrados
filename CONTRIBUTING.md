@@ -140,14 +140,17 @@ enlaces externos (en GitHub siempre se hace).
 
 ## 6. Subir el OVA
 
-1. Crea una rama nueva con el código del OVA (ej.: `gthdo-pobh-u02-t03`).
+1. Crea una rama por unidad con su código (ej.: `gthdo-pobh-u02`) y migra en ella todos
+   los temas de la unidad. La bibliografía, la rúbrica y el mapa van juntos en una rama
+   aparte (ej.: `gthdo-pobh-recursos`).
 2. Haz commit con un mensaje que empiece por el código:
-   `gthdo-pobh-u02-t03: agrega el OVA del tema 3`.
+   `gthdo-pobh-u02: agrega los temas 1 a 5 de la unidad 2`.
 3. Abre un Pull Request hacia `main` y completa la lista de verificación que aparece.
 4. Espera a que el validador termine (el check **Reglas de los OVA**). Si falla, abre
    el detalle, corrige y vuelve a subir: el check se repite solo.
-5. La responsable del repositorio revisa y aprueba. Al fusionar, el OVA se publica y su
-   enlace aparece solo en el listado: <https://posgrados-unicordoba.github.io/ovas-posgrados/>.
+5. La responsable del repositorio revisa y aprueba. Al fusionar, el OVA se publica. Su
+   enlace aparece en el listado, que no se publica: después de hacer **Pull** de `main`,
+   corre `node scripts/generar-enlaces.mjs` y abre `sitio/index.html` en el navegador.
 
 ---
 

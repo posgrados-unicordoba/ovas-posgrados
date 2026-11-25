@@ -2,8 +2,9 @@
 
 Repositorio de los objetos virtuales de aprendizaje (OVA) de los programas de posgrado.
 
-**Listado de todos los OVA publicados:** <https://posgrados-unicordoba.github.io/ovas-posgrados/>
-Esa página se actualiza sola cada vez que entra un OVA nuevo a `main`.
+Los OVA se publican en <https://posgrados-unicordoba.github.io/ovas-posgrados/> para enlazarlos desde Moodle. Esa dirección muestra una portada sin enlaces y ninguna página se deja indexar en los buscadores.
+
+**Listado con el enlace de cada OVA:** no se publica. Para verlo, en la raíz del repositorio corre `node scripts/generar-enlaces.mjs` y abre `sitio/index.html` en el navegador.
 
 ## Estructura
 
@@ -77,4 +78,4 @@ Requieren [Node.js](https://nodejs.org). La primera vez, en la raíz del reposit
 | `node scripts/migrar-ova.mjs <carpeta-original> <ruta-destino>` | Lleva un OVA existente a la estructura del repositorio. |
 | `node scripts/quemar-tailwind.mjs <ruta-del-ova>` | Vuelve a generar el `tailwind.css` de un OVA. |
 | `node scripts/guardar-iconos.mjs <ruta-del-ova>` | Vuelve a generar el `iconos.css` de un OVA. |
-| `node scripts/generar-enlaces.mjs` | Arma en `sitio/` la página con el listado de OVA, para verla en tu computador. En GitHub corre sola en cada push a `main` y se publica. |
+| `node scripts/generar-enlaces.mjs` | Arma en `sitio/` el listado de OVA con sus enlaces, para verlo en tu computador (no se publica). En GitHub corre sola en cada push a `main` y publica los OVA con una portada sin enlaces. |
