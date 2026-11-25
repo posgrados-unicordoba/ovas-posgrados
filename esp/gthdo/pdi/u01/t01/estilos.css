@@ -121,4 +121,7 @@
 #ova-embed .flip-card { display: grid; }
 #ova-embed .flip-card-inner { display: grid; height: auto; }
 #ova-embed .flip-card-front, #ova-embed .flip-card-back { position: relative; grid-area: 1 / 1; height: auto; }
+/* Sin los márgenes de arriba de los estilos generales: la tarjeta queda más compacta. */
+#ova-embed .flip-card-back h4 { margin-top: 0; }
+#ova-embed .flip-card-back p { margin-top: 0; margin-bottom: 0; }
 /* ===== fin de tarjetas giratorias ===== */

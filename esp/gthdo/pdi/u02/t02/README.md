@@ -21,3 +21,6 @@
 |---|---|---|
 | 1.1 | 2026-11-25 | Actividad en pantallas de máximo 2 elementos, con Anterior y Siguiente (criterio 3 de la lista de verificación de CINTIA) |
 | 1.0 | 2026-11-24 | Versión inicial (migración al repositorio) |
+
+## Pendientes
+- Criterio 3: la pestaña ADKAR muestra 5 escenarios para clasificar en la misma pantalla. Se corrige en la próxima actualización, según la respuesta del equipo pedagógico.

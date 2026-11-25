@@ -24,7 +24,8 @@
  *
  * El validador solo mira el OVA. No reemplaza la revisión del equipo
  * pedagógico: el contraste de los colores se revisa a mano, y el criterio
- * "máximo 2 elementos por vista" solo se advierte (hay que confirmarlo en el navegador).
+ * "máximo 2 elementos por vista" se cuenta solo en los campos de texto y listas
+ * (hay que confirmarlo en el navegador; ver el punto 18b).
  *
  * Uso local:   node scripts/validar-ova.mjs
  *              node scripts/validar-ova.mjs esp/gthdo/pobh/u02/t03   (solo ese OVA)
@@ -521,17 +522,28 @@ for (const dir of ovas) {
 
     // 18b) Criterio 3: máximo 2 elementos por vista. Si la actividad ya usa el componente
     //      "pantallas de 2 elementos" para esa vista (su id aparece en ese bloque de
-    //      script.js), no se avisa. Es solo una advertencia: el conteo automático se puede
-    //      equivocar, así que se revisa en el navegador.
+    //      script.js), no se cuenta. Si el conteo encuentra más de 2 campos en una vista,
+    //      el PR se bloquea hasta que el OVA se corrija o el README.md lo anote:
+    //        - Criterio 3: <qué falta>          → queda pendiente: se informa como advertencia.
+    //        - Criterio 3: revisado, cumple     → se revisó en el navegador: no se informa.
     const iniPantallas = js.indexOf('Pantallas de 2 elementos =====');
     const bloquePantallas = iniPantallas >= 0 ? js.slice(iniPantallas) : '';
     const sinDividir = vistasConMuchosCampos(actividades).filter((v) => !(v.id && bloquePantallas.includes(v.id)));
     if (sinDividir.length) {
       const cuenta = new Map(); for (const v of sinDividir) { const t = `${v.campos} campos en ${v.id ? `#${v.id}` : 'un paso o panel'}`; cuenta.set(t, (cuenta.get(t) || 0) + 1); }
       const detalle = [...cuenta].map(([t, n]) => (n > 1 ? `${t} (${n} veces)` : t)).join(', ');
-      warn(r, `Criterio 3 (máximo 2 elementos por vista): la actividad parece mostrar varios campos a la vez (${detalle}).`,
-        'Ábrela en el navegador y revisa cada pantalla. Si hay más de 2 cajas de texto o listas a la vista, divídela en pantallas consecutivas '
-        + '(componente "pantallas de 2 elementos", plantillas en scripts/accesibilidad/pantallas.js y pantallas.css) o en pasos con Anterior y Siguiente.');
+      const nota = ((readme || '').match(/^\s*[-*]\s*Criterio 3\s*:\s*(.+)$/im) || [])[1];
+      const que = `Criterio 3 (máximo 2 elementos por vista): la actividad parece mostrar varios campos a la vez (${detalle}).`;
+      if (!nota)
+        err(r, que,
+          'Ábrela en el navegador y revisa cada pantalla. Si hay más de 2 cajas de texto o listas a la vista, divídela en pantallas consecutivas '
+          + '(componente "pantallas de 2 elementos", plantillas en scripts/accesibilidad/pantallas.js y pantallas.css) o en pasos con Anterior y Siguiente. '
+          + 'Si no la vas a corregir ahora, anótalo en el README.md, en una sección "## Pendientes", con la línea: '
+          + '"- Criterio 3: <qué falta>. Se corrige en la próxima actualización." '
+          + 'Si la revisaste en el navegador y sí cumple, anota: "- Criterio 3: revisado, cumple".');
+      else if (!/^revisado,?\s*cumple/i.test(nota.trim()))
+        warn(r, `${que} Está anotado como pendiente en el README.md: "${nota.trim()}"`,
+          'Corrígelo en la próxima actualización del OVA y, al hacerlo, quita la línea de "## Pendientes".');
     }
   }
 

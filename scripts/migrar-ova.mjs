@@ -342,7 +342,7 @@ let cssFinal = css.includes('.logo-orb') && !css.includes('logo-orb { flex-shrin
 if (cssFinal !== css) hechos.push('El logo del encabezado móvil ya no se deforma en el celular.');
 // Las tarjetas giratorias tienen altura fija y el texto de atrás se sale. La altura pasa a ser
 // la mínima y la tarjeta crece con el texto.
-const ARREGLO_TARJETAS = '\n/* ===== Tarjetas giratorias que crecen con el texto ===== */\n#ova-embed .flip-card { display: grid; }\n#ova-embed .flip-card-inner { display: grid; height: auto; }\n#ova-embed .flip-card-front, #ova-embed .flip-card-back { position: relative; grid-area: 1 / 1; height: auto; }\n';
+const ARREGLO_TARJETAS = '\n/* ===== Tarjetas giratorias que crecen con el texto ===== */\n#ova-embed .flip-card { display: grid; }\n#ova-embed .flip-card-inner { display: grid; height: auto; }\n#ova-embed .flip-card-front, #ova-embed .flip-card-back { position: relative; grid-area: 1 / 1; height: auto; }\n#ova-embed .flip-card-back h4 { margin-top: 0; }\n#ova-embed .flip-card-back p { margin-top: 0; margin-bottom: 0; }\n';
 if (cssFinal.includes('.flip-card-back') && !cssFinal.includes('Tarjetas giratorias que crecen')) {
   cssFinal = cssFinal.replace(/(\.flip-card \{[^}]*?)\bheight:/g, '$1min-height:') + ARREGLO_TARJETAS;
   hechos.push('Las tarjetas giratorias crecen con el texto (antes el texto de atrás se salía).');
