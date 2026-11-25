@@ -19,5 +19,6 @@
 ## Historial
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.2 | 2026-11-25 | Actividad en pantallas de máximo 2 elementos, con Anterior y Siguiente (criterio 3 de la lista de verificación de CINTIA) |
 | 1.1 | 2026-11-23 | Quita de la bibliografía la referencia de Quality Service: su sitio ya no existe |
 | 1.0 | 2026-11-23 | Versión inicial (migración al repositorio) |
