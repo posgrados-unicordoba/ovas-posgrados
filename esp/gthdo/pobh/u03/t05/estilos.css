@@ -66,7 +66,7 @@ html { scroll-behavior: smooth; }
 #ova-embed .quiz-option:hover { background: #D8EBF8; border-color: #17a2b8; }
 #ova-embed .quiz-option.selected { border-color: #17a2b8; background: #D8EBF8; color: #0c7b8a; }
 #ova-embed .mobile-header { display: none; }
-#ova-embed .flip-card { perspective: 1000px; height: 200px; cursor: pointer; }
+#ova-embed .flip-card { perspective: 1000px; min-height: 200px; cursor: pointer; }
 #ova-embed .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s ease; transform-style: preserve-3d; }
 #ova-embed .flip-card:hover .flip-card-inner,
 #ova-embed .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
@@ -96,3 +96,11 @@ html { scroll-behavior: smooth; }
 
 /* El logo no se encoge en pantallas angostas (celular). */
 #ova-embed .logo-orb { flex-shrink: 0; }
+
+/* ===== Tarjetas giratorias que crecen con el texto =====
+   La altura fija dejaba el texto de la cara posterior por fuera de la tarjeta.
+   Ahora la altura original es la mínima y la tarjeta crece si el texto lo necesita. */
+#ova-embed .flip-card { display: grid; }
+#ova-embed .flip-card-inner { display: grid; height: auto; }
+#ova-embed .flip-card-front, #ova-embed .flip-card-back { position: relative; grid-area: 1 / 1; height: auto; }
+/* ===== fin de tarjetas giratorias ===== */
