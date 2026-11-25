@@ -194,8 +194,33 @@ conserva todas las versiones anteriores.
 | Rutas | Relativas, y todos los archivos que usa el OVA existen |
 | Tamaño | Ningún archivo de más de 100 MB |
 | Contenido | Bibliografía con referencias; sin texto de relleno |
+| Actividad (criterio 3) | Máximo 2 cajas de texto o listas por vista. Si hay más, se divide en pantallas o pasos, o se anota en el `README.md` como pendiente (ver abajo) |
 
 Los complementos de la unidad y los recursos del curso cumplen todas las demás reglas de esta tabla.
+
+### Criterio 3: máximo 2 elementos por vista
+
+La lista de verificación de CINTIA pide que las actividades largas se muestren en pantallas
+consecutivas, con máximo 2 elementos por vista. Si el validador encuentra una actividad con
+más de 2 cajas de texto o listas a la vista, el PR no pasa hasta que hagas una de estas tres cosas:
+
+1. **Corregirla:** dividirla en pantallas con Anterior y Siguiente. El componente
+   "pantallas de 2 elementos" está en `scripts/accesibilidad/pantallas.js` y `pantallas.css`,
+   con las instrucciones de uso.
+2. **Dejarla pendiente:** anotarlo al final del `README.md` del OVA:
+
+   ```
+   ## Pendientes
+   - Criterio 3: <qué falta>. Se corrige en la próxima actualización.
+   ```
+
+   El PR pasa, pero el aviso sigue saliendo en cada validación hasta que se corrija. Al
+   corregirla, quita la línea.
+3. **Confirmar que cumple:** si la abriste en el navegador y cada pantalla tiene máximo
+   2 elementos (el conteo automático se puede equivocar), anota `- Criterio 3: revisado, cumple`.
+
+El validador no cuenta casillas, botones de opción, arrastrar y soltar ni los campos que crea
+`script.js`: esos se revisan en el navegador.
 
 ### Advertencias (no bloquean)
 
@@ -214,7 +239,8 @@ Los complementos de la unidad y los recursos del curso cumplen todas las demás 
 
 El validador no reemplaza la revisión del equipo pedagógico. Estos criterios se revisan a mano:
 
-- Máximo 2 elementos por vista en las actividades, con instrucciones paso a paso.
+- Máximo 2 elementos por vista en las actividades, con instrucciones paso a paso (el validador
+  solo cuenta las cajas de texto y las listas; lo demás se revisa en el navegador).
 - Contraste de colores y de los bordes de las cajas de actividad.
 - Textos en bloques cortos, sin fatiga visual.
 - Figuras con título claro, tamaño legible y crédito de autoría.
