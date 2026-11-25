@@ -54,7 +54,7 @@
         #ova-embed .bib-link { background: var(--surface-soft); color: var(--heading); border: 1px solid var(--line); font-weight: 700; font-size: 0.75rem; border-radius: 8px; padding: 6px 12px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; transition: all 0.25s ease; }
         #ova-embed .bib-link:hover { background: #D8EBF8; color: #0c7b8a; border-color: #17a2b8; box-shadow: 0 4px 12px rgba(23, 162, 184, 0.25); }
         #ova-embed .btn-soft { background: var(--surface); color: #495057; font-weight: 600; border-radius: 8px; padding: 12px 24px; border: 1px solid var(--line); cursor: pointer; }
-        #ova-embed .flip-card { perspective: 1000px; height: 200px; cursor: pointer; }
+        #ova-embed .flip-card { perspective: 1000px; min-height: 200px; cursor: pointer; }
         #ova-embed .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s ease; transform-style: preserve-3d; }
         #ova-embed .flip-card:hover .flip-card-inner,
         #ova-embed .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
@@ -91,7 +91,7 @@
         #ova-embed .drop-zone-content .drag-card .text-xs { font-size: 0.65rem; }
         #ova-embed .mobile-header { display: none; }
         
-        #ova-embed .flip-card { perspective: 1000px; height: 200px; cursor: pointer; }
+        #ova-embed .flip-card { perspective: 1000px; min-height: 200px; cursor: pointer; }
         #ova-embed .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s ease; transform-style: preserve-3d; }
         #ova-embed .flip-card:hover .flip-card-inner,
         #ova-embed .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
@@ -105,7 +105,7 @@
             #ova-embed .mobile-header { display: block; padding: 18px; background: var(--surface); box-shadow: 0 2px 14px rgba(0, 0, 0, 0.05); }
             #ova-embed .main { padding: 18px; }
             #ova-embed .hero { padding: 24px; }
-            #ova-embed .flip-card { height: 180px; }
+            #ova-embed .flip-card { min-height: 180px; }
             #ova-embed .consultant-route { grid-template-columns: 1fr; }
             #ova-embed .consultant-route::before { left: 50%; right: auto; top: 24px; bottom: 24px; width: 3px; height: auto; background: linear-gradient(180deg, transparent, #17a2b8, #0c7b8a, #17a2b8, transparent); }
         }
@@ -129,3 +129,11 @@
 #ova-embed .pantallas-aviso { margin: 0 0 .5rem; font-size: .875rem; font-weight: 700; color: var(--heading, #2f5d2b); }
 #ova-embed .pantallas-nav .pantallas-aviso { margin: 0; }
 #ova-embed .pantallas-nav button:disabled { opacity: .45; cursor: not-allowed; }
+
+/* ===== Tarjetas giratorias que crecen con el texto =====
+   La altura fija dejaba el texto de la cara posterior por fuera de la tarjeta.
+   Ahora la altura original es la mínima y la tarjeta crece si el texto lo necesita. */
+#ova-embed .flip-card { display: grid; }
+#ova-embed .flip-card-inner { display: grid; height: auto; }
+#ova-embed .flip-card-front, #ova-embed .flip-card-back { position: relative; grid-area: 1 / 1; height: auto; }
+/* ===== fin de tarjetas giratorias ===== */

@@ -338,8 +338,15 @@ const cabecera = (que) => `/* ${que} del OVA ${codigoDe(p)}. */\n\n`;
 writeFileSync(join(destino, 'index.html'), html);
 // En celular, el nombre largo del programa empuja el logo y lo vuelve ovalado.
 const ARREGLO_LOGO = '\n/* El logo no se encoge en pantallas angostas (celular). */\n#ova-embed .logo-orb { flex-shrink: 0; }\n';
-const cssFinal = css.includes('.logo-orb') && !css.includes('logo-orb { flex-shrink: 0; }') ? css + ARREGLO_LOGO : css;
+let cssFinal = css.includes('.logo-orb') && !css.includes('logo-orb { flex-shrink: 0; }') ? css + ARREGLO_LOGO : css;
 if (cssFinal !== css) hechos.push('El logo del encabezado móvil ya no se deforma en el celular.');
+// Las tarjetas giratorias tienen altura fija y el texto de atrás se sale. La altura pasa a ser
+// la mínima y la tarjeta crece con el texto.
+const ARREGLO_TARJETAS = '\n/* ===== Tarjetas giratorias que crecen con el texto ===== */\n#ova-embed .flip-card { display: grid; }\n#ova-embed .flip-card-inner { display: grid; height: auto; }\n#ova-embed .flip-card-front, #ova-embed .flip-card-back { position: relative; grid-area: 1 / 1; height: auto; }\n';
+if (cssFinal.includes('.flip-card-back') && !cssFinal.includes('Tarjetas giratorias que crecen')) {
+  cssFinal = cssFinal.replace(/(\.flip-card \{[^}]*?)\bheight:/g, '$1min-height:') + ARREGLO_TARJETAS;
+  hechos.push('Las tarjetas giratorias crecen con el texto (antes el texto de atrás se salía).');
+}
 writeFileSync(join(destino, 'estilos.css'), cabecera('Estilos propios') + cssFinal + '\n');
 writeFileSync(join(destino, 'script.js'), cabecera('Interacciones') + js + '\n');
 

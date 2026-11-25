@@ -69,7 +69,7 @@ const unicos = (arr) => [...new Set(arr)];
 // cerrado; el buscador abre solo las ramas donde hay coincidencias.
 const plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
 const contar = (lista) => plural(lista.filter((o) => o.tipo !== 'recurso').length, 'OVA', 'OVA');
-const BASE_REL = (r) => `${r}/`;
+const BASE_REL = (r) => `${r}/index.html`; // con index.html para que abra el OVA también desde el computador (file://)
 
 const item = (o) => {
   const buscar = esc(`${o.titulo} ${etiquetaDe(o)} ${o.codigo} ${o.nombreCurso} ${o.nombrePrograma}`.toLowerCase());
@@ -301,7 +301,7 @@ if (PUBLICAR) {
   // La dirección …/enlaces/ también lleva al listado (solo en la copia local).
   mkdirSync(join(SALIDA, 'enlaces'));
   writeFileSync(join(SALIDA, 'enlaces', 'index.html'),
-    `<!DOCTYPE html><meta charset="UTF-8">${NOINDEX}<meta http-equiv="refresh" content="0; url=../"><title>OVA de posgrado</title><a href="../">Ir al listado de OVA</a>\n`);
+    `<!DOCTYPE html><meta charset="UTF-8">${NOINDEX}<meta http-equiv="refresh" content="0; url=../index.html"><title>OVA de posgrado</title><a href="../index.html">Ir al listado de OVA</a>\n`);
 }
 writeFileSync(join(SALIDA, '.nojekyll'), '');
 
