@@ -12,15 +12,19 @@
  *
  * Uso local:   node scripts/generar-enlaces.mjs
  *              → crea la carpeta sitio/ (no se sube: está en .gitignore).
- *                Abre sitio/index.html en el navegador para verla.
+ *                Abre sitio/index.html en el navegador: ahí está el listado
+ *                con el enlace de cada OVA para copiarlo en Moodle.
  * En CI:       lo ejecuta .github/workflows/publicar.yml en cada push a main
  *              y GitHub Pages publica la carpeta sitio/.
  *
- * El listado no se guarda en el repositorio: se arma al publicar. Así funciona
- * aunque la rama main esté protegida.
+ * Visibilidad: el listado completo solo se arma en el computador. Lo que se
+ * publica en GitHub Pages lleva en su lugar una portada sin enlaces, y todas
+ * las páginas (OVA y portada) llevan <meta name="robots" content="noindex">
+ * para que los buscadores no las muestren. Los OVA siguen abriendo con su
+ * enlace desde Moodle. Para armar localmente la versión pública: --publicar.
  */
 
-import { writeFileSync, existsSync, rmSync, mkdirSync, cpSync } from 'node:fs';
+import { writeFileSync, readFileSync, readdirSync, existsSync, rmSync, mkdirSync, cpSync } from 'node:fs';
 import { join } from 'node:path';
 import {
   NIVELES, RECURSOS, COMPLEMENTOS, COMPLEMENTOS_PRIMERO, RECURSOS_OBLIGATORIOS, leer, rel, encontrarOvas, partesRuta, codigoDe, etiquetaDe,
@@ -30,6 +34,9 @@ import {
 const ROOT = process.cwd();
 const SALIDA = join(ROOT, 'sitio');
 const BASE = 'https://posgrados-unicordoba.github.io/ovas-posgrados';
+// En GitHub Actions (o con --publicar) se arma la versión pública, sin listado.
+const PUBLICAR = process.env.GITHUB_ACTIONS === 'true' || process.argv.includes('--publicar');
+const NOINDEX = '<meta name="robots" content="noindex, nofollow">';
 
 const { filas, error } = leerCatalogo(ROOT);
 if (error) console.warn(`⚠️  ${error} Se mostrarán las siglas en lugar de los nombres.`);
@@ -260,11 +267,58 @@ for (const nivel of Object.keys(NIVELES)) {
   const origen = join(ROOT, nivel);
   if (existsSync(origen)) cpSync(origen, join(SALIDA, nivel), { recursive: true, filter: (f) => !f.endsWith('README.md') });
 }
-writeFileSync(join(SALIDA, 'index.html'), html, 'utf8');
-// La dirección …/enlaces/ también lleva al listado.
-mkdirSync(join(SALIDA, 'enlaces'));
-writeFileSync(join(SALIDA, 'enlaces', 'index.html'),
-  '<!DOCTYPE html><meta charset="UTF-8"><meta http-equiv="refresh" content="0; url=../"><link rel="canonical" href="../"><title>OVA de posgrado</title><a href="../">Ir al listado de OVA</a>\n');
+// Portada pública: no muestra ni enlaza los OVA.
+const portada = `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+${NOINDEX}
+<title>OVA de posgrado · CINTIA</title>
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #f4f7f3; color: #2b3a2b; font-family: Poppins, 'Segoe UI', Arial, sans-serif; }
+  main { max-width: 34rem; margin: 2rem; padding: 2rem 2.25rem; background: #fff; border: 1px solid #d8e2d6; border-radius: 14px; }
+  h1 { margin: 0 0 .75rem; font-size: 1.35rem; color: #2f5d2b; }
+  p { margin: .5rem 0; line-height: 1.55; }
+  footer { margin-top: 1.25rem; font-size: .85rem; color: #5b6b5a; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Objetos virtuales de aprendizaje de posgrado</h1>
+  <p>Estos recursos se consultan desde los cursos de la plataforma de posgrados de la Universidad de Córdoba.</p>
+  <p>Si eres estudiante, ingresa a tu curso en la plataforma.</p>
+  <footer>Centro de Innovación en TIC para el apoyo de la Docencia CINTIA – Universidad de Córdoba</footer>
+</main>
+</body>
+</html>
+`;
+
+if (PUBLICAR) {
+  writeFileSync(join(SALIDA, 'index.html'), portada, 'utf8');
+} else {
+  writeFileSync(join(SALIDA, 'index.html'), html.replace(/<head>/i, `<head>\n${NOINDEX}`), 'utf8');
+  // La dirección …/enlaces/ también lleva al listado (solo en la copia local).
+  mkdirSync(join(SALIDA, 'enlaces'));
+  writeFileSync(join(SALIDA, 'enlaces', 'index.html'),
+    `<!DOCTYPE html><meta charset="UTF-8">${NOINDEX}<meta http-equiv="refresh" content="0; url=../"><title>OVA de posgrado</title><a href="../">Ir al listado de OVA</a>\n`);
+}
 writeFileSync(join(SALIDA, '.nojekyll'), '');
 
-console.log(`✅ Sitio armado en sitio/ con ${ovas.length} páginas enlazadas. Página principal: ${BASE}/`);
+// Todas las páginas de los OVA piden a los buscadores no indexarlas.
+let marcadas = 0;
+(function marcar(dir) {
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    const f = join(dir, e.name);
+    if (e.isDirectory()) { marcar(f); continue; }
+    if (!e.name.endsWith('.html')) continue;
+    const s = readFileSync(f, 'utf8');
+    if (/name=["']robots["']/i.test(s) || !/<head[^>]*>/i.test(s)) continue;
+    writeFileSync(f, s.replace(/<head[^>]*>/i, (m) => `${m}\n${NOINDEX}`), 'utf8');
+    marcadas++;
+  }
+})(SALIDA);
+
+console.log(PUBLICAR
+  ? `✅ Sitio público armado en sitio/: ${ovas.length} OVA, portada sin enlaces y ${marcadas} páginas marcadas para que los buscadores no las indexen.`
+  : `✅ Listado armado en sitio/ con ${ovas.length} OVA. Ábrelo en el navegador: sitio/index.html (este listado no se publica).`);
