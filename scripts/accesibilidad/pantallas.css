@@ -1,0 +1,6 @@
+/* Plantilla: estilos del componente "pantallas de 2 elementos". Va al final de estilos.css del OVA. */
+/* Pantallas de 2 elementos en la actividad (criterio 3 de la lista de verificación de CINTIA). */
+#ova-embed .pantallas-nav { display: flex; justify-content: space-between; align-items: center; gap: .75rem; margin-top: 1.25rem; flex-wrap: wrap; }
+#ova-embed .pantallas-aviso { margin: 0 0 .5rem; font-size: .875rem; font-weight: 700; color: var(--heading, #2f5d2b); }
+#ova-embed .pantallas-nav .pantallas-aviso { margin: 0; }
+#ova-embed .pantallas-nav button:disabled { opacity: .45; cursor: not-allowed; }
