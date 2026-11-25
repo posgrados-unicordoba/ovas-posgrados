@@ -23,8 +23,8 @@
  *                     revisar a mano (por ejemplo, la navegación con teclado).
  *
  * El validador solo mira el OVA. No reemplaza la revisión del equipo
- * pedagógico: criterios como "máximo 2 elementos por vista" o el contraste de
- * los colores se revisan a mano.
+ * pedagógico: el contraste de los colores se revisa a mano, y el criterio
+ * "máximo 2 elementos por vista" solo se advierte (hay que confirmarlo en el navegador).
  *
  * Uso local:   node scripts/validar-ova.mjs
  *              node scripts/validar-ova.mjs esp/gthdo/pobh/u02/t03   (solo ese OVA)
@@ -87,6 +87,35 @@ function seccion(html, ids) {
   const sig = ID_SECCION.exec(resto);
   const frag = sig ? html.slice(m.index, m.index + 5 + sig.index) : html.slice(m.index);
   return frag.replace(/<footer[\s\S]*?<\/footer>/gi, '');
+}
+
+// Criterio 3 de CINTIA: máximo 2 elementos por vista en las actividades.
+// Agrupa las cajas de texto, campos y listas desplegables según la "vista" que los
+// contiene (el paso, la pestaña o el panel más cercano) y devuelve las vistas con más de 2.
+// Las casillas y los botones de opción no se cuentan: esos casos (tipo B) los define el
+// equipo pedagógico. Los campos que crea script.js tampoco se ven aquí.
+const ETIQUETAS_VACIAS = new Set('area base br col embed hr img input link meta source track wbr'.split(' '));
+const PARECE_VISTA = /(step|paso|tab-?(?:panel|content|pane)|panel|wizard|pantalla|slide|pregunta|question)/i;
+function vistasConMuchosCampos(html) {
+  const pila = []; const porVista = new Map(); let n = 0;
+  const re = /<!--[\s\S]*?-->|<(\/?)([a-zA-Z][\w-]*)([^>]*?)(\/?)>/g; let m;
+  while ((m = re.exec(html))) {
+    if (!m[2]) continue;
+    const [, cierre, nombre, attrs, auto] = m; const tag = nombre.toLowerCase();
+    if (cierre) { const i = pila.map((x) => x.tag).lastIndexOf(tag); if (i >= 0) pila.length = i; continue; }
+    const id = (attrs.match(/\bid=["']([^"']+)/) || [])[1] || '';
+    const cls = (attrs.match(/\bclass=["']([^"']+)/) || [])[1] || '';
+    const esCampo = tag === 'textarea' || tag === 'select'
+      || (tag === 'input' && !/type=["']?(radio|checkbox|hidden|button|submit|reset|range|file|image)/i.test(attrs));
+    if (esCampo) {
+      const v = [...pila].reverse().find((x) => PARECE_VISTA.test(x.id) || PARECE_VISTA.test(x.cls) || /\bhidden\b/.test(x.cls));
+      const k = v ? v.n : 0;
+      const actual = porVista.get(k) || { id: v ? v.id : '', campos: 0 };
+      actual.campos++; porVista.set(k, actual);
+    }
+    if (!ETIQUETAS_VACIAS.has(tag) && !auto && tag !== 'textarea') pila.push({ tag, id, cls, n: ++n });
+  }
+  return [...porVista.values()].filter((x) => x.campos > 2);
 }
 
 const esExterna = (url) => /^(https?:)?\/\//i.test(url);
@@ -489,6 +518,21 @@ for (const dir of ovas) {
     if (!grueso)
       warn(r, 'Las cajas de actividad parecen tener bordes de menos de 2 px, que se pierden en baja visión.',
         'Dales bordes de 1.5 a 2 pt (2 a 3 px) con buen contraste, por ejemplo border-2 o border: 2px solid.');
+
+    // 18b) Criterio 3: máximo 2 elementos por vista. Si la actividad ya usa el componente
+    //      "pantallas de 2 elementos" para esa vista (su id aparece en ese bloque de
+    //      script.js), no se avisa. Es solo una advertencia: el conteo automático se puede
+    //      equivocar, así que se revisa en el navegador.
+    const iniPantallas = js.indexOf('Pantallas de 2 elementos =====');
+    const bloquePantallas = iniPantallas >= 0 ? js.slice(iniPantallas) : '';
+    const sinDividir = vistasConMuchosCampos(actividades).filter((v) => !(v.id && bloquePantallas.includes(v.id)));
+    if (sinDividir.length) {
+      const cuenta = new Map(); for (const v of sinDividir) { const t = `${v.campos} campos en ${v.id ? `#${v.id}` : 'un paso o panel'}`; cuenta.set(t, (cuenta.get(t) || 0) + 1); }
+      const detalle = [...cuenta].map(([t, n]) => (n > 1 ? `${t} (${n} veces)` : t)).join(', ');
+      warn(r, `Criterio 3 (máximo 2 elementos por vista): la actividad parece mostrar varios campos a la vez (${detalle}).`,
+        'Ábrela en el navegador y revisa cada pantalla. Si hay más de 2 cajas de texto o listas a la vista, divídela en pantallas consecutivas '
+        + '(componente "pantallas de 2 elementos", plantillas en scripts/accesibilidad/pantallas.js y pantallas.css) o en pasos con Anterior y Siguiente.');
+    }
   }
 
   // 19) Navegación con teclado (lo que se puede detectar sin abrir el OVA)
