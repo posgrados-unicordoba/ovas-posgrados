@@ -16,10 +16,10 @@
 - iconos.css
 - img/ (logo.webp y demás imágenes)
 
+## Revisión pedagógica
+- Criterio 3: revisado, cumple. El instrumento OCAI cabe en una pantalla con scroll mínimo, así que puede quedar en una sola (equipo pedagógico, 2026-11-26).
+
 ## Historial
 | Versión | Fecha | Cambio |
 |---|---|---|
 | 1.0 | 2026-11-19 | Versión inicial (migración al repositorio) |
-
-## Pendientes
-- Criterio 3: el instrumento OCAI muestra 4 campos por paso. Se corrige en la próxima actualización, según la respuesta del equipo pedagógico.
