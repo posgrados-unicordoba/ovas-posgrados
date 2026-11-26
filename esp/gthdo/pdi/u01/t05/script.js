@@ -607,13 +607,24 @@
  * })
  * Forma corta: pantallasDeDosEnLista(lista, opciones) toma como elementos los hijos de
  * la lista que tienen un campo, y deja para la última pantalla lo que va después de ella.
+ * pantallasDeDosPorHijos(lista, opciones) toma cada hijo de la lista como un elemento
+ * (preguntas con botones de opción, objetivos con casillas, filas que se agregan).
+ *
+ * Qué es un elemento (equipo pedagógico, 26 de noviembre de 2026): cada contenedor horizontal
+ * completo, con su enunciado y sus opciones. Se divide la actividad compleja que obliga a
+ * hacer scroll; si casi toda cabe en una pantalla, puede quedar en una sola.
  */
 function pantallasDeDos(cfg) {
   var POR = cfg.porPantalla || 2;
   var grupos = cfg.grupos.filter(Boolean).map(function (g) { return [].concat(g).filter(Boolean); }).filter(function (g) { return g.length; });
   var finales = (cfg.finales || []).filter(Boolean);
   var paginas = Math.ceil(grupos.length / POR);
-  if (paginas <= 1) return null;
+  if (paginas <= 1) {
+    // Cabe en una pantalla: todo a la vista (por si antes había pantallas y se quitaron elementos).
+    grupos.forEach(function (g) { g.forEach(function (el) { el.style.display = ''; }); });
+    finales.forEach(function (f) { f.style.display = ''; });
+    return null;
+  }
   var actual = 0, btnAnt = null, btnSig = null, textoBase = null;
 
   var aviso = document.createElement('p');
@@ -633,6 +644,7 @@ function pantallasDeDos(cfg) {
     btnAnt = boton('← Anterior', 'btn-soft');
     btnSig = boton('Siguiente →', 'btn-main');
     nav.append(btnAnt, aviso, btnSig);
+    cfg.aviso = null;
     var ultimo = grupos[grupos.length - 1];
     (cfg.navDespuesDe || ultimo[ultimo.length - 1]).after(nav);
     btnAnt.addEventListener('click', function () { ir(actual - 1, true); });
@@ -640,6 +652,7 @@ function pantallasDeDos(cfg) {
     cfg.nav = nav;
   } else {
     grupos[0][0].before(aviso);
+    cfg.aviso = aviso;
     cfg.siguiente.addEventListener('click', function (e) {
       if (!visible()) return;
       if (actual < paginas - 1) { e.stopImmediatePropagation(); e.preventDefault(); ir(actual + 1, true); }
@@ -682,7 +695,7 @@ function pantallasDeDos(cfg) {
     if (cfg.anterior && actual > 0 && visible()) cfg.anterior.disabled = false;
     if (enfocar) {
       var g = grupos[actual * POR][0];
-      var campo = g.querySelector('textarea, select, input, button') || g;
+      var campo = g.querySelector('textarea, select, input') || g.querySelector('button') || g;
       if (campo === g && !g.hasAttribute('tabindex')) g.setAttribute('tabindex', '-1');
       campo.focus({ preventScroll: true });
       g.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -692,23 +705,61 @@ function pantallasDeDos(cfg) {
   return { ir: ir, paginas: paginas };
 }
 
-/* Igual, pero se vuelve a armar si el script redibuja el formulario (por ejemplo, al limpiar). */
+/* Igual, pero se vuelve a armar si el script redibuja el formulario (por ejemplo, al limpiar)
+ * o si agrega o quita elementos. Con cfg.alCrecer = 'ultima', al agregar un elemento se pasa
+ * a la pantalla donde quedó (por ejemplo, "Agregar problema" lleva a la pantalla nueva). */
 function pantallasDeDosAlRedibujar(contenedor, armar) {
-  var actual = null, armando = false;
+  var actual = null, armando = false, antes = 0, control = { api: null };
   function rearmar() {
     if (armando) return;
     armando = true;
     if (actual && actual.nav) actual.nav.remove();
+    if (actual && actual.aviso) actual.aviso.remove();
     var cfg = armar();
-    pantallasDeDos(cfg);
-    actual = cfg;
+    var api = pantallasDeDos(cfg);
+    if (api && cfg.alCrecer === 'ultima' && antes && cfg.grupos.length > antes) api.ir(api.paginas - 1, true);
+    antes = cfg.grupos.length;
+    actual = cfg; control.api = api;
     armando = false;
   }
   rearmar();
+  var propio = function (n) { return n.nodeType === 1 && (n.classList.contains('pantallas-nav') || n.classList.contains('pantallas-aviso')); };
   new MutationObserver(function (m) {
-    var propio = function (n) { return n.nodeType === 1 && n.classList.contains('pantallas-nav'); };
-    if (m.some(function (r) { return [].some.call(r.addedNodes, function (n) { return !propio(n); }); })) rearmar();
+    if (m.some(function (r) {
+      return [].some.call(r.addedNodes, function (n) { return n.nodeType === 1 && !propio(n); })
+        || [].some.call(r.removedNodes, function (n) { return n.nodeType === 1 && !propio(n); });
+    })) rearmar();
   }).observe(contenedor, { childList: true });
+  return control;
+}
+/* Elementos = cada hijo de la lista (una pregunta, un objetivo, un rol...), aunque sus campos
+ * sean casillas o botones de opción. Lo que va después de la lista (resumen, Verificar,
+ * Reiniciar) se ve en la última pantalla. Reiniciar o Limpiar vuelven a la pantalla 1.
+ * opciones.porPantalla: 1 en un caso de estudio (el caso queda arriba, una pregunta por pantalla).
+ * opciones.finales: false para dejar a la vista lo que va después de la lista.
+ * opciones.alCrecer: 'ultima' para ir a la pantalla nueva cuando se agrega un elemento. */
+function pantallasDeDosPorHijos(lista, opciones) {
+  if (!lista) return null;
+  opciones = opciones || {};
+  var despues = [];
+  for (var h = lista.nextElementSibling; h; h = h.nextElementSibling)
+    if (!h.classList.contains('pantallas-nav') && !h.classList.contains('pantallas-aviso')) despues.push(h);
+  var control = pantallasDeDosAlRedibujar(lista, function () {
+    var grupos = [].filter.call(lista.children, function (c) {
+      return !c.classList.contains('pantallas-nav') && !c.classList.contains('pantallas-aviso');
+    });
+    var cfg = { grupos: grupos, finales: opciones.finales === false ? [] : despues, navDespuesDe: lista };
+    for (var k in opciones) if (k !== 'finales') cfg[k] = opciones[k];
+    return cfg;
+  });
+  despues.forEach(function (d) {
+    [].forEach.call(d.querySelectorAll('button'), function (b) {
+      if (/reiniciar|limpiar/i.test(b.textContent)) b.addEventListener('click', function () {
+        setTimeout(function () { if (control.api) control.api.ir(0, false); });
+      });
+    });
+  });
+  return control;
 }
 
 /* Elementos = hijos de la lista que tienen un campo (un título suelto va con el elemento que sigue).
@@ -746,4 +797,9 @@ function pantallasDeDosEnLista(lista, opciones) {
 // Canvas EVP: de 2 en 2.
 document.addEventListener('DOMContentLoaded', function () {
   pantallasDeDosEnLista(document.querySelector('#act-evp .space-y-5'), { aplanar: '.grid' });
+});
+
+// Evaluador SMART: 2 objetivos por pantalla.
+document.addEventListener('DOMContentLoaded', function () {
+  pantallasDeDosPorHijos(document.getElementById('smart-objectives'));
 });

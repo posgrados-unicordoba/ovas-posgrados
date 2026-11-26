@@ -19,4 +19,5 @@
 ## Historial
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.1 | 2026-11-26 | Clasificador de Paradigmas en pantallas de 2 enunciados (criterio 3 de la lista de verificación de CINTIA, según el equipo pedagógico) |
 | 1.0 | 2026-11-19 | Versión inicial (migración al repositorio) |
